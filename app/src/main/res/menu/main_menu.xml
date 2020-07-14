@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/setting" />
+    <item
+        android:id="@+id/nav_remove_add"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/remove_ads" />
+    <item
+        android:id="@+id/nav_VIP"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/vip" />
+    <item
+        android:id="@+id/nav_rate_us"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/rate_us" />
+    <item
+        android:id="@+id/nav_more_app"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/more_apps" />
+    <item
+        android:id="@+id/nav_share"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/share" />
+    <item
+        android:id="@+id/nav_feedback_dev"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/feedback" />
+    <item
+        android:id="@+id/nav_policy"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/policy" />
+</menu>

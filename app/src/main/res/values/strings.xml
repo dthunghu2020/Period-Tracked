@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">PeriodTracked</string>
+    <string name="author">com.hungdt.periodtracked</string>
+
+    <string name="today">Today</string>
+    <string name="report">Report</string>
+    <string name="insights">Insights</string>
+    <string name="remove_ads">Remove Ads</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="more_apps">More Apps</string>
+    <string name="feedback">Feedback</string>
+    <string name="share">Share</string>
+    <string name="policy">Policy</string>
+    <string name="setting">Setting</string>
+    <string name="vip">VIP</string>
+    <string name="when_did_your_last_period_start">When did your last period start?</string>
+    <string name="not_sure">Not Sure</string>
+    <string name="next">Next</string>
+    <string name="what_s_your_typical_period_length">What\'s your typical period length?</string>
+    <string name="your_circle_length">Your circle length?</string>
+    <string name="day_28">The app will set the length of the cycle to 28 days, the more you use it regularly, the more accurate it will be.</string>
+    <string name="day_5">The app will set your menstrual period to 5 days, the more you use it regularly, the more accurate it will be.</string>
+    <string name="begin">To be able to predict your period, enter when your last period began.</string>
+</resources>
