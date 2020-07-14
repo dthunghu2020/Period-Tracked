@@ -2,14 +2,12 @@ package com.hungdt.periodtracked.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +22,7 @@ public class Question2Activity extends AppCompatActivity {
     private CheckBox checkbox;
     private NumberPicker numberPicker;
     private TextView txtNotification;
-    private int length;
+    private int length=5;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,11 +35,12 @@ public class Question2Activity extends AppCompatActivity {
         numberPicker = findViewById(R.id.numberPicker);
         txtNotification = findViewById(R.id.txtNotification);
 
+        checkbox.setChecked(false);
+
         txtNotification.setVisibility(View.GONE);
 
         numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(12);
-
+        numberPicker.setMaxValue(30);
         numberPicker.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int value) {
@@ -78,9 +77,9 @@ public class Question2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkbox.isChecked()){
-                    MySetting.putPeriodLength(Question2Activity.this, 5);
-                }else {
-                    MySetting.putPeriodLength(Question2Activity.this, length);
+                    MySetting.putPeriodLength(getApplicationContext(), 5);
+                }else if(!checkbox.isChecked()){
+                    MySetting.putPeriodLength(getApplicationContext(), length);
                 }
                 startActivity(new Intent(Question2Activity.this,Question3Activity.class));
             }

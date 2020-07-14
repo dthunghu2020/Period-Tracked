@@ -22,18 +22,22 @@ public class Question3Activity extends AppCompatActivity {
     private CheckBox checkbox;
     private NumberPicker numberPicker;
     private TextView txtNotification;
-    private int circle;
+    private LinearLayout llCheckBox;
+    private Button btnNext;
+    private int circle=28;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_circle_length);
 
-        LinearLayout llCheckBox = findViewById(R.id.llCheckBox);
-        Button btnNext = findViewById(R.id.btnNext);
+         llCheckBox = findViewById(R.id.llCheckBox);
+         btnNext = findViewById(R.id.btnNext);
         checkbox = findViewById(R.id.checkbox);
         numberPicker = findViewById(R.id.numberPicker);
         txtNotification = findViewById(R.id.txtNotification);
+
+        checkbox.setChecked(false);
 
         txtNotification.setVisibility(View.GONE);
 
@@ -77,9 +81,9 @@ public class Question3Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (checkbox.isChecked()) {
-                    MySetting.putPeriodCircle(Question3Activity.this, 28);
+                    MySetting.putPeriodCircle(getApplicationContext(), 28);
                 } else {
-                    MySetting.putPeriodCircle(Question3Activity.this, circle);
+                    MySetting.putPeriodCircle(getApplicationContext(), circle);
                 }
 
                 startActivity(new Intent(Question3Activity.this, TodayActivity.class));
