@@ -77,52 +77,53 @@ public class MyGridAdapter extends ArrayAdapter {
         }
         initView(view);
         //////////////////////////////////
-        boolean isRedDay = false;
-        beginRed = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
-        endRed = beginRed + periodLength;
-        eggDay = beginRed + periodCircle - 15;
-        beginEgg = eggDay - 6;
-        endEgg = eggDay + 4;
-        int displayDate = countNumberDay(displayYear, displayMonth, displayDay);
-        if (displayDate > endRed) {
-            beginRed += periodCircle;
-            endRed += periodCircle;
-        }
-        if (displayDate > eggDay) {
-            eggDay += periodCircle;
-        }
-        if (displayDate > endEgg) {
-            beginEgg += periodCircle;
-            endEgg += periodCircle;
-        }
-        if (beginRed <= displayDate && displayDate < endRed) {
-            isRedDay = true;
-            if (displayDate == beginRed) {
-                imgLeft.setVisibility(View.VISIBLE);
+        if(firstDate!=null){
+            boolean isRedDay = false;
+            beginRed = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
+            endRed = beginRed + periodLength;
+            eggDay = beginRed + periodCircle - 15;
+            beginEgg = eggDay - 6;
+            endEgg = eggDay + 4;
+            int displayDate = countNumberDay(displayYear, displayMonth, displayDay);
+            if (displayDate > endRed) {
+                beginRed += periodCircle;
+                endRed += periodCircle;
             }
-            if (displayDate == endRed - 1) {
-                imgRight.setVisibility(View.VISIBLE);
+            if (displayDate > eggDay) {
+                eggDay += periodCircle;
             }
-            imgRedDay.setVisibility(View.VISIBLE);
-        }
-        if (beginEgg <= displayDate && displayDate <= endEgg) {
-            if (isRedDay) {
-                beginEgg++;
-            } else {
-                if (displayDate == beginEgg) {
+            if (displayDate > endEgg) {
+                beginEgg += periodCircle;
+                endEgg += periodCircle;
+            }
+            if (beginRed <= displayDate && displayDate < endRed) {
+                isRedDay = true;
+                if (displayDate == beginRed) {
                     imgLeft.setVisibility(View.VISIBLE);
                 }
-                if (displayDate == endEgg) {
+                if (displayDate == endRed - 1) {
                     imgRight.setVisibility(View.VISIBLE);
                 }
-                imgEggDay.setVisibility(View.VISIBLE);
+                imgRedDay.setVisibility(View.VISIBLE);
+            }
+            if (beginEgg <= displayDate && displayDate <= endEgg) {
+                if (isRedDay) {
+                    beginEgg++;
+                } else {
+                    if (displayDate == beginEgg) {
+                        imgLeft.setVisibility(View.VISIBLE);
+                    }
+                    if (displayDate == endEgg) {
+                        imgRight.setVisibility(View.VISIBLE);
+                    }
+                    imgEggDay.setVisibility(View.VISIBLE);
+                }
+            }
+
+            if (displayDate == eggDay) {
+                imgEgg.setVisibility(View.VISIBLE);
             }
         }
-
-        if (displayDate == eggDay) {
-            imgEgg.setVisibility(View.VISIBLE);
-        }
-
         //////////////////////////////////
 
         if (displayDay == instanceDay && displayMonth == instanceMonth && displayYear == instanceYear) {

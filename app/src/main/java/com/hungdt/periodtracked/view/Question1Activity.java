@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -94,12 +95,27 @@ public class Question1Activity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String text = txtFirstDay.getText().toString();
+                Date date = null;
+                Date date1 = Calendar.getInstance().getTime();
+                try {
+                    date = sdfDate.parse(text);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 if (checkbox.isChecked()) {
                     MySetting.putFirstDay(getApplicationContext(), getString(R.string.not_sure));
+                    startActivity(new Intent(Question1Activity.this, Question2Activity.class));
                 } else {
-                    MySetting.putFirstDay(getApplicationContext(), txtFirstDay.getText().toString());
+                    if (countNumberDay(Integer.parseInt(sdfYear.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)))
+                            > countNumberDay(Integer.parseInt(sdfYear.format(date1)), Integer.parseInt(sdfMonth.format(date1)), Integer.parseInt(sdfDay.format(date1)))) {
+                        Toast.makeText(Question1Activity.this, "Please select a date no greater than today", Toast.LENGTH_SHORT).show();
+                    } else {
+                        MySetting.putFirstDay(getApplicationContext(), text);
+                        startActivity(new Intent(Question1Activity.this, Question2Activity.class));
+                    }
+
                 }
-                startActivity(new Intent(Question1Activity.this, Question2Activity.class));
             }
         });
 
@@ -149,5 +165,13 @@ public class Question1Activity extends AppCompatActivity {
     private String getInstantDateTime() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(Constant.getDateTimeFormat());
         return sdf.format(calendar.getTime());
+    }
+
+    private int countNumberDay(int year, int month, int day) {
+        if (month < 3) {
+            year--;
+            month += 12;
+        }
+        return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 306;
     }
 }

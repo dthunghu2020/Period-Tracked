@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.hungdt.periodtracked.view.CustomCalendarView
+    <com.hungdt.periodtracked.view.CustomCalendarMonth
         android:id="@+id/custom_calendar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

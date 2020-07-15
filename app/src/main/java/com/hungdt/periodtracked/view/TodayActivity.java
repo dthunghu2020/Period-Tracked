@@ -126,96 +126,98 @@ public class TodayActivity extends AppCompatActivity {
                 }
 
                 //////////
-                try {
-                    date = sdfMyDate.parse(beginDay);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Calendar calendar = Calendar.getInstance();
-                assert date != null;
-                calendar.setTime(date);
-                Date dateCheck = null;
-                try {
-                    dateCheck = sdfMyDate.parse(beginDay);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                // chuyển từ date của nó về Date của mình
-                String dateLibrary = dateTime.toString();
-                String itemDay = dateLibrary.substring(0, 10);
-                Date itemDate = null;
-                try {
-                    itemDate = sdfLibraryDate.parse(itemDay);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                assert itemDate != null;
-                itemDay = sdfMyDate.format(itemDate);
-                try {
-                    itemDate = sdfMyDate.parse(itemDay);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Log.e("123123", "getDayView: " + itemDay + " / " + itemDate);
-                ///////
-                Date firstDateOfWeek = null;
-                try {
-                    firstDateOfWeek = sdfMyDate.parse(weekCalendar.getCurrentFirstDay().toString("dd-MM-yyyy"));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Log.e("123123", "getCurrentFirstDay: " + firstDateOfWeek);
-                while (dateCheck.before(firstDateOfWeek)) {
-                    calendar.add(Calendar.DATE, 25);
-                    dateCheck = calendar.getTime();
-                }
-                calendar.add(Calendar.DATE, -25);
-                firstDate = calendar.getTime();
-                /////////////////
-                beginRed = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
-                endRed = beginRed + periodLength;
-                eggDay = beginRed + periodCircle - 15;
-                beginEgg = eggDay - 6;
-                endEgg = eggDay + 4;
-                int displayDate = countNumberDay(Integer.parseInt(sdfYeah.format(itemDate)), Integer.parseInt(sdfMonth.format(itemDate)), Integer.parseInt(sdfDay.format(itemDate)));
-                if (displayDate > endRed) {
-                    beginRed += periodCircle;
-                    endRed += periodCircle;
-                }
-                if (displayDate > eggDay) {
-                    eggDay += periodCircle;
-                }
-                if (displayDate > endEgg) {
-                    beginEgg += periodCircle;
-                    endEgg += periodCircle;
-                }
-                boolean isRedDay = false;
-                if (beginRed <= displayDate && displayDate < endRed) {
-                    isRedDay = true;
+                if(!beginDay.equals(getString(R.string.not_sure))){
+                    try {
+                        date = sdfMyDate.parse(beginDay);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar calendar = Calendar.getInstance();
+                    assert date != null;
+                    calendar.setTime(date);
+                    Date dateCheck = null;
+                    try {
+                        dateCheck = sdfMyDate.parse(beginDay);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    // chuyển từ date của nó về Date của mình
+                    String dateLibrary = dateTime.toString();
+                    String itemDay = dateLibrary.substring(0, 10);
+                    Date itemDate = null;
+                    try {
+                        itemDate = sdfLibraryDate.parse(itemDay);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    assert itemDate != null;
+                    itemDay = sdfMyDate.format(itemDate);
+                    try {
+                        itemDate = sdfMyDate.parse(itemDay);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    ///////
+                    Date firstDateOfWeek = null;
+                    try {
+                        firstDateOfWeek = sdfMyDate.parse(weekCalendar.getCurrentFirstDay().toString("dd-MM-yyyy"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    while (dateCheck.before(firstDateOfWeek)) {
+                        calendar.add(Calendar.DATE, periodCircle);
+                        dateCheck = calendar.getTime();
+                    }
+                    calendar.add(Calendar.DATE, -periodCircle);
+                    firstDate = calendar.getTime();
+                    /////////////////
+                    beginRed = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
+                    endRed = beginRed + periodLength;
+                    eggDay = beginRed + periodCircle - 15;
+                    beginEgg = eggDay - 6;
+                    endEgg = eggDay + 4;
+                    int displayDate = countNumberDay(Integer.parseInt(sdfYeah.format(itemDate)), Integer.parseInt(sdfMonth.format(itemDate)), Integer.parseInt(sdfDay.format(itemDate)));
+                    if (displayDate > endRed) {
+                        beginRed += periodCircle;
+                        endRed += periodCircle;
+                    }
+                    if (displayDate > eggDay) {
+                        eggDay += periodCircle;
+                    }
+                    if (displayDate > endEgg) {
+                        beginEgg += periodCircle;
+                        endEgg += periodCircle;
+                    }
+                    boolean isRedDay = false;
+                    if (beginRed <= displayDate && displayDate < endRed) {
+                        isRedDay = true;
                            /* if (displayDate == beginRed) {
                                 imgLeft.setVisibility(View.VISIBLE);
                             }
                             if (displayDate == endRed - 1) {
                                 imgRight.setVisibility(View.VISIBLE);
                             }*/
-                    imgRedDay.setVisibility(View.VISIBLE);
-                }
-                if (beginEgg <= displayDate && displayDate <= endEgg) {
-                    if (isRedDay) {
-                        beginEgg++;
-                    } else {
+                        imgRedDay.setVisibility(View.VISIBLE);
+                    }
+                    if (beginEgg <= displayDate && displayDate <= endEgg) {
+                        if (isRedDay) {
+                            beginEgg++;
+                        } else {
                                /* if (displayDate == beginEgg) {
                                     imgLeft.setVisibility(View.VISIBLE);
                                 }
                                 if (displayDate == endEgg) {
                                     imgRight.setVisibility(View.VISIBLE);
                                 }*/
-                        imgEggDay.setVisibility(View.VISIBLE);
+                            imgEggDay.setVisibility(View.VISIBLE);
+                        }
                     }
-                }
 
-                if (displayDate == eggDay) {
-                    imgEgg.setVisibility(View.VISIBLE);
+                    if (displayDate == eggDay) {
+                        imgEgg.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 return convertView;

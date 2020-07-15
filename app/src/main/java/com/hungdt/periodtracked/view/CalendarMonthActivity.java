@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.hungdt.periodtracked.R;
 
 public class CalendarMonthActivity extends AppCompatActivity {
-    CustomCalendarView customCalendarView;
+    CustomCalendarMonth customCalendarView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
