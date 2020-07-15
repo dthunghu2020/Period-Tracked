@@ -95,7 +95,7 @@ public class Question1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (checkbox.isChecked()) {
-                    MySetting.putFirstDay(getApplicationContext(), "Not sure");
+                    MySetting.putFirstDay(getApplicationContext(), getString(R.string.not_sure));
                 } else {
                     MySetting.putFirstDay(getApplicationContext(), txtFirstDay.getText().toString());
                 }

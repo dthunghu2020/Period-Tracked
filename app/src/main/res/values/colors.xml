@@ -6,4 +6,6 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <color name="color_text_number_picker">#02776B</color>
 </resources>

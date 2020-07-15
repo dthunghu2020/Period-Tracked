@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import androidx.annotation.NonNull;
-
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.jackwharton_salvage.RecyclingPagerAdapter;
 import com.hungdt.periodtracked.weekcalendar.listener.DateSelectListener;
 import com.hungdt.periodtracked.weekcalendar.listener.GetViewHelper;
 
 import org.joda.time.DateTime;
+
 
 public class CalendarPagerAdapter extends RecyclingPagerAdapter {
 
@@ -64,7 +63,7 @@ public class CalendarPagerAdapter extends RecyclingPagerAdapter {
     }
 
     @Override
-    public int getItemPosition(@NonNull Object object) {
+    public int getItemPosition(Object object) {
         return POSITION_NONE;
     }
 

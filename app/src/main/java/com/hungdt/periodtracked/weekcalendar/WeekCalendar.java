@@ -25,9 +25,7 @@ import com.hungdt.periodtracked.weekcalendar.listener.WeekChangeListener;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-
 public class WeekCalendar extends LinearLayout {
-    private static final String TAG = "WeekCalendar";
 
     public static final int DAYS_OF_WEEK = 7;
 
@@ -163,7 +161,6 @@ public class WeekCalendar extends LinearLayout {
         calendarPagerAdapter.setStartDateTime(startDay);
         onWeekChange(centerPosition);
     }
-
 
     public DateTime getCurrentFirstDay() {
         int intervalWeeks = viewPagerContent.getCurrentItem() - centerPosition;

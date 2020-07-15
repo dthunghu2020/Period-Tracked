@@ -1,5 +1,6 @@
 package com.hungdt.periodtracked.weekcalendar.adapter;
 
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.hungdt.periodtracked.weekcalendar.WeekCalendar.DAYS_OF_WEEK;
-
 
 public class WeekAdapter extends BaseAdapter {
 
