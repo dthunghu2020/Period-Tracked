@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class MyGridAdapter extends ArrayAdapter {
+public class CalendarMonthGridAdapter extends ArrayAdapter {
     int periodCircle;
     int periodLength;
     int beginRed = 0;
@@ -39,7 +39,7 @@ public class MyGridAdapter extends ArrayAdapter {
     private ImageView imgLeft, imgRight, imgRedDay, imgEggDay, imgEgg;
     TextView txtDay;
 
-    public MyGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentCalendar, Date firstDate, int periodCircle, int periodLength) {
+    public CalendarMonthGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentCalendar, Date firstDate, int periodCircle, int periodLength) {
         super(context, R.layout.item_month);
         this.dates = dates;
         this.firstDate = firstDate;

@@ -86,7 +86,7 @@ public class Question3Activity extends AppCompatActivity {
                     MySetting.putPeriodCircle(getApplicationContext(), circle);
                 }
 
-                startActivity(new Intent(Question3Activity.this, TodayActivity.class));
+                startActivity(new Intent(Question3Activity.this, Question4Activity.class));
             }
         });
 

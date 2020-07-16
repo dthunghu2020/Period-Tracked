@@ -32,7 +32,7 @@ public class ReportActivity extends AppCompatActivity {
                     case R.id.report:
                         return true;
                     case R.id.health:
-                        startActivity(new Intent(ReportActivity.this, HealthActivity.class));
+                        startActivity(new Intent(ReportActivity.this, PaperActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 

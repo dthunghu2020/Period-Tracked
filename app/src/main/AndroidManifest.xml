@@ -57,7 +57,7 @@
             android:name=".view.ReportActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".view.HealthActivity"
+            android:name=".view.PaperActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".view.TodayActivity"
@@ -69,6 +69,8 @@
             android:name=".view.Question3Activity"
             android:launchMode="singleTask" />
         <activity android:name=".view.CalendarMonthActivity" />
+        <activity android:name=".view.Question4Activity" />
+        <activity android:name=".view.DetailPaperActivity" />
     </application>
 
 </manifest>

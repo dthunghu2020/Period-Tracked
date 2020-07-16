@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.utils.MySetting;
-import com.hungdt.periodtracked.view.adapter.MyGridAdapter;
+import com.hungdt.periodtracked.view.adapter.CalendarMonthGridAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +43,7 @@ public class CustomCalendarMonth extends LinearLayout {
     SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
     Date date = null;
     Date firstDate = null;
-    MyGridAdapter myGridAdapter;
+    CalendarMonthGridAdapter myGridAdapter;
     List<Date> dates = new ArrayList<>();
     private String beginDay = MySetting.getFirstDay(getContext());
     private int periodLength = MySetting.getPeriodLength(getContext());
@@ -139,7 +139,7 @@ public class CustomCalendarMonth extends LinearLayout {
         }
         /////////////////////
 
-        myGridAdapter = new MyGridAdapter(context, dates, currentCalendar, firstDate, periodCircle, periodLength);
+        myGridAdapter = new CalendarMonthGridAdapter(context, dates, currentCalendar, firstDate, periodCircle, periodLength);
         gvDay.setAdapter(myGridAdapter);
 
 

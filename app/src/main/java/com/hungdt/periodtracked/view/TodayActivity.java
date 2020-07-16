@@ -75,7 +75,7 @@ public class TodayActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.health:
-                        startActivity(new Intent(TodayActivity.this, HealthActivity.class));
+                        startActivity(new Intent(TodayActivity.this, PaperActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
