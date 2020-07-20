@@ -1,7 +1,8 @@
-package com.hungdt.periodtracked.view;
+package com.hungdt.periodtracked.view.fragment;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.utils.MySetting;
+import com.hungdt.periodtracked.view.CalendarMonthActivity;
 import com.hungdt.periodtracked.weekcalendar.WeekCalendar;
 import com.hungdt.periodtracked.weekcalendar.listener.DateSelectListener;
 import com.hungdt.periodtracked.weekcalendar.listener.GetViewHelper;
@@ -33,10 +35,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 @SuppressLint("SimpleDateFormat")
-public class TodayActivity extends AppCompatActivity {
+public class TodayFragment extends Fragment {
     private LinearLayout llCalendar;
     private TextView txtMonth;
-    private BottomNavigationView bnvPT;
     private WeekCalendar weekCalendar;
 
     Date date;
@@ -57,37 +58,25 @@ public class TodayActivity extends AppCompatActivity {
     SimpleDateFormat sdfYeah = new SimpleDateFormat("yyyy");
     SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
 
+    public TodayFragment() {
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_today,container,false);
+
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_today);
-        initView();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
 
-        bnvPT.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.today:
-                        return true;
-                    case R.id.report:
-                        startActivity(new Intent(TodayActivity.this, ReportActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.health:
-                        startActivity(new Intent(TodayActivity.this, PaperActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-
-                }
-                return false;
-            }
-        });
-        bnvPT.setSelectedItemId(R.id.today);
-
-        beginDay = MySetting.getFirstDay(TodayActivity.this);
-        periodCircle = MySetting.getPeriodCircle(TodayActivity.this);
-        periodLength = MySetting.getPeriodLength(TodayActivity.this);
+        beginDay = MySetting.getFirstDay(getContext());
+        periodCircle = MySetting.getPeriodCircle(getContext());
+        periodLength = MySetting.getPeriodLength(getContext());
         txtMonth.setText(getString(R.string.month) + sdfMY.format(Calendar.getInstance().getTime()));
 
         weekCalendar.setGetViewHelper(new GetViewHelper() {
@@ -95,7 +84,7 @@ public class TodayActivity extends AppCompatActivity {
             public View getDayView(int position, View convertView, ViewGroup parent, DateTime dateTime, boolean select) {
                 Log.e("123", "getDayView: ");
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(TodayActivity.this).inflate(R.layout.item_week_day, parent, false);
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_week_day, parent, false);
                 }
                 //////////
                 ImageView imgRedDay = convertView.findViewById(R.id.imgRedDay);
@@ -226,7 +215,7 @@ public class TodayActivity extends AppCompatActivity {
             @Override
             public View getWeekView(int position, View convertView, ViewGroup parent, String week) {
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(TodayActivity.this).inflate(R.layout.item_week, parent, false);
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_week, parent, false);
                 }
                 TextView tvWeek = (TextView) convertView.findViewById(R.id.tv_week);
                 tvWeek.setText(week);
@@ -256,7 +245,7 @@ public class TodayActivity extends AppCompatActivity {
         llCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TodayActivity.this, CalendarMonthActivity.class));
+                startActivity(new Intent(getContext(), CalendarMonthActivity.class));
             }
         });
 
@@ -270,10 +259,9 @@ public class TodayActivity extends AppCompatActivity {
         return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 306;
     }
 
-    private void initView() {
-        llCalendar = findViewById(R.id.llCalendar);
-        bnvPT = findViewById(R.id.bnvPT);
-        txtMonth = findViewById(R.id.txtMonth);
-        weekCalendar = findViewById(R.id.week_calendar);
+    private void initView(View view) {
+        llCalendar = view.findViewById(R.id.llCalendar);
+        txtMonth = view.findViewById(R.id.txtMonth);
+        weekCalendar = view.findViewById(R.id.week_calendar);
     }
 }

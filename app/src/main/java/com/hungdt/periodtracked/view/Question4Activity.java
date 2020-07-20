@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -13,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hungdt.periodtracked.R;
-import com.hungdt.periodtracked.utils.MySetting;
+import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -65,7 +64,7 @@ public class Question4Activity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Question4Activity.this, TodayActivity.class));
+                startActivity(new Intent(Question4Activity.this, MainActivity.class));
             }
         });
 

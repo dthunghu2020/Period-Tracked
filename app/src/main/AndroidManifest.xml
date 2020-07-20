@@ -54,13 +54,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ReportActivity"
+            android:name=".view.fragment.ReportFragment"
             android:launchMode="singleTask" />
         <activity
-            android:name=".view.PaperActivity"
+            android:name=".view.fragment.PaperFragment"
             android:launchMode="singleTask" />
         <activity
-            android:name=".view.TodayActivity"
+            android:name=".view.fragment.TodayFragment"
             android:launchMode="singleTask" />
         <activity
             android:name=".view.Question2Activity"
@@ -71,6 +71,7 @@
         <activity android:name=".view.CalendarMonthActivity" />
         <activity android:name=".view.Question4Activity" />
         <activity android:name=".view.DetailPaperActivity" />
+        <activity android:name=".view.MainActivity" />
     </application>
 
 </manifest>

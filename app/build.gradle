@@ -58,5 +58,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-config:19.2.0'
 
     implementation 'com.anjlab.android.iab.v3:library:1.1.0'
-
+    implementation project(':calendarview')
 }
