@@ -35,96 +35,106 @@
 
     <!--Paper-->
     <string name="title1"><b>What Can Cause Late Periods And Irregular Cycles</b></string>
-    <string name="body1">&#160;&#160;&#160;&#160;&#160;&#160;Your menstrual cycle is counted from the first day of your last period to the start of your next period. Your period is considered irregular if it\'s longer than 38 days or if the duration varies.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;The absence of menstruation doesn\'t necessarily indicate pregnancy. Other explanations for late periods and irregular cycles can be divided into three categories:\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;Physiological:</b> Stress, sudden weight changes (especially a weight loss of 10 to 15 percent or more), strenuous exercise, frequent climate or time zone changes, breastfeeding, etc.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;Medical:</b> Taking or discontinuing medications, including hormonal contraceptives, certain antihistamines, or antidepressants.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;Pathological:</b> Polycystic ovaries, uterine disorders or anomalies, or endocrine system disorders. etc.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;If your periods are at least 10–14 days late, it\'s best to consult a doctor. However, if you had unprotected vaginal intercourse during your last cycle, you may want to take a pregnancy test first.</string>
+    <string name="body1">Your menstrual cycle is counted from the first day of your last period to the start of your next period. Your period is considered irregular if it\'s longer than 38 days or if the duration varies.\n
+        \nThe absence of menstruation doesn\'t necessarily indicate pregnancy. Other explanations for late periods and irregular cycles can be divided into three categories:\n
+        \n<b>Physiological:</b> Stress, sudden weight changes (especially a weight loss of 10 to 15 percent or more), strenuous exercise, frequent climate or time zone changes, breastfeeding, etc.\n
+        \n<b>Medical:</b> Taking or discontinuing medications, including hormonal contraceptives, certain antihistamines, or antidepressants.\n
+        \n<b>Pathological:</b> Polycystic ovaries, uterine disorders or anomalies, or endocrine system disorders. etc.\n
+        \nIf your periods are at least 10–14 days late, it\'s best to consult a doctor. However, if you had unprotected vaginal intercourse during your last cycle, you may want to take a pregnancy test first.</string>
     <string name="title2"><b>What Water Temperature Quenches Thirst Best?</b></string>
-    <string name="body2">&#160;&#160;&#160;&#160;&#160;&#160;Not drinking enough water during intense workouts or hot weather may lead to dehydration, which is accompanied by thirst. Dehydration partially suppresses sweating. This disrupts thermoregulation and, as a result, the body\'s temperature begins to rise.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Research has shown that the temperature of water you drink influences the sweating response. Having a cold drink causes the body temperature to drop and minimizes sweating. That\'s why cool water (61 °F/1 6°C) can improve hydration better than colder water.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Important note: if you have a gastrointestinal condition, drinking room temperature water is recommended.</string>
-    <string name="title3"><b>5 Signs Your Period Is About to Start</b></string>
+    <string name="body2">Not drinking enough water during intense workouts or hot weather may lead to dehydration, which is accompanied by thirst. Dehydration partially suppresses sweating. This disrupts thermoregulation and, as a result, the body\'s temperature begins to rise.\n
+        \nResearch has shown that the temperature of water you drink influences the sweating response. Having a cold drink causes the body temperature to drop and minimizes sweating. That\'s why cool water (61 °F/1 6°C) can improve hydration better than colder water.\n
+        \nImportant note: if you have a gastrointestinal condition, drinking room temperature water is recommended.</string>
+    <string name="title3"><b>5 Signs Your Period Is About To Start</b></string>
     <string name="body3"><b>&#160;&#160;&#160;&#160;&#160;&#160;1. Mood swings</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;The emotional symptoms can be more severe than the physical ones for some people. You may experience:\n
-        <i>&#160;&#160;&#160;&#160;&#160;&#160;mood swings</i>\n
+        \nThe emotional symptoms can be more severe than the physical ones for some people. You may experience:\n
+        \n<i>&#160;&#160;&#160;&#160;&#160;&#160;mood swings</i>\n
         <i>&#160;&#160;&#160;&#160;&#160;&#160;depression</i>\n
         <i>&#160;&#160;&#160;&#160;&#160;&#160;irritability</i>\n
         <i>&#160;&#160;&#160;&#160;&#160;&#160;anxiety</i>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;If you feel like you’re on an emotional roller coaster or feel sadder or crankier than usual, fluctuating estrogen and progesterone levels may be to blame.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Estrogen can affect production of serotonin and feel-good endorphins in the brain, decreasing feelings of well-being and increasing depression and irritability.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;For some, progesterone may have a calming effect. When progesterone levels are low, this effect may be diminished. Periods of crying for no reason and emotional hypersensitivity can result.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;2. Headache</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Since hormones are responsible for generating the pain response, it’s understandable that fluctuating hormonal levels might cause headaches and migraines to occur.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Serotonin is a neurotransmitter that often sets off migraines and headaches. Estrogen may increase serotonin levels and the number of serotonin receptors in the brain at certain points during the menstrual cycle. The interplay between estrogen and serotonin may cause migraines to occur in those who are prone to them.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;More than 50 percent of women who get migraines report an association between the occurrence of migraines and their period. Migraines might occur before, during, or immediately following menstruation.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;3. Fatigue</b>/n
-        &#160;&#160;&#160;&#160;&#160;&#160;As your period approaches, your body shifts gears from getting ready to sustain a pregnancy to getting ready to menstruate. Hormonal levels plummet, and fatigue is often the result. Changes in mood may also make you feel tired.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;On top of all that, some women have trouble sleeping during this part of their menstrual cycle. Lack of sleep can exacerbate daytime fatigue.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;4. Lower back pain</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;The uterine and abdominal contractions triggered by the release of prostaglandins may also cause muscle contractions to occur in the lower back.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;An aching or pulling feeling may result. Some may have significant lower back pain during their period. Others experience mild discomfort or a nagging feeling in their back.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;5. Trouble sleeping</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Abnormal symptoms can all affect your sleep making it harder to fall or stay asleep. Your body temperature may also make it harder for you to catch those much needed Zzz\'s.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Core body temperature rises about half a degree after ovulation and stays high until you start to menstruate or shortly after. That may not sound like much, but cooler body temps are associated with better sleep. That half a degree can impair your ability to rest and renew.</string>
-    <string name="title4"><b>The most common signs of menstruation before 1 week</b></string>
-    <string name="body4"><b>&#160;&#160;&#160;&#160;&#160;&#160;1. Mood swings</b>\nReference: More white blood is about to menstruate.Signs of menstruation before the first week is the phenomenon of the body emitting a lot of discharge. Because when the \"day\" is near, the girl\'s estrogen hormone will increase more than usual – resulting in more vaginal discharge and the \"girl\" becoming more moist. But girls need to pay attention: if signs of unpleasant odors, strange colored discharge or vaginal itching occur at the same time … girls will need to see a doctor because there is a risk of gynecological infection.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;2. Oily skin, acne</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;The skin produces a lot of sebum, acne is also one of the most common signs of menstruation before 1 week in girls. It is also because hormone levels rise when the period is approaching, which stimulates sebum production and clog pores – causing breakouts when preparing to menstruate. Girls do not forget to wash your face and clean hygiene to limit this situation \"unpleasant\" okay!\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;3. The first round is tight</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;If your breasts become tense or you feel an increase in size in the first round, don\'t be surprised, it\'s just that girls are experiencing signs of menstruation before a typical week in women. The increase in estrogen hormone makes the breast tissue erect, girls will feel slightly swollen nipples and spread to the surrounding areas. Note to wear a little loose bra to round 1 more comfortable on \"that day\" my daughter.\nReference: Chest pain for how long menstruation.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;4. Lower abdominal pain, back pain</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Lower abdominal pain is also a common symptom 1 week before menstruation, especially often appearing 1 to 2 days before the \"strawberry season\". Due to the increased secretion of female sex hormones, it can cause spasms and lower abdominal pain, which can also cause back pain.\nReference: Dysmenorrhea but no bleeding.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;5. Digestive disorders</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;In addition to lower abdominal pain, girls are also more likely to experience other signs of menstruation before 1 week of digestion, such as bloating, bloating, nausea, food cravings, even diarrhea or constipation.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;6. Tired but having trouble sleeping</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Girls who are about to menstruate will often experience fatigue, but the lack of tryptophan before \"falling out of the strawberry\" can lead to insomnia. It is uncomfortable to experience signs of menstruation before 1 week, right daughter?\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;7. mood swings</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;It will be easy for women to understand, when having the signs of menstruation before 1 week of discomfort, the mood will easily become sensitive, easy to get angry, upset, moody, depressed.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;If you experience this discomfort, girls try to spend more time on themselves, eat well and participate in exercise, yoga … to regain balance and help the mood better!</string>
-    <string name="title5"><b>Expression of menstrual disorders</b></string>
-    <string name="body5">&#160;&#160;&#160;&#160;&#160;&#160;Menstrual irregularities are not always a sign of a health problem. However, you should still pay attention when you encounter some of the following abnormal symptoms of menstrual disorders.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Menstrual irregularities: When your period is longer than 35 days (menstrual period) or shorter than 22 days (menstrual cycle), even if you don\'t have periods for 6 months or more (amenorrhea).\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Menstrual abnormalities: These are abnormalities in the amount and day of menstruation.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Menopause: also called menstrual tape, blood flow &gt;20ml / period.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Amenorrhea: the number of menstrual days &lt; 2 days and the amount of periods &lt; 20ml/ period.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Dysmenorrhea: number of menstrual periods &gt; 7 days.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Menstrual color: Usually blood red, smells a little fishy,​not clotting, if menstrual blood mixed with blood or bright red or pink blood is abnormal.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Abnormal symptoms associated with the next menstrual period: In the menstrual irregularities, dysmenorrhea is the most common phenomenon, often with symptoms of lower abdominal pain when menstruation. If the pain is painful, the pain may spread through the spine, spread to the thighs and spread to the whole abdomen. In addition, you may see back pain accompanied by chest tightness, breast tenderness, nausea, being emotional, affecting living and working.\n</string>
-    <string name="title6"><b>When does a woman\'s menstrual cycle begin?</b></string>
-    <string name="body6">&#160;&#160;&#160;&#160;&#160;&#160;Typically, the menstrual cycle in women starting from 9 to 15 years of age, this is called puberty. However, menstruation comes sooner or later depending on a number of factors such as: Genetics, diet of each girl, environment and psychology. In addition, there are some girls who can puberty first. 9 years old or later than 15 years old. In the case of girls who are menstruating too early from 3 to 8 years or later than 16 years old, parents should take their children to visit.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Women start menstruating between 9 and 15 years of age, this is called puberty. Menstruation comes sooner or later depending on factors such as genetics, diet, environment, psychology… of girls. In some special cases, girls may have periods before or after the age of 15. Menstruation is a time to mark the fertility of women, starting from here the woman was able to conceive and mother. Menstruation will end when women in their 40s to 50s are called menopause.</string>
-    <string name="title7"><b>Check Yourself\nTake a few minutes to check your breasts. It can save your life</b></string>
-    <string name="body7">&#160;&#160;&#160;&#160;&#160;&#160;Protect yourself from breast cancer.\n<i>How to do a Breast Self - Exam.</i>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;A breast self - exam is a regular check that women do themselves.\n<i>Why it\'s important.</i>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;A breast self - exam will increase your chances of early detection of breast cancer.\n<i>When</i>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Monthly on day 7 - 10 of the cycle\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;1. Observation</b>\n<b>Stand in front of the mirror. Examine your breasts in each of the following positions:</b>\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Put your hands on your waist.\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Place your hands behind your head.\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Lean forward, contract your chest muscles.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;2. Palpation in standing position</b>\n<b>Place your left hand behind your head</b>\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Start to move your fingers around your breast with slight circular movements clockwise to wards the nipple.\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Check your armpit.\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Then examine your right breast the same way.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;3. Palpation in lying position</b>\n<b>Put a Pillow under your left shoulder and your left arm behind your head:</b>\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Move your fingers gently around the entire breast in small circular motions.\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Squeeze the nipple to check for unusual nipple discharge.\n
+        \nIf you feel like you’re on an emotional roller coaster or feel sadder or crankier than usual, fluctuating estrogen and progesterone levels may be to blame.\n
+        \nEstrogen can affect production of serotonin and feel-good endorphins in the brain, decreasing feelings of well-being and increasing depression and irritability.\n
+        \nFor some, progesterone may have a calming effect. When progesterone levels are low, this effect may be diminished. Periods of crying for no reason and emotional hypersensitivity can result.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;2. Headache</b>\n
+        \nSince hormones are responsible for generating the pain response, it’s understandable that fluctuating hormonal levels might cause headaches and migraines to occur.\n
+        \nSerotonin is a neurotransmitter that often sets off migraines and headaches. Estrogen may increase serotonin levels and the number of serotonin receptors in the brain at certain points during the menstrual cycle. The interplay between estrogen and serotonin may cause migraines to occur in those who are prone to them.\n
+        \nMore than 50 percent of women who get migraines report an association between the occurrence of migraines and their period. Migraines might occur before, during, or immediately following menstruation.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;3. Fatigue</b>/n
+        \nAs your period approaches, your body shifts gears from getting ready to sustain a pregnancy to getting ready to menstruate. Hormonal levels plummet, and fatigue is often the result. Changes in mood may also make you feel tired.\n
+        \nOn top of all that, some women have trouble sleeping during this part of their menstrual cycle. Lack of sleep can exacerbate daytime fatigue.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;4. Lower back pain</b>\n
+        \nThe uterine and abdominal contractions triggered by the release of prostaglandins may also cause muscle contractions to occur in the lower back.\n
+        \nAn aching or pulling feeling may result. Some may have significant lower back pain during their period. Others experience mild discomfort or a nagging feeling in their back.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;5. Trouble sleeping</b>\n
+        \nAbnormal symptoms can all affect your sleep making it harder to fall or stay asleep. Your body temperature may also make it harder for you to catch those much needed Zzz\'s.\n
+        \nCore body temperature rises about half a degree after ovulation and stays high until you start to menstruate or shortly after. That may not sound like much, but cooler body temps are associated with better sleep. That half a degree can impair your ability to rest and renew.</string>
+    <string name="title4"><b>The Most Common Signs Of Menstruation Before 1 Week</b></string>
+    <string name="body4"><b>&#160;&#160;&#160;&#160;&#160;&#160;1. The air is broken out much</b>\nSigns of menstruation before the first week is the phenomenon of the body emitting a lot of discharge. Because when the \"day\" is near, the girl\'s estrogen hormone will increase more than usual – resulting in more vaginal discharge and the \"girl\" becoming more moist. But girls need to pay attention: if signs of unpleasant odors, strange colored discharge or vaginal itching occur at the same time … girls will need to see a doctor because there is a risk of gynecological infection.\n
+        \nReference: More white blood is about to menstruate.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;2. Oily skin, acne</b>\n
+        \nThe skin produces a lot of sebum, acne is also one of the most common signs of menstruation before 1 week in girls. It is also because hormone levels rise when the period is approaching, which stimulates sebum production and clog pores – causing breakouts when preparing to menstruate. Girls do not forget to wash your face and clean hygiene to limit this situation \"unpleasant\" okay!\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;3. The first round is tight</b>\n
+        \nIf your breasts become tense or you feel an increase in size in the first round, don\'t be surprised, it\'s just that girls are experiencing signs of menstruation before a typical week in women. The increase in estrogen hormone makes the breast tissue erect, girls will feel slightly swollen nipples and spread to the surrounding areas. Note to wear a little loose bra to round 1 more comfortable on \"that day\" my daughter.\n
+        \nReference: Chest pain for how long menstruation.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;4. Lower abdominal pain, back pain</b>\n
+        Lower abdominal pain is also a common symptom 1 week before menstruation, especially often appearing 1 to 2 days before the \"strawberry season\". Due to the increased secretion of female sex hormones, it can cause spasms and lower abdominal pain, which can also cause back pain.\n
+        \nReference: Dysmenorrhea but no bleeding.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;5. Digestive disorders</b>\n
+        \nIn addition to lower abdominal pain, girls are also more likely to experience other signs of menstruation before 1 week of digestion, such as bloating, bloating, nausea, food cravings, even diarrhea or constipation.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;6. Tired but having trouble sleeping</b>\n
+        \nGirls who are about to menstruate will often experience fatigue, but the lack of tryptophan before \"falling out of the strawberry\" can lead to insomnia. It is uncomfortable to experience signs of menstruation before 1 week, right daughter?\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;7. Mood swings</b>\n
+        \nIt will be easy for women to understand, when having the signs of menstruation before 1 week of discomfort, the mood will easily become sensitive, easy to get angry, upset, moody, depressed.\n
+        \nIf you experience this discomfort, girls try to spend more time on themselves, eat well and participate in exercise, yoga … to regain balance and help the mood better!</string>
+    <string name="title5"><b>Expression Of Menstrual Disorders</b></string>
+    <string name="body5">Menstrual irregularities are not always a sign of a health problem. However, you should still pay attention when you encounter some of the following abnormal symptoms of menstrual disorders.\n
+        \n<b>Menstrual irregularities:</b> When your period is longer than 35 days (menstrual period) or shorter than 22 days (menstrual cycle), even if you don\'t have periods for 6 months or more (amenorrhea).\n
+        \n<b>Menstrual abnormalities:</b> These are abnormalities in the amount and day of menstruation.\n
+        \n<b>Menopause:</b> also called menstrual tape, blood flow &gt;20ml / period.\n
+        \n<b>Amenorrhea:</b> the number of menstrual days &lt; 2 days and the amount of periods &lt; 20ml/ period.\n
+        \n<b>Dysmenorrhea:</b> number of menstrual periods &gt; 7 days.\n
+        \n<b>Menstrual color:</b> Usually blood red, smells a little fishy,​not clotting, if menstrual blood mixed with blood or bright red or pink blood is abnormal.\n
+        \nAbnormal symptoms associated with the next menstrual period: In the menstrual irregularities, dysmenorrhea is the most common phenomenon, often with symptoms of lower abdominal pain when menstruation. If the pain is painful, the pain may spread through the spine, spread to the thighs and spread to the whole abdomen. In addition, you may see back pain accompanied by chest tightness, breast tenderness, nausea, being emotional, affecting living and working.\n</string>
+    <string name="title6"><b>When Does A Woman\'s Menstrual Cycle Begin?</b></string>
+    <string name="body6">Typically, the menstrual cycle in women starting from 9 to 15 years of age, this is called puberty. However, menstruation comes sooner or later depending on a number of factors such as: Genetics, diet of each girl, environment and psychology. In addition, there are some girls who can puberty first. 9 years old or later than 15 years old. In the case of girls who are menstruating too early from 3 to 8 years or later than 16 years old, parents should take their children to visit.\n
+        \nWomen start menstruating between 9 and 15 years of age, this is called puberty. Menstruation comes sooner or later depending on factors such as genetics, diet, environment, psychology… of girls. In some special cases, girls may have periods before or after the age of 15. Menstruation is a time to mark the fertility of women, starting from here the woman was able to conceive and mother. Menstruation will end when women in their 40s to 50s are called menopause.</string>
+    <string name="title7"><b>Check Yourself!!!!!!\n</b></string>
+    <string name="body7">Take a few minutes to check your breasts. It can save your life.\n
+        \nProtect yourself from breast cancer.\n
+        \n<i>How to do a Breast Self - Exam.</i>\n
+        \nA breast self - exam is a regular check that women do themselves.\n
+        \n<i>Why it\'s important.</i>\n
+        \nA breast self - exam will increase your chances of early detection of breast cancer.\n
+        \n<i>When</i>\n
+        \nMonthly on day 7 - 10 of the cycle\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;1. Observation</b>\n
+        \n<b>Stand in front of the mirror. Examine your breasts in each of the following positions:</b>\n
+        \nPut your hands on your waist.\n
+        \nPlace your hands behind your head.\n
+        \nLean forward, contract your chest muscles.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;2. Palpation in standing position</b>\n<b>Place your left hand behind your head</b>\n
+        \nStart to move your fingers around your breast with slight circular movements clockwise to wards the nipple.\n
+        \nCheck your armpit.\n
+        \nThen examine your right breast the same way.\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;3. Palpation in lying position</b>\n
+        \n<b>Put a Pillow under your left shoulder and your left arm behind your head:</b>\n
+        \nMove your fingers gently around the entire breast in small circular motions.\n
+        \nSqueeze the nipple to check for unusual nipple discharge.\n
     </string>
     <string name="title8"><b>How is an irregular menstrual cycle affects?</b></string>
-    <string name="body8">&#160;&#160;&#160;&#160;&#160;&#160;Irregular menstruation is a fairly common phenomenon that many women of reproductive age often encounter. There are many causes for this condition, but whatever the reason, irregular menstruation causes certain effects on the health of women.\n
-         <b>&#160;&#160;&#160;&#160;&#160;&#160;Causing difficulty conception in women</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Irregular menstruation is a warning sign of gynecological infections such as vaginitis, cervicitis. Therefore, if this treatment is not detected in time, it will cause damage to the cervix, increasing the risk of ovarian polycystic syndrome leading to very difficult conception. According to studies, more than 80% of the causes of infertility and infertility in women belong to the group of menstrual irregularities, menstrual disorders.\n
-         <b>&#160;&#160;&#160;&#160;&#160;&#160;Impaired health and physical weakness</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;A common condition in women with menstrual disorders. The number of prolonged menstrual days, heavy blood loss will cause anemia in the body, causing women to experience frequent dizziness, dizziness, and debilitated body, affecting life and work.\n
-         <b>&#160;&#160;&#160;&#160;&#160;&#160;Affect the psychology of women</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Irregular menstruation makes women lose confidence in daily life and communication. Especially when being close to your partner, your partner will be affected, thereby causing emotional gaps that, if left out for a long time, will cause the breakdown of family happiness.\n
-         <b>&#160;&#160;&#160;&#160;&#160;&#160;Affects the daily hygiene</b>\n
-         &#160;&#160;&#160;&#160;&#160;&#160;Irregular menstruation also makes it difficult for women to clean the vagina because menstruation can last for a long time. This creates favorable conditions for bacteria, fungi, bacteria … to invade and cause many different gynecological infections.\n
-        <b>&#160;&#160;&#160;&#160;&#160;&#160;Causing many dangerous complications</b>\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Irregular menstruation is related to the cause of gynecological diseases if not treated promptly will make the disease worse, difficult to treat later. For example, with some diseases such as cervical fibroids, ovarian cysts, cervicitis … if subjective detection late can cause the size of the tumor to be larger or even with vaginal infections can lead to cancer.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;Therefore, when you encounter irregular menstruation, lasting for many months, you need to immediately refer to reputable specialized medical facilities for timely examination and treatment. This is absolutely necessary because if any disease is detected early, the likelihood of effective treatment will be higher. Depending on the cause, each pathology leads to heavy menstruation in cases where the doctor will have specific instructions and indications for medical or surgical treatment.\n
-        &#160;&#160;&#160;&#160;&#160;&#160;In particular, it is worth noting that you absolutely should not arbitrarily treat or buy medication for use without a doctor\'s instructions because this can cause the disease to be cured but may cause complications. dangerous if having side effects of medication or improper cure, making it difficult to treat later.\n
+    <string name="body8">Irregular menstruation is a fairly common phenomenon that many women of reproductive age often encounter. There are many causes for this condition, but whatever the reason, irregular menstruation causes certain effects on the health of women.\n
+        \n<b>Causing difficulty conception in women</b>\n
+        \nIrregular menstruation is a warning sign of gynecological infections such as vaginitis, cervicitis. Therefore, if this treatment is not detected in time, it will cause damage to the cervix, increasing the risk of ovarian polycystic syndrome leading to very difficult conception. According to studies, more than 80% of the causes of infertility and infertility in women belong to the group of menstrual irregularities, menstrual disorders.\n
+        \n<b>Impaired health and physical weakness</b>\n
+        \nA common condition in women with menstrual disorders. The number of prolonged menstrual days, heavy blood loss will cause anemia in the body, causing women to experience frequent dizziness, dizziness, and debilitated body, affecting life and work.\n
+        \n<b>Affect the psychology of women</b>\n
+        \nIrregular menstruation makes women lose confidence in daily life and communication. Especially when being close to your partner, your partner will be affected, thereby causing emotional gaps that, if left out for a long time, will cause the breakdown of family happiness.\n
+        \n<b>Affects the daily hygiene</b>\n
+        \nIrregular menstruation also makes it difficult for women to clean the vagina because menstruation can last for a long time. This creates favorable conditions for bacteria, fungi, bacteria … to invade and cause many different gynecological infections.\n
+        \n<b>Causing many dangerous complications</b>\n
+        \nIrregular menstruation is related to the cause of gynecological diseases if not treated promptly will make the disease worse, difficult to treat later. For example, with some diseases such as cervical fibroids, ovarian cysts, cervicitis … if subjective detection late can cause the size of the tumor to be larger or even with vaginal infections can lead to cancer.\n
+        \nTherefore, when you encounter irregular menstruation, lasting for many months, you need to immediately refer to reputable specialized medical facilities for timely examination and treatment. This is absolutely necessary because if any disease is detected early, the likelihood of effective treatment will be higher. Depending on the cause, each pathology leads to heavy menstruation in cases where the doctor will have specific instructions and indications for medical or surgical treatment.\n
+        \nIn particular, it is worth noting that you absolutely should not arbitrarily treat or buy medication for use without a doctor\'s instructions because this can cause the disease to be cured but may cause complications. dangerous if having side effects of medication or improper cure, making it difficult to treat later.\n
     </string>
+
 </resources>

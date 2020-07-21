@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_week"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="@dimen/_24sdp"
     android:background="#FFFFFF"
-    android:minHeight="40dp"
+    android:minHeight="@dimen/_24sdp"
     android:orientation="horizontal"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp"
-    tools:ignore="HardcodedText">
+    android:paddingBottom="@dimen/_6sdp"
+    android:paddingTop="@dimen/_6sdp"
+   >
 
     <TextView
         android:layout_width="0dp"
@@ -17,7 +16,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/sun"
-        android:textColor="#e1e1e1"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 
     <TextView
@@ -26,7 +25,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/mon"
-        android:textColor="#e1e1e1"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 
     <TextView
@@ -35,7 +34,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/tue"
-        android:textColor="#e1e1e1"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 
     <TextView
@@ -44,7 +43,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/wed"
-        android:textColor="#e1e1e1"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 
     <TextView
@@ -53,7 +52,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/thu"
-        android:textColor="#e1e1e1"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 
     <TextView
@@ -62,7 +61,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/fri"
-        android:textColor="#e1e1e1"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 
     <TextView
@@ -71,6 +70,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/sat"
-        android:textColor="#e1e1e1"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 </merge>

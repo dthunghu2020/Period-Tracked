@@ -2,6 +2,7 @@ package com.hungdt.periodtracked.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import com.hungdt.periodtracked.utils.KEY;
 
 public class DetailPaperActivity  extends AppCompatActivity {
     private TextView txtTitle, txtBody;
-    private ImageView imgPaper;
+    private ImageView imgPaper,imgBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class DetailPaperActivity  extends AppCompatActivity {
         txtTitle=findViewById(R.id.txtTitle);
         txtBody=findViewById(R.id.txtBody);
         imgPaper=findViewById(R.id.imgPaper);
+        imgBack=findViewById(R.id.imgBack);
 
         Intent intent = getIntent();
         Paper paper = (Paper) intent.getSerializableExtra(KEY.PAPER);
@@ -35,5 +37,12 @@ public class DetailPaperActivity  extends AppCompatActivity {
         Glide.with(DetailPaperActivity.this)
                 .load(paper.getIdImage())
                 .into(imgPaper);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

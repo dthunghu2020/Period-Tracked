@@ -9,10 +9,7 @@ import android.text.TextUtils;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.WeekView;
 
-/**
- * 演示一个变态需求的周视图
- * Created by huanghaibin on 2018/2/9.
- */
+
 
 public class CustomWeekView extends WeekView {
 
@@ -27,22 +24,26 @@ public class CustomWeekView extends WeekView {
 
     /**
      * 24节气画笔
+     *24 thuật ngữ năng lượng mặt trời
      */
     private Paint mSolarTermTextPaint = new Paint();
 
     /**
      * 背景圆点
+     * Dấu chấm nền
      */
     private Paint mPointPaint = new Paint();
 
     /**
      * 今天的背景色
+     * Màu nền hôm nay
      */
     private Paint mCurrentDayPaint = new Paint();
 
 
     /**
      * 圆点半径
+     * Bán kính chấm
      */
     private float mPointRadius;
 
@@ -51,6 +52,7 @@ public class CustomWeekView extends WeekView {
     private float mCircleRadius;
     /**
      * 自定义魅族标记的圆形背景
+     * Tùy chỉnh nền tròn của logo Meizu
      */
     private Paint mSchemeBasicPaint = new Paint();
 

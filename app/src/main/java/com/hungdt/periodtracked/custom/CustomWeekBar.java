@@ -9,10 +9,7 @@ import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.WeekBar;
 import com.hungdt.periodtracked.R;
 
-/**
- * 自定义英文栏
- * Created by huanghaibin on 2017/11/30.
- */
+
 
 public class CustomWeekBar extends WeekBar {
 
