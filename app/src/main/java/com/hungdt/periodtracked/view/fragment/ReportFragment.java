@@ -1,20 +1,17 @@
 package com.hungdt.periodtracked.view.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.haibin.calendarview.Calendar;
@@ -23,8 +20,12 @@ import com.haibin.calendarview.CalendarView;
 import com.haibin.calendarview.TrunkBranchAnnals;
 import com.hungdt.periodtracked.R;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+
+import com.hungdt.periodtracked.utils.MySetting;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ReportFragment extends Fragment implements
@@ -32,10 +33,28 @@ public class ReportFragment extends Fragment implements
         CalendarView.OnWeekChangeListener,
         CalendarView.OnMonthChangeListener,
         CalendarView.OnViewChangeListener {
-    TextView mTextMonthDay;
+    TextView mTextMonthDay,txtText;
     CalendarView mCalendarView;
     CalendarLayout mCalendarLayout;
 
+
+    Date date;
+    Date firstDate;
+    int periodCircle;
+    int periodLength;
+    int beginRed = 0;
+    int endRed = 0;
+    int beginEgg = 0;
+    int endEgg = 0;
+    int eggDay = 0;
+    String beginDay;
+
+    SimpleDateFormat sdfMyDate = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat sdfLibraryDate = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat sdfMY = new SimpleDateFormat("MM-yyyy");
+    SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
+    SimpleDateFormat sdfYeah = new SimpleDateFormat("yyyy");
+    SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
 
     public ReportFragment() {
     }
@@ -50,8 +69,16 @@ public class ReportFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mTextMonthDay = view.findViewById(R.id.tv_month_day);
+        txtText = view.findViewById(R.id.txtText);
         mCalendarView = view.findViewById(R.id.calendarView);
         mCalendarLayout = view.findViewById(R.id.calendarLayout);
+
+        /////////////////
+        beginDay = MySetting.getFirstDay(getContext());
+        periodCircle = MySetting.getPeriodCircle(getContext());
+        periodLength = MySetting.getPeriodLength(getContext());
+        //txtMonth.setText(getString(R.string.month) + sdfMY.format(Calendar.getInstance().getTime()));
+        ///
         mTextMonthDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +109,7 @@ public class ReportFragment extends Fragment implements
         Toast.makeText(getContext(), String.format("%s : LongClickOutOfRange", calendar), Toast.LENGTH_SHORT).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCalendarSelect(Calendar calendar, boolean isClick) {
 //Todo ............................................................................................
@@ -106,7 +134,101 @@ public class ReportFragment extends Fragment implements
                 "  --  " + mCalendarView.getSelectedCalendar().isCurrentDay());
         Log.e("干支年纪 ： ", " -- " + TrunkBranchAnnals.getTrunkBranchYear(calendar.getLunarCalendar().getYear()));
         //Todo ............................................................................................
+        txtText.setText(""+calendar);
 
+        if(!beginDay.equals(getString(R.string.not_sure))){
+            try {
+                date = sdfMyDate.parse(beginDay);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            android.icu.util.Calendar calendarx = android.icu.util.Calendar.getInstance();
+            assert date != null;
+            calendarx.setTime(date);
+            Date dateCheck = null;
+            try {
+                dateCheck = sdfMyDate.parse(beginDay);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            // chuyển từ date của nó về Date của mình
+            String dateLibrary = calendar.toString();
+            String itemDay = dateLibrary.substring(0, 10);
+            Date itemDate = null;
+            try {
+                itemDate = sdfLibraryDate.parse(itemDay);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            assert itemDate != null;
+            itemDay = sdfMyDate.format(itemDate);
+            try {
+                itemDate = sdfMyDate.parse(itemDay);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            ///////
+            Date firstDateOfWeek = null;
+            try {
+                firstDateOfWeek = sdfMyDate.parse(weekCalendar.getCurrentFirstDay().toString("dd-MM-yyyy"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            while (dateCheck.before(firstDateOfWeek)) {
+                calendar.add(Calendar.DATE, periodCircle);
+                dateCheck = calendar.getTime();
+            }
+            calendar.add(Calendar.DATE, -periodCircle);
+            firstDate = calendar.getTime();
+            /////////////////
+            beginRed = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
+            endRed = beginRed + periodLength;
+            eggDay = beginRed + periodCircle - 15;
+            beginEgg = eggDay - 6;
+            endEgg = eggDay + 4;
+            int displayDate = countNumberDay(Integer.parseInt(sdfYeah.format(itemDate)), Integer.parseInt(sdfMonth.format(itemDate)), Integer.parseInt(sdfDay.format(itemDate)));
+            if (displayDate > endRed) {
+                beginRed += periodCircle;
+                endRed += periodCircle;
+            }
+            if (displayDate > eggDay) {
+                eggDay += periodCircle;
+            }
+            if (displayDate > endEgg) {
+                beginEgg += periodCircle;
+                endEgg += periodCircle;
+            }
+            boolean isRedDay = false;
+            if (beginRed <= displayDate && displayDate < endRed) {
+                isRedDay = true;
+                           /* if (displayDate == beginRed) {
+                                imgLeft.setVisibility(View.VISIBLE);
+                            }
+                            if (displayDate == endRed - 1) {
+                                imgRight.setVisibility(View.VISIBLE);
+                            }*/
+                imgRedDay.setVisibility(View.VISIBLE);
+            }
+            if (beginEgg <= displayDate && displayDate <= endEgg) {
+                if (isRedDay) {
+                    beginEgg++;
+                } else {
+                               /* if (displayDate == beginEgg) {
+                                    imgLeft.setVisibility(View.VISIBLE);
+                                }
+                                if (displayDate == endEgg) {
+                                    imgRight.setVisibility(View.VISIBLE);
+                                }*/
+                    imgEggDay.setVisibility(View.VISIBLE);
+                }
+            }
+
+            if (displayDate == eggDay) {
+                imgEgg.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
