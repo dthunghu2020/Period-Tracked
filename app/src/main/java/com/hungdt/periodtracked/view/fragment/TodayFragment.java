@@ -154,8 +154,8 @@ public class TodayFragment extends Fragment {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
                     while (dateCheck.before(firstDateOfWeek)) {
+
                         calendar.add(Calendar.DATE, periodCircle);
                         dateCheck = calendar.getTime();
                     }

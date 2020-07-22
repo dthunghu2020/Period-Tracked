@@ -29,6 +29,8 @@ import androidx.viewpager.widget.ViewPager;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
+import javax.security.auth.login.LoginException;
+
 /**
  * 周视图滑动ViewPager，需要动态固定高度
  * 周视图是连续不断的视图，因此不能简单的得出每年都有52+1周，这样会计算重叠的部分
@@ -113,12 +115,13 @@ public final class WeekViewPager extends ViewPager {
      *
      * @return 获取当前周数据
      */
-    List<Calendar> getCurrentWeekCalendars() {
+    public List<Calendar> getCurrentWeekCalendars() {
         List<Calendar> calendars = CalendarUtil.getWeekCalendars(mDelegate.mIndexCalendar,
                 mDelegate);
         mDelegate.addSchemesFromMap(calendars);
         return calendars;
     }
+
 
 
     /**

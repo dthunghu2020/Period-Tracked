@@ -26,7 +26,7 @@ public class CustomWeekView extends WeekView {
      * 24节气画笔
      *24 thuật ngữ năng lượng mặt trời
      */
-    private Paint mSolarTermTextPaint = new Paint();
+    //private Paint mSolarTermTextPaint = new Paint();
 
     /**
      * 背景圆点
@@ -66,9 +66,9 @@ public class CustomWeekView extends WeekView {
         mTextPaint.setFakeBoldText(true);
 
 
-        mSolarTermTextPaint.setColor(0xff489dff);
-        mSolarTermTextPaint.setAntiAlias(true);
-        mSolarTermTextPaint.setTextAlign(Paint.Align.CENTER);
+        //mSolarTermTextPaint.setColor(0xff489dff);
+        //mSolarTermTextPaint.setAntiAlias(true);
+        //mSolarTermTextPaint.setTextAlign(Paint.Align.CENTER);
 
         mSchemeBasicPaint.setAntiAlias(true);
         mSchemeBasicPaint.setStyle(Paint.Style.FILL);
@@ -101,7 +101,7 @@ public class CustomWeekView extends WeekView {
 
     @Override
     protected void onPreviewHook() {
-        mSolarTermTextPaint.setTextSize(mCurMonthLunarTextPaint.getTextSize());
+       // mSolarTermTextPaint.setTextSize(mCurMonthLunarTextPaint.getTextSize());
         mRadius = Math.min(mItemWidth, mItemHeight) / 11 * 5;
     }
 
@@ -133,7 +133,8 @@ public class CustomWeekView extends WeekView {
     protected void onDrawText(Canvas canvas, Calendar calendar, int x, boolean hasScheme, boolean isSelected) {
         int cx = x + mItemWidth / 2;
         int cy = mItemHeight / 2;
-        int top = -mItemHeight / 6;
+        //int top = -mItemHeight / 6;
+        int top = 0;
 
         if (calendar.isCurrentDay() && !isSelected) {
             canvas.drawCircle(cx, cy, mRadius, mCurrentDayPaint);
@@ -151,14 +152,14 @@ public class CustomWeekView extends WeekView {
             mCurMonthTextPaint.setColor(0xFF489dff);
             mCurMonthLunarTextPaint.setColor(0xFF489dff);
             mSchemeTextPaint.setColor(0xFF489dff);
-            mSchemeLunarTextPaint.setColor(0xFF489dff);
+            //mSchemeLunarTextPaint.setColor(0xFF489dff);
             mOtherMonthLunarTextPaint.setColor(0xFF489dff);
             mOtherMonthTextPaint.setColor(0xFF489dff);
         } else {
             mCurMonthTextPaint.setColor(0xff333333);
             mCurMonthLunarTextPaint.setColor(0xffCFCFCF);
             mSchemeTextPaint.setColor(0xff333333);
-            mSchemeLunarTextPaint.setColor(0xffCFCFCF);
+            //mSchemeLunarTextPaint.setColor(0xffCFCFCF);
 
             mOtherMonthTextPaint.setColor(0xFFe1e1e1);
             mOtherMonthLunarTextPaint.setColor(0xFFe1e1e1);
@@ -167,24 +168,24 @@ public class CustomWeekView extends WeekView {
         if (isSelected) {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     mSelectTextPaint);
-            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mSelectedLunarTextPaint);
+            /*canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mSelectedLunarTextPaint);*/
         } else if (hasScheme) {
 
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     calendar.isCurrentMonth() ? mSchemeTextPaint : mOtherMonthTextPaint);
 
-            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10,
-                    !TextUtils.isEmpty(calendar.getSolarTerm()) ? mSolarTermTextPaint : mSchemeLunarTextPaint);
+            /*canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10,
+                    !TextUtils.isEmpty(calendar.getSolarTerm()) ? mSolarTermTextPaint : mSchemeLunarTextPaint);*/
         } else {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     calendar.isCurrentDay() ? mCurDayTextPaint :
                             calendar.isCurrentMonth() ? mCurMonthTextPaint : mOtherMonthTextPaint);
 
-            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10,
+            /*canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10,
                     calendar.isCurrentDay() ? mCurDayLunarTextPaint :
                             !TextUtils.isEmpty(calendar.getSolarTerm()) ? mSolarTermTextPaint :
                                     calendar.isCurrentMonth() ?
-                                            mCurMonthLunarTextPaint : mOtherMonthLunarTextPaint);
+                                            mCurMonthLunarTextPaint : mOtherMonthLunarTextPaint);*/
         }
     }
 
