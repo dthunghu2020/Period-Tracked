@@ -32,7 +32,7 @@ public class ReportFragment extends Fragment implements
         CalendarView.OnWeekChangeListener,
         CalendarView.OnMonthChangeListener,
         CalendarView.OnViewChangeListener {
-    TextView mTextMonthDay, txtCircleText;
+    TextView txtMonth, txtTitle, txtComment, txtDay,txtCurDay;
     CalendarView mCalendarView;
     CalendarLayout mCalendarLayout;
 
@@ -50,8 +50,8 @@ public class ReportFragment extends Fragment implements
     String beginDay;
     int beginDayNumber;
 
+    boolean isVisible = true;
 
-    String bR;
 
     SimpleDateFormat sdfMyDate = new SimpleDateFormat("dd-MM-yyyy");
     SimpleDateFormat sdfLibraryDate = new SimpleDateFormat("yyyyMMdd");
@@ -72,25 +72,12 @@ public class ReportFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTextMonthDay = view.findViewById(R.id.tv_month_day);
-        txtCircleText = view.findViewById(R.id.txtCircleText);
-        mCalendarView = view.findViewById(R.id.calendarView);
-        mCalendarLayout = view.findViewById(R.id.calendarLayout);
+        initView(view);
 
         beginDay = MySetting.getFirstDay(getActivity());
         Log.e("HDT0309", "onViewCreated: " + beginDay);
         periodCircle = MySetting.getPeriodCircle(getActivity());
         periodLength = MySetting.getPeriodLength(getActivity());
-
-        mTextMonthDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mCalendarLayout.isExpand()) {
-                    mCalendarLayout.expand();
-                    return;
-                }
-            }
-        });
 
         //mCalendarView.setOnYearChangeListener(this);
         mCalendarView.setOnCalendarSelectListener(this);
@@ -104,7 +91,10 @@ public class ReportFragment extends Fragment implements
         //mCalendarView.setOnCalendarInterceptListener(this);
 
         mCalendarView.setOnViewChangeListener(this);
-        mTextMonthDay.setText("day " + mCalendarView.getCurDay() + " month " + mCalendarView.getCurMonth() + " year " + mCalendarView.getCurYear());
+
+        txtMonth.setText("Month " + mCalendarView.getCurMonth());
+        txtCurDay.setText("day: " + mCalendarView.getCurDay() + "-" + mCalendarView.getCurMonth() + "-" + mCalendarView.getCurYear());
+        //mTextMonthDay.setText("day " + mCalendarView.getCurDay() + " month " + mCalendarView.getCurMonth() + " year " + mCalendarView.getCurYear());
 
         Log.e("HDT0309", "firstDateOfWeek " + mCalendarView.getCurrentWeekCalendars().get(0));
         ///////////// Convert Date
@@ -145,52 +135,81 @@ public class ReportFragment extends Fragment implements
                 calendar.add(java.util.Calendar.DATE, periodCircle);
                 beginDate = calendar.getTime();
             }
-            //calendar.add(java.util.Calendar.DATE, -periodCircle);
+            calendar.add(java.util.Calendar.DATE, -periodCircle);
             firstDate = calendar.getTime();
             /////////////////
             beginRed = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
-            bR = "" + sdfDay.format(firstDate) + "-" + sdfMonth.format(firstDate) + "-" + sdfYeah.format(firstDate);
             endRed = beginRed + periodLength - 1;
             eggDay = beginRed + periodCircle - 15;
             beginEgg = eggDay - 6;
             endEgg = eggDay + 4;
 
-            int curDayNumber = countNumberDay(mCalendarView.getCurYear(),mCalendarView.getCurMonth(),mCalendarView.getCurDay());
-            while (curDayNumber >= beginRed + periodCircle) {
+            int curDayNumber = countNumberDay(mCalendarView.getCurYear(), mCalendarView.getCurMonth(), mCalendarView.getCurDay());
+            if(curDayNumber==beginRed+periodCircle){
                 beginRed += periodCircle;
                 endRed += periodCircle;
                 eggDay += periodCircle;
                 beginEgg += periodCircle;
                 endEgg += periodCircle;
             }
-
+            Log.e("123", "onViewCreated: curDayNumber "+curDayNumber+"--beginRed "+beginRed);
             if (curDayNumber >= beginRed && curDayNumber <= endRed) {
                 int number = curDayNumber - beginRed + 1;
-                txtCircleText.setText("Period:\nDay " + number);
+                txtTitle.setText("Period");
+                txtDay.setText("Day " + number);
+                txtDay.setTextColor(getResources().getColor(R.color.red));
+                txtComment.setText("");
             } else {
                 if (curDayNumber < eggDay) {
                     int number = eggDay - curDayNumber;
                     if (curDayNumber < beginEgg) {
-                        txtCircleText.setText("Ovulation in\n" + number + " days\nLow chance of getting pregnant");
+                        txtTitle.setText("Ovulation in");
+                        txtDay.setText( number + " days");
+                        txtDay.setTextColor(getResources().getColor(R.color.black));
+                        txtComment.setText("Low chance of getting pregnant");
                     } else {
-                        txtCircleText.setText("Ovulation in\n" + number + " days\nHave a chance of getting pregnant");
+                        txtTitle.setText("Ovulation in");
+                        txtDay.setText( number + " days");
+                        txtDay.setTextColor(getResources().getColor(R.color.blue));
+                        txtComment.setText("Have a chance of getting pregnant");
                     }
                 } else if (curDayNumber > eggDay) {
-                    int number = beginRed + periodCircle - curDayNumber ;
+                    int number = beginRed + periodCircle - curDayNumber;
                     if (curDayNumber > endEgg) {
-                        txtCircleText.setText("Period in\n" + number + " days\nLow chance of getting pregnant");
+                        txtTitle.setText("Period in");
+                        txtDay.setText( number + " days");
+                        txtDay.setTextColor(getResources().getColor(R.color.black));
+                        txtComment.setText("Low chance of getting pregnant");
                     } else {
-                        txtCircleText.setText("Period in\n" + number + " days\nHave a chance to get pregnant");
+                        txtTitle.setText("Period in");
+                        txtDay.setText( number + " days");
+                        txtDay.setTextColor(getResources().getColor(R.color.blue));
+                        txtComment.setText("Have a chance to get pregnant");
                     }
                 } else {
-                    txtCircleText.setText("Prediction: Day of\nOVULATION\nHigh chance of getting pregnant");
+                    txtTitle.setText("Prediction: Day of");
+                    txtDay.setText( "OVULATION");
+                    txtDay.setTextColor(getResources().getColor(R.color.bright_green));
+                    txtComment.setText("High chance of getting pregnant");
                 }
             }
             Log.e("HDT0309", "Data:  firstDate-" + firstDateString + " beginDay: " + firstDate);
             //int displayDate = countNumberDay(Integer.parseInt(sdfYeah.format(itemDate)), Integer.parseInt(sdfMonth.format(itemDate)), Integer.parseInt(sdfDay.format(itemDate)));
         } else {
-            txtCircleText.setText("Log the first day of your last period for better predictions\nLog Period");
+            txtTitle.setText("Log the first day of\nyour last period for\nbetter predictions");
+            txtDay.setVisibility(View.GONE);
+            txtComment.setVisibility(View.GONE);
         }
+    }
+
+    private void initView(View view) {
+        mCalendarView = view.findViewById(R.id.calendarView);
+        mCalendarLayout = view.findViewById(R.id.calendarLayout);
+        txtMonth = view.findViewById(R.id.txtMonth);
+        txtTitle = view.findViewById(R.id.txtTitle);
+        txtComment = view.findViewById(R.id.txtComment);
+        txtDay = view.findViewById(R.id.txtDay);
+        txtCurDay = view.findViewById(R.id.txtCurDay);
     }
 
     @Override
@@ -230,48 +249,108 @@ public class ReportFragment extends Fragment implements
                     endEgg += periodCircle;
                 }
 
-                if (beginRed>curDayNumber) {
+                if (beginRed > curDayNumber) {
                     beginRed -= periodCircle;
                     endRed -= periodCircle;
                     eggDay -= periodCircle;
                     beginEgg -= periodCircle;
                     endEgg -= periodCircle;
                 }
+                Log.e("123", "onCalendarSelect: \ncurDayNumber " + curDayNumber + "\nbeginRed " + beginRed);
 
                 //Thay đổi text dòng trên hiển thị ngày tháng năm
-                mTextMonthDay.setText("day " + calendar.getDay() + " month" + calendar.getMonth() + " year " + calendar.getYear());
+                txtMonth.setText("Month " + calendar.getMonth());
+                txtCurDay.setText("day: " + calendar.getDay() + "-" + calendar.getMonth() + "-" + calendar.getYear());
+                //mTextMonthDay.setText("day " + calendar.getDay() + " month" + calendar.getMonth() + " year " + calendar.getYear());
 
                 if (curDayNumber >= beginRed && curDayNumber <= endRed) {
                     int number = curDayNumber - beginRed + 1;
-                    txtCircleText.setText("Period:\nDay " + number);
+                    if(!isVisible){
+                        isVisible = true;
+                        txtDay.setVisibility(View.VISIBLE);
+                        txtComment.setVisibility(View.VISIBLE);
+                    }
+                    txtTitle.setText("Period");
+                    txtDay.setText("Day " + number);
+                    txtDay.setTextColor(getResources().getColor(R.color.red));
+                    txtComment.setText("");
                 } else {
                     if (curDayNumber < eggDay) {
                         int number = eggDay - curDayNumber;
                         if (curDayNumber < beginEgg) {
-                            txtCircleText.setText("Ovulation in\n" + number + " days\nLow chance of getting pregnant");
+                            if(!isVisible){
+                                isVisible = true;
+                                txtDay.setVisibility(View.VISIBLE);
+                                txtComment.setVisibility(View.VISIBLE);
+                            }
+                            txtTitle.setText("Ovulation in");
+                            txtDay.setText( number + " days");
+                            txtDay.setTextColor(getResources().getColor(R.color.black));
+                            txtComment.setText("Low chance of getting pregnant");
                         } else {
-                            txtCircleText.setText("Ovulation in\n" + number + " days\nHave a chance of getting pregnant");
+                            if(!isVisible){
+                                isVisible = true;
+                                txtDay.setVisibility(View.VISIBLE);
+                                txtComment.setVisibility(View.VISIBLE);
+                            }
+                            txtTitle.setText("Ovulation in");
+                            txtDay.setText( number + " days");
+                            txtDay.setTextColor(getResources().getColor(R.color.blue));
+                            txtComment.setText("Have a chance of getting pregnant");
                         }
                     } else if (curDayNumber > eggDay) {
-                        int number = beginRed + periodCircle - curDayNumber ;
+                        int number = beginRed + periodCircle - curDayNumber;
                         if (curDayNumber > endEgg) {
-                            txtCircleText.setText("Period in\n" + number + " days\nLow chance of getting pregnant");
+                            if(!isVisible){
+                                isVisible = true;
+                                txtDay.setVisibility(View.VISIBLE);
+                                txtComment.setVisibility(View.VISIBLE);
+                            }
+                            txtTitle.setText("Period in");
+                            txtDay.setText( number + " days");
+                            txtDay.setTextColor(getResources().getColor(R.color.black));
+                            txtComment.setText("Low chance of getting pregnant");
                         } else {
-                            txtCircleText.setText("Period in\n" + number + " days\nHave a chance to get pregnant");
+                            if(!isVisible){
+                                isVisible = true;
+                                txtDay.setVisibility(View.VISIBLE);
+                                txtComment.setVisibility(View.VISIBLE);
+                            }
+                            txtTitle.setText("Period in");
+                            txtDay.setText( number + " days");
+                            txtDay.setTextColor(getResources().getColor(R.color.blue));
+                            txtComment.setText("Have a chance to get pregnant");
                         }
                     } else {
-                        txtCircleText.setText("Prediction: Day of\nOVULATION\nHigh chance of getting pregnant");
+                        if(!isVisible){
+                            isVisible = true;
+                            txtDay.setVisibility(View.VISIBLE);
+                            txtComment.setVisibility(View.VISIBLE);
+                        }
+                        txtTitle.setText("Prediction: Day of");
+                        txtDay.setText( "OVULATION");
+                        txtDay.setTextColor(getResources().getColor(R.color.bright_green));
+                        txtComment.setText("High chance of getting pregnant");
                     }
                 }
 
-                Log.e("HDT0309", "selectDay: +" + curDayNumber + "\nbeginRed: " + bR + " " + beginRed + "\nendRed" + endRed + "\neggDay" + eggDay);
                 //txtCircleText.setText("selectDay: +"+curDayNumber+"\nbeginRed: "+bR+" "+beginRed+"\nendRed"+endRed+"\neggDay"+eggDay);
 
             } else {
-                txtCircleText.setText("Predictions will be more accurate if you log your past periods\nLog Period ");
+                txtTitle.setText("Predictions will be\nmore accurate if you log\nyour past periods");
+                if(isVisible){
+                    isVisible = false;
+                    txtDay.setVisibility(View.GONE);
+                    txtComment.setVisibility(View.GONE);
+                }
             }
-        }else {
-            txtCircleText.setText("Log the first day of your last period for better predictions\nLog Period");
+        } else {
+            txtTitle.setText("Log the first day of\nyour last period for\nbetter predictions");
+            if(isVisible){
+                isVisible = false;
+                txtDay.setVisibility(View.GONE);
+                txtComment.setVisibility(View.GONE);
+            }
         }
 
         /*Log.e("onDateSelected", "  -- " + calendar.getYear() +
@@ -313,7 +392,7 @@ public class ReportFragment extends Fragment implements
         //Todo ............................................................................................
         Log.e("HDT0309", "onMonthChange: " + year + "  --  " + month);
         Calendar calendar = mCalendarView.getSelectedCalendar();
-        mTextMonthDay.setText("day " + calendar.getDay() + " month " + calendar.getMonth());
+        //mTextMonthDay.setText("day " + calendar.getDay() + " month " + calendar.getMonth());
         //Todo ............................................................................................
     }
 
@@ -323,10 +402,10 @@ public class ReportFragment extends Fragment implements
         Log.e("HDT0309", "(1) onViewChange: isMonthView : " + (isMonthView ? "Xem tháng" : "Xem tuần"));
     }
 
-    private static String getCalendarText(Calendar calendar) {
+ /*   private static String getCalendarText(Calendar calendar) {
         Log.e("HDT0309", "(3)getCalendarText: ");
         return String.format("%s", "ngày " + calendar.getDay() + " tháng " + calendar.getMonth() + " năm " + calendar.getYear());
-    }
+    }*/
 
     private int countNumberDay(int year, int month, int day) {
         if (month < 3) {

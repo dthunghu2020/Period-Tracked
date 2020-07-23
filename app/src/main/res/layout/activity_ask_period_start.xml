@@ -31,6 +31,18 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/when_did_your_last_period_start"
+        android:textColor="@color/black"
+        android:textSize="22sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -38,13 +50,6 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/btnNext"
         app:layout_constraintTop_toBottomOf="@+id/topBar">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/when_did_your_last_period_start"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/txtFirstDay"

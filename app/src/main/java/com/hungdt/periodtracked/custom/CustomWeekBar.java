@@ -10,7 +10,6 @@ import com.haibin.calendarview.WeekBar;
 import com.hungdt.periodtracked.R;
 
 
-
 public class CustomWeekBar extends WeekBar {
 
     private int mPreSelectedIndex;
@@ -18,7 +17,7 @@ public class CustomWeekBar extends WeekBar {
     public CustomWeekBar(Context context) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.custom_week_bar, this, true);
-        setBackgroundColor(Color.WHITE);
+        //setBackgroundColor(context.getResources().getColor(R.color.violet));
     }
 
     @Override
@@ -29,11 +28,6 @@ public class CustomWeekBar extends WeekBar {
         mPreSelectedIndex = viewIndex;
     }
 
-    /**
-     * 当周起始发生变化，使用自定义布局需要重写这个方法，避免出问题
-     *
-     * @param weekStart 周起始
-     */
     @Override
     protected void onWeekStartChange(int weekStart) {
         for (int i = 0; i < getChildCount(); i++) {
@@ -41,12 +35,6 @@ public class CustomWeekBar extends WeekBar {
         }
     }
 
-    /**
-     * 或者周文本，这个方法仅供父类使用
-     * @param index index
-     * @param weekStart weekStart
-     * @return 或者周文本
-     */
     private String getWeekString(int index, int weekStart) {
         String[] weeks = getContext().getResources().getStringArray(R.array.english_week_string_array);
 

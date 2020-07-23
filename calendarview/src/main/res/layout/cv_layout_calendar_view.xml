@@ -32,7 +32,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="40dp"
-            android:background="#cfcfcf" />
+           />
 
     </FrameLayout>
 
@@ -40,7 +40,6 @@
         android:id="@+id/selectLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:visibility="gone" />

@@ -21,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bnv = findViewById(R.id.bnv);
+        bnv.setItemIconTintList(null);
         bnv.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TodayFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ReportFragment()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -31,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.bnv_today:
-                    selectedFragment = new TodayFragment();
+                    selectedFragment = new ReportFragment();
                     break;
                 case R.id.bnv_report:
-                    selectedFragment = new ReportFragment();
+                    selectedFragment = new TodayFragment();
                     break;
                 case R.id.bnv_paper:
                     selectedFragment = new PaperFragment();

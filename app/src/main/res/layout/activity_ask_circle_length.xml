@@ -33,6 +33,19 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="@string/your_circle_length"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -41,23 +54,38 @@
         app:layout_constraintBottom_toTopOf="@+id/btnNext"
         app:layout_constraintTop_toBottomOf="@+id/topBar">
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/your_circle_length"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
-
-        <NumberPicker
-            android:id="@+id/numberPicker"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clData"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_24sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_24sdp"
-            android:descendantFocusability="blocksDescendants"
-            android:theme="@style/NumberPickerTheme" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtTextDays"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_46sdp"
+                android:background="@color/light_violet"
+                android:gravity="center"
+                android:paddingStart="@dimen/_80sdp"
+                android:text="Days"
+                android:textColor="@color/violet"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <NumberPicker
+                android:id="@+id/numberPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:descendantFocusability="blocksDescendants"
+                android:theme="@style/NumberPickerTheme"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/txtNotification"
@@ -71,13 +99,26 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_button"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/llCheckBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
     <LinearLayout
         android:id="@+id/llCheckBox"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginTop="@dimen/_20sdp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/txtBlank"
+        app:layout_goneMarginBottom="@dimen/_10sdp">
 
         <CheckBox
             android:id="@+id/checkbox"
@@ -93,14 +134,10 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="@dimen/_280sdp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_bg_button"
-        android:text="@string/next"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/llCheckBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/txtBlank"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

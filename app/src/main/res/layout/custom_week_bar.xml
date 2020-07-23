@@ -3,9 +3,9 @@
     android:id="@+id/ll_week"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_24sdp"
-    android:background="#FFFFFF"
     android:minHeight="@dimen/_24sdp"
     android:orientation="horizontal"
+    android:background="@android:color/transparent"
     android:paddingBottom="@dimen/_6sdp"
     android:paddingTop="@dimen/_6sdp"
    >
@@ -16,7 +16,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/sun"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/mon"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/tue"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
@@ -43,7 +43,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/wed"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/thu"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
@@ -61,7 +61,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/fri"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
@@ -70,6 +70,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/sat"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 </merge>

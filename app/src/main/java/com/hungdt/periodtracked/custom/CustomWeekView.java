@@ -9,7 +9,7 @@ import android.text.TextUtils;
 
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.WeekView;
-
+import com.hungdt.periodtracked.R;
 
 
 public class CustomWeekView extends WeekView {
@@ -64,7 +64,7 @@ public class CustomWeekView extends WeekView {
     public CustomWeekView(Context context) {
         super(context);
         mTextPaint.setTextSize(dipToPx(context, 8));
-        mTextPaint.setColor(0xffffffff);
+        mTextPaint.setColor(Color.WHITE);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setFakeBoldText(true);
 
@@ -89,7 +89,7 @@ public class CustomWeekView extends WeekView {
         mCurrentDayPaint.setStyle(Paint.Style.FILL);
         mCurrentDayPaint.setColor(0xFFeaeaea);
 
-
+////////////
         mNextDayPaint.setAntiAlias(true);
         mNextDayPaint.setStyle(Paint.Style.STROKE);
         mNextDayPaint.setStrokeWidth(5);
@@ -99,7 +99,7 @@ public class CustomWeekView extends WeekView {
         DashPathEffect dashPathEffect =
                 new DashPathEffect(intervals, phase);
         mNextDayPaint.setPathEffect(dashPathEffect);
-
+////////////
         mCircleRadius = dipToPx(getContext(), 7);
 
         mPadding = dipToPx(getContext(), 3);
@@ -155,7 +155,7 @@ public class CustomWeekView extends WeekView {
         }
 
 
-        if (calendar.isCurrentDay()) {
+        /*if (calendar.isCurrentDay()) {
             Calendar nextDay = new Calendar();
             nextDay.setDay(calendar.getDay() + 1);
             nextDay.setMonth(calendar.getMonth());
@@ -163,7 +163,7 @@ public class CustomWeekView extends WeekView {
 
             canvas.drawCircle(cx + mItemWidth, cy, mRadius, mNextDayPaint);
             canvas.drawCircle(cx + mItemWidth, cy, mRadius- 5, mCurrentDayPaint);
-        }
+        }*/
 
         if(hasScheme){
             canvas.drawCircle(x + mItemWidth - mPadding - mCircleRadius / 2, mPadding + mCircleRadius, mCircleRadius, mSchemeBasicPaint);
@@ -175,19 +175,19 @@ public class CustomWeekView extends WeekView {
 
         if (calendar.isWeekend() && calendar.isCurrentMonth()) {
             mCurMonthTextPaint.setColor(0xFF489dff);
-            mCurMonthLunarTextPaint.setColor(0xFF489dff);
-            mSchemeTextPaint.setColor(0xFF489dff);
+            //mCurMonthLunarTextPaint.setColor(0xFF489dff);
+            //mSchemeTextPaint.setColor(0xFF489dff);
             //mSchemeLunarTextPaint.setColor(0xFF489dff);
-            mOtherMonthLunarTextPaint.setColor(0xFF489dff);
-            mOtherMonthTextPaint.setColor(0xFF489dff);
+            //mOtherMonthLunarTextPaint.setColor(0xFF489dff);
+            //mOtherMonthTextPaint.setColor(0xFF489dff);
         } else {
             mCurMonthTextPaint.setColor(0xff333333);
-            mCurMonthLunarTextPaint.setColor(0xffCFCFCF);
-            mSchemeTextPaint.setColor(0xff333333);
+            //mCurMonthLunarTextPaint.setColor(0xffCFCFCF);
+           // mSchemeTextPaint.setColor(0xff333333);
             //mSchemeLunarTextPaint.setColor(0xffCFCFCF);
 
-            mOtherMonthTextPaint.setColor(0xFFe1e1e1);
-            mOtherMonthLunarTextPaint.setColor(0xFFe1e1e1);
+            //mOtherMonthTextPaint.setColor(0xFFe1e1e1);
+            //mOtherMonthLunarTextPaint.setColor(0xFFe1e1e1);
         }
 
         if (isSelected) {
@@ -196,8 +196,8 @@ public class CustomWeekView extends WeekView {
             /*canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mSelectedLunarTextPaint);*/
         } else if (hasScheme) {
 
-            canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
-                    calendar.isCurrentMonth() ? mSchemeTextPaint : mOtherMonthTextPaint);
+            /*canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
+                    calendar.isCurrentMonth() ? mSchemeTextPaint : mOtherMonthTextPaint);*/
 
             /*canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10,
                     !TextUtils.isEmpty(calendar.getSolarTerm()) ? mSolarTermTextPaint : mSchemeLunarTextPaint);*/
