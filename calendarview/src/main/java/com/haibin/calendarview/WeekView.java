@@ -45,6 +45,7 @@ public abstract class WeekView extends BaseWeekView {
             int x = i * mItemWidth + mDelegate.getCalendarPadding();
             onLoopStart(x);
             Calendar calendar = mItems.get(i);
+
             boolean isSelected = i == mCurrentItem;
             boolean hasScheme = calendar.hasScheme();
             if (hasScheme) {

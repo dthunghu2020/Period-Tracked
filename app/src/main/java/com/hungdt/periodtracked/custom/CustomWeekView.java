@@ -3,6 +3,7 @@ package com.hungdt.periodtracked.custom;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.text.TextUtils;
 
@@ -40,6 +41,8 @@ public class CustomWeekView extends WeekView {
      */
     private Paint mCurrentDayPaint = new Paint();
 
+
+    private Paint mNextDayPaint = new Paint();
 
     /**
      * 圆点半径
@@ -87,6 +90,16 @@ public class CustomWeekView extends WeekView {
         mCurrentDayPaint.setColor(0xFFeaeaea);
 
 
+        mNextDayPaint.setAntiAlias(true);
+        mNextDayPaint.setStyle(Paint.Style.STROKE);
+        mNextDayPaint.setStrokeWidth(5);
+        mNextDayPaint.setColor(Color.RED);
+        float[] intervals = new float[]{20.0f, 20.0f};
+        float phase = 0;
+        DashPathEffect dashPathEffect =
+                new DashPathEffect(intervals, phase);
+        mNextDayPaint.setPathEffect(dashPathEffect);
+
         mCircleRadius = dipToPx(getContext(), 7);
 
         mPadding = dipToPx(getContext(), 3);
@@ -132,12 +145,24 @@ public class CustomWeekView extends WeekView {
     @Override
     protected void onDrawText(Canvas canvas, Calendar calendar, int x, boolean hasScheme, boolean isSelected) {
         int cx = x + mItemWidth / 2;
+
         int cy = mItemHeight / 2;
         //int top = -mItemHeight / 6;
         int top = 0;
 
         if (calendar.isCurrentDay() && !isSelected) {
             canvas.drawCircle(cx, cy, mRadius, mCurrentDayPaint);
+        }
+
+
+        if (calendar.isCurrentDay()) {
+            Calendar nextDay = new Calendar();
+            nextDay.setDay(calendar.getDay() + 1);
+            nextDay.setMonth(calendar.getMonth());
+            nextDay.setYear(calendar.getYear());
+
+            canvas.drawCircle(cx + mItemWidth, cy, mRadius, mNextDayPaint);
+            canvas.drawCircle(cx + mItemWidth, cy, mRadius- 5, mCurrentDayPaint);
         }
 
         if(hasScheme){
