@@ -8,7 +8,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_460sdp"
+        android:layout_height="@dimen/_420sdp"
         android:background="@drawable/today_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,21 +99,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/txtCurDay"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lav_ring"
-                android:layout_width="@dimen/_280sdp"
-                android:layout_height="@dimen/_280sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_width="@dimen/_268sdp"
+                android:layout_height="@dimen/_268sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -121,22 +111,31 @@
                 app:lottie_fileName="lottie/main_bubble/data.json"
                 app:lottie_imageAssetsFolder="lottie/main_bubble/images"
                 app:lottie_loop="true" />
-
-            <LinearLayout
-                android:layout_width="@dimen/_220sdp"
-                android:layout_height="@dimen/_220sdp"
-                android:layout_marginTop="@dimen/_50sdp"
-                android:gravity="center"
-                android:orientation="vertical"
+            <TextView
+                android:id="@+id/txtCurDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/_60sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="@dimen/_210sdp"
+                android:layout_height="@dimen/_210sdp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/lav_ring"
+                app:layout_constraintEnd_toEndOf="@+id/lav_ring"
+                app:layout_constraintStart_toStartOf="@+id/lav_ring"
+                app:layout_constraintTop_toTopOf="@+id/lav_ring">
 
                 <TextView
-                    android:gravity="center"
                     android:id="@+id/txtTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -153,7 +152,77 @@
                     android:id="@+id/txtComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"/>
+                    android:layout_marginTop="@dimen/_5sdp" />
+            </LinearLayout>
+            <LinearLayout
+                android:elevation="@dimen/_2sdp"
+                android:padding="@dimen/_5sdp"
+                android:background="@drawable/shape_log"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lav_ring"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="@dimen/_280sdp"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:text="Log Weight, Symptoms And More" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp">
+                    <LinearLayout
+                        android:id="@+id/llLog"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/imgMotion"
+                            android:background="@drawable/zo"
+                            android:layout_width="@dimen/_48sdp"
+                            android:layout_height="@dimen/_48sdp"/>
+                        <ImageView
+                            android:id="@+id/imgSymptoms"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:src="@drawable/ic_no_record_symptom"
+                            android:layout_width="@dimen/_48sdp"
+                            android:layout_height="@dimen/_48sdp"/>
+                        <ImageView
+                            android:id="@+id/imgPhysic"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:src="@drawable/ic_no_record_exercise"
+                            android:layout_width="@dimen/_48sdp"
+                            android:layout_height="@dimen/_48sdp"/>
+                        <ImageView
+                            android:id="@+id/imgOvulation"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:src="@drawable/ic_no_record_ovulation"
+                            android:layout_width="@dimen/_48sdp"
+                            android:layout_height="@dimen/_48sdp"/>
+                    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcvLog"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/btnLog"
+                    android:text="ADD NOTE"
+                    android:textColor="@color/white"
+                    android:layout_width="@dimen/_200sdp"
+                    android:background="@drawable/shape_bg_button"
+                    android:layout_height="@dimen/_30sdp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_2sdp"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

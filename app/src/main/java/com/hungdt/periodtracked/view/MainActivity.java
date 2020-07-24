@@ -10,11 +10,20 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hungdt.periodtracked.R;
+import com.hungdt.periodtracked.model.Log;
 import com.hungdt.periodtracked.view.fragment.PaperFragment;
 import com.hungdt.periodtracked.view.fragment.ReportFragment;
 import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+    public static boolean setData = false;
+    public static List<Log> motions = new ArrayList<>();
+    public static List<Log> symptoms = new ArrayList<>();
+    public static List<Log> physics = new ArrayList<>();
+    public static List<Log> ovulations = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

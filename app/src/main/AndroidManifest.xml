@@ -72,6 +72,7 @@
         <activity android:name=".view.Question4Activity" />
         <activity android:name=".view.DetailPaperActivity" />
         <activity android:name=".view.MainActivity" />
+        <activity android:name=".view.LogActivity" />
     </application>
 
 </manifest>

@@ -137,5 +137,59 @@
         \nIn particular, it is worth noting that you absolutely should not arbitrarily treat or buy medication for use without a doctor\'s instructions because this can cause the disease to be cured but may cause complications. dangerous if having side effects of medication or improper cure, making it difficult to treat later.\n
     </string>
     <string name="year">Year</string>
+    <string name="sun_day">Sunday</string>
+    <string name="mon_day">Monday</string>
+    <string name="tues_day">"Tuesday"</string>
+    <string name="wednes_day">"Wednesday"</string>
+    <string name="thurs_day">"Thursday"</string>
+    <string name="fri_day">"Friday"</string>
+    <string name="satur_day">"Saturday"</string>
 
+
+    <string name="motion1">Anxious</string>
+    <string name="motion2">Apathetic</string>
+    <string name="motion3">Calm</string>
+    <string name="motion4">Confused</string>
+    <string name="motion5">Depressed</string>
+    <string name="motion6">Energetic</string>
+    <string name="motion7">Frisky</string>
+    <string name="motion8">Happy</string>
+    <string name="motion9">Irritated</string>
+    <string name="motion10">Mood Swing</string>
+    <string name="motion11">Obsessive Thoughts</string>
+    <string name="motion12">Feeling Guilty</string>
+    <string name="motion13">Sad</string>
+
+    <string name="symptom1">Abdominal pain</string>
+    <string name="symptom2">Acne</string>
+    <string name="symptom3">Backache</string>
+    <string name="symptom4">Constipation</string>
+    <string name="symptom5">Cramps</string>
+    <string name="symptom6">Craving</string>
+    <string name="symptom7">Diarrhea</string>
+    <string name="symptom8">Fine</string>
+    <string name="symptom9">Fatigue</string>
+    <string name="symptom10">Headache</string>
+    <string name="symptom11">Insomnia</string>
+    <string name="symptom12">Nausea</string>
+    <string name="symptom13">Perineum Pain</string>
+    <string name="symptom14">Swelling</string>
+    <string name="symptom15">Tender Breast</string>
+
+    <string name="physic1">Cycling</string>
+    <string name="physic2">Didn\'t Exercise</string>
+    <string name="physic3">Gym</string>
+    <string name="physic4">Running</string>
+    <string name="physic5">Swimming</string>
+    <string name="physic6">Team Sport</string>
+    <string name="physic7">Yoga</string>
+
+    <string name="ovulation1">Didn\'t take test</string>
+    <string name="ovulation2">Test: Negative</string>
+    <string name="ovulation3">Ovulation: My Method</string>
+    <string name="ovulation4">Test: Positive</string>
+    <string name="moods">Moods</string>
+    <string name="symptoms">Symptoms</string>
+    <string name="physical_activity">Physical Activity</string>
+    <string name="ovulation">Ovulation</string>
 </resources>

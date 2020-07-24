@@ -1,2 +1,2 @@
 include ':app',':calendarview'
-rootProject.name = "PeriodTracked"
+rootProject.name = "PeriodTracker"
