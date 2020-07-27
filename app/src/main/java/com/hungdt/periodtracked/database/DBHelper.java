@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hungdt.periodtracked.model.Paper;
+import com.hungdt.periodtracked.model.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +17,24 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "PeriodTracked.db";
 
-    public static final String TABLE_PERIOD_PAPER = "TB_PERIOD";
+    public static final String TABLE_PERIOD = "TB_PERIOD";
     public static final String COLUMN_ID = "ID_TABLE";
-    public static final String COLUMN_TITLE = "TITLE";
-    public static final String COLUMN_BODY = "BODY";
-    public static final String COLUMN_IMAGE = "IMAGE";
+    public static final String COLUMN_DAY = "TITLE";
+    public static final String COLUMN_TYPE_DAY = "TYPE_DAY";
+    public static final String COLUMN_MOTIONS = "MOTION";
+    public static final String COLUMN_SYMPTOMS = "SYMPTOM";
+    public static final String COLUMN_PHYSICS = "PHYSIC";
+    public static final String COLUMN_OVULATIONS = "OVULATION";
 
 
-    public static final String SQL_CREATE_TABLE_PAPER = "CREATE TABLE " + TABLE_PERIOD_PAPER + "("
+    public static final String SQL_CREATE_TABLE_PAPER = "CREATE TABLE " + TABLE_PERIOD + "("
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COLUMN_TITLE + " INTERGER NOT NULL, "
-            + COLUMN_BODY + " INTEGER NOT NULL, "
-            + COLUMN_IMAGE + " INTEGER NOT NULL " + ");";
+            + COLUMN_DAY + " TEXT NOT NULL, "
+            + COLUMN_TYPE_DAY + " TEXT NOT NULL, "
+            + COLUMN_MOTIONS + " TEXT NOT NULL, "
+            + COLUMN_SYMPTOMS + " TEXT NOT NULL, "
+            + COLUMN_PHYSICS + " TEXT NOT NULL, "
+            + COLUMN_OVULATIONS + " TEXT NOT NULL " + ");";
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -41,35 +47,53 @@ public class DBHelper extends SQLiteOpenHelper {
         return instance;
     }
 
-    public void addPeriodPaper(String title, String body, String image) {
+    public void addPeriodData(String day, String type, String motions,String symptoms,String physics,String ovulations) {
         SQLiteDatabase database = instance.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_TITLE, title);
-        values.put(COLUMN_BODY, body);
-        values.put(COLUMN_IMAGE, image);
+        values.put(COLUMN_DAY, day);
+        values.put(COLUMN_TYPE_DAY, type);
+        values.put(COLUMN_MOTIONS, motions);
+        values.put(COLUMN_SYMPTOMS, symptoms);
+        values.put(COLUMN_PHYSICS, physics);
+        values.put(COLUMN_OVULATIONS, ovulations);
 
-        database.insert(TABLE_PERIOD_PAPER, null, values);
+        database.insert(TABLE_PERIOD, null, values);
         database.close();
     }
 
 
-    public List<Paper> getAllPaper() {
+    public List<Data> getAllData() {
         SQLiteDatabase db = instance.getWritableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SELECT * FROM '%s';", TABLE_PERIOD_PAPER), null);
-        List<Paper> contacts = new ArrayList<>();
+        Cursor cursor = db.rawQuery(String.format("SELECT * FROM '%s';", TABLE_PERIOD), null);
+        List<Data> contacts = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                contacts.add(new Paper(cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_TITLE)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_BODY)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_IMAGE))));
+                contacts.add(new Data(cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_DAY)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_TYPE_DAY)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_MOTIONS)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_SYMPTOMS)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_PHYSICS)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_OVULATIONS))));
                 cursor.moveToNext();
             }
         }
         cursor.close();
         db.close();
         return contacts;
+    }
+
+    public void updatePeriod(String curDay, String type, String motions,String symptoms,String physics,String ovulations) {
+        SQLiteDatabase db = instance.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TYPE_DAY, type);
+        values.put(COLUMN_MOTIONS, motions);
+        values.put(COLUMN_SYMPTOMS, symptoms);
+        values.put(COLUMN_PHYSICS, physics);
+        values.put(COLUMN_OVULATIONS, ovulations);
+        db.update(TABLE_PERIOD, values, COLUMN_DAY + "='" + curDay + "'", null);
+        db.close();
     }
 
     @Override
@@ -79,8 +103,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERIOD_PAPER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERIOD);
     }
+
 
 
 }

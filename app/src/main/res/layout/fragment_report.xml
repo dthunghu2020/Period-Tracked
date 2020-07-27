@@ -90,7 +90,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/_56sdp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -152,7 +152,8 @@
                     android:id="@+id/txtComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp" />
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textSize="13sp" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -163,10 +164,7 @@
             android:elevation="@dimen/_2sdp"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/_5sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:padding="@dimen/_5sdp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -176,7 +174,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_48sdp">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingBottom="@dimen/_4sdp">
 
                 <LinearLayout
                     android:id="@+id/llLog"
@@ -186,36 +186,37 @@
 
                     <ImageView
                         android:id="@+id/imgMotion"
-                        android:layout_width="@dimen/_36sdp"
-                        android:layout_height="@dimen/_36sdp"
-                        android:background="@drawable/zo" />
+                        android:layout_width="@dimen/_48sdp"
+                        android:layout_height="@dimen/_48sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/zo" />
 
                     <ImageView
                         android:id="@+id/imgSymptoms"
-                        android:layout_width="@dimen/_36sdp"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="@dimen/_48sdp"
+                        android:layout_height="@dimen/_48sdp"
+                        android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_no_record_symptom" />
 
                     <ImageView
                         android:id="@+id/imgPhysic"
-                        android:layout_width="@dimen/_36sdp"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="@dimen/_48sdp"
+                        android:layout_height="@dimen/_48sdp"
+                        android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_no_record_exercise" />
 
                     <ImageView
                         android:id="@+id/imgOvulation"
-                        android:layout_width="@dimen/_36sdp"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="@dimen/_48sdp"
+                        android:layout_height="@dimen/_48sdp"
+                        android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_no_record_ovulation" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcvLog"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

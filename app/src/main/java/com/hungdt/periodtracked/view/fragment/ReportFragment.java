@@ -26,6 +26,9 @@ import com.haibin.calendarview.CalendarView;
 import com.haibin.calendarview.TrunkBranchAnnals;
 import com.haibin.calendarview.WeekViewPager;
 import com.hungdt.periodtracked.R;
+import com.hungdt.periodtracked.database.DBHelper;
+import com.hungdt.periodtracked.model.Data;
+import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.utils.MySetting;
 import com.hungdt.periodtracked.view.LogActivity;
 import com.hungdt.periodtracked.view.adapter.LogAdapter;
@@ -34,11 +37,13 @@ import com.hungdt.periodtracked.view.adapter.LogTodayAdapter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
+import static com.hungdt.periodtracked.view.MainActivity.dataList;
 import static com.hungdt.periodtracked.view.MainActivity.motions;
 import static com.hungdt.periodtracked.view.MainActivity.ovulations;
 import static com.hungdt.periodtracked.view.MainActivity.physics;
@@ -53,6 +58,7 @@ public class ReportFragment extends Fragment implements
     private List<com.hungdt.periodtracked.model.Log> logs = new ArrayList<>();
     private LogTodayAdapter logTodayAdapter;
 
+
     TextView txtMonth, txtTitle, txtComment, txtDay, txtCurDay;
     Button btnLog;
     CalendarView mCalendarView;
@@ -60,26 +66,18 @@ public class ReportFragment extends Fragment implements
     RecyclerView rcvLog;
     LinearLayout llLog;
 
-    Date curDate;
-    Date firstDateOfWeek;
-    Date date;
-    Date firstDate;
-    int beginRed = 0;
-    int endRed = 0;
-    int beginEgg = 0;
-    int endEgg = 0;
-    int eggDay = 0;
-    int periodCircle;
-    int periodLength;
-    String beginDay;
+    Date curDate, firstDateOfWeek, date, firstDate;
+    int beginRed = 0, endRed = 0, beginEgg = 0, endEgg = 0, eggDay = 0;
+    int periodCircle, periodLength;
+    String beginDay, curDay;
     int beginDayNumber;
     int flagPrediction = 0;
-    boolean flagIsLate = false;
-
-    int todayNumber;
-    java.util.Calendar calendar = java.util.Calendar.getInstance();
-
     boolean isVisible = true;
+    boolean flagIsLate = false;
+    int todayNumber;
+    int curDayNumber;
+
+    java.util.Calendar calendar = java.util.Calendar.getInstance();
 
 
     SimpleDateFormat sdfMyDate = new SimpleDateFormat("dd-MM-yyyy");
@@ -106,28 +104,22 @@ public class ReportFragment extends Fragment implements
         beginDay = MySetting.getFirstDay(getActivity());
         periodCircle = MySetting.getPeriodCircle(getActivity());
         periodLength = MySetting.getPeriodLength(getActivity());
+
+
         Log.e("123", "onViewCreated: " + beginDay + " " + periodCircle + " " + periodLength);
-        //mCalendarView.setOnYearChangeListener(this);
         mCalendarView.setOnCalendarSelectListener(this);
         mCalendarView.setOnMonthChangeListener(this);
-        //mCalendarView.setOnCalendarLongClickListener(this, true);
         mCalendarView.setOnWeekChangeListener(this);
-        //mCalendarView.setOnYearViewChangeListener(this);
-
-        //设置日期拦截事件，仅适用单选模式，当前无效
-        //Đặt ngày để chặn sự kiện, chỉ áp dụng cho chế độ chọn một lần, hiện không hợp lệ
-        //mCalendarView.setOnCalendarInterceptListener(this);
 
         mCalendarView.setOnViewChangeListener(this);
 
-
-        rcvLog.setLayoutManager( new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-        logTodayAdapter = new LogTodayAdapter(getContext(),logs);
+        rcvLog.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        logTodayAdapter = new LogTodayAdapter(getContext(), logs);
         rcvLog.setAdapter(logTodayAdapter);
 
         txtMonth.setText("Month " + mCalendarView.getCurMonth());
-        String weekDay="";
-        switch (mCalendarView.getSelectedCalendar().getWeek()){
+        String weekDay = "";
+        switch (mCalendarView.getSelectedCalendar().getWeek()) {
             case 0:
                 weekDay = getString(R.string.sun_day);
                 break;
@@ -151,7 +143,44 @@ public class ReportFragment extends Fragment implements
                 break;
         }
 
-        txtCurDay.setText(weekDay+", "+ mCalendarView.getCurDay() + " month " + mCalendarView.getCurMonth());
+        txtCurDay.setText(weekDay + ", " + mCalendarView.getCurDay() + " month " + mCalendarView.getCurMonth());
+        curDay = mCalendarView.getCurDay() + "-" + mCalendarView.getCurMonth() + "-" + mCalendarView.getCurYear();
+        for (int i = 0; i < dataList.size(); i++) {
+            if (dataList.get(i).getDay().equals(curDay)) {
+                String[] idsM = dataList.get(i).getIdMotion().split(" ");
+                String[] idsS = dataList.get(i).getIdSymptom().split(" ");
+                String[] idsP = dataList.get(i).getIdPhysic().split(" ");
+                String[] idsO = dataList.get(i).getIdOvulation().split(" ");
+                for (String s : idsM) {
+                    if (!s.trim().equals("")) {
+                        logs.add(motions.get(Integer.parseInt(s.trim())));
+                    }
+                }
+                for (String s : idsS) {
+                    if (!s.trim().equals("")) {
+                        logs.add(symptoms.get(Integer.parseInt(s.trim())));
+                    }
+                }
+                for (String s : idsP) {
+                    if (!s.trim().equals("")) {
+                        logs.add(physics.get(Integer.parseInt(s.trim())));
+                    }
+                }
+                for (String s : idsO) {
+                    if (!s.trim().equals("")) {
+                        logs.add(ovulations.get(Integer.parseInt(s.trim())));
+                    }
+                }
+            }
+        }
+        if (logs.size() > 0) {
+            rcvLog.setVisibility(View.VISIBLE);
+            llLog.setVisibility(View.INVISIBLE);
+            logTodayAdapter.notifyDataSetChanged();
+        } else {
+            rcvLog.setVisibility(View.INVISIBLE);
+            llLog.setVisibility(View.VISIBLE);
+        }
 
         Log.e("HDT0309", "firstDateOfWeek " + mCalendarView.getCurrentWeekCalendars().get(0));
         ///////////// Convert Date
@@ -183,7 +212,7 @@ public class ReportFragment extends Fragment implements
             if (todayNumber >= beginDayNumber + periodCircle) {
                 flagIsLate = true;
             }
-            int curDayNumber = countNumberDay(mCalendarView.getCurYear(), mCalendarView.getCurMonth(), mCalendarView.getCurDay());
+            curDayNumber = countNumberDay(mCalendarView.getCurYear(), mCalendarView.getCurMonth(), mCalendarView.getCurDay());
             //If not late
             if (!flagIsLate) {
                 java.util.Calendar calendar = java.util.Calendar.getInstance();
@@ -280,7 +309,14 @@ public class ReportFragment extends Fragment implements
         btnLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().startActivity(new Intent(getContext(), LogActivity.class));
+                Log.e("321", "onClick: "+curDayNumber+" "+todayNumber );
+                if (curDayNumber > todayNumber) {
+                    Toast.makeText(getContext(), "Can add in future!!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getContext(), LogActivity.class);
+                    intent.putExtra(KEY.CURDAY, curDay);
+                    getContext().startActivity(intent);
+                }
             }
         });
 
@@ -292,35 +328,46 @@ public class ReportFragment extends Fragment implements
         @Override
         public void onReceive(Context context, Intent intent) {
             logs.clear();
-            for(int i = 0; i< motions.size();i++){
-                if(motions.get(i).isChecked()){
-                    logs.add(motions.get(i));
+            int position = intent.getIntExtra(KEY.POSITION, -1);
+            Data data;
+            if (position == -1) {
+                data = dataList.get(dataList.size() - 1);
+            } else {
+                data = dataList.get(position);
+            }
+            String[] idsM = data.getIdMotion().split(" ");
+            String[] idsS = data.getIdSymptom().split(" ");
+            String[] idsP = data.getIdPhysic().split(" ");
+            String[] idsO = data.getIdOvulation().split(" ");
+
+            for (String s : idsM) {
+                if (!s.trim().equals("")) {
+                    logs.add(motions.get(Integer.parseInt(s.trim())));
                 }
             }
-            for(int i = 0; i< symptoms.size();i++){
-                if(symptoms.get(i).isChecked()){
-                    logs.add(symptoms.get(i));
+            for (String s : idsS) {
+                if (!s.trim().equals("")) {
+                    logs.add(symptoms.get(Integer.parseInt(s.trim())));
                 }
             }
-            for(int i = 0; i< physics.size();i++){
-                if(physics.get(i).isChecked()){
-                    logs.add(physics.get(i));
+            for (String s : idsP) {
+                if (!s.trim().equals("")) {
+                    logs.add(physics.get(Integer.parseInt(s.trim())));
                 }
             }
-            for(int i = 0; i< ovulations.size();i++){
-                if(ovulations.get(i).isChecked()){
-                    logs.add(ovulations.get(i));
+            for (String s : idsO) {
+                if (!s.trim().equals("")) {
+                    logs.add(ovulations.get(Integer.parseInt(s.trim())));
                 }
             }
-            if(logs.size()>0){
+            if (logs.size() > 0) {
                 rcvLog.setVisibility(View.VISIBLE);
                 llLog.setVisibility(View.INVISIBLE);
                 logTodayAdapter.notifyDataSetChanged();
-            }else {
+            } else {
                 rcvLog.setVisibility(View.INVISIBLE);
                 llLog.setVisibility(View.VISIBLE);
             }
-
         }
     };
 
@@ -351,8 +398,8 @@ public class ReportFragment extends Fragment implements
 
         //Thay đổi text dòng trên hiển thị ngày tháng năm
         txtMonth.setText("Month " + calendar.getMonth());
-        String weekDay="";
-        switch (calendar.getWeek()){
+        String weekDay = "";
+        switch (calendar.getWeek()) {
             case 0:
                 weekDay = getString(R.string.sun_day);
                 break;
@@ -375,7 +422,46 @@ public class ReportFragment extends Fragment implements
                 weekDay = getString(R.string.satur_day);
                 break;
         }
-        txtCurDay.setText(weekDay+", "+ calendar.getDay() + " month " + calendar.getMonth());
+        txtCurDay.setText(weekDay + ", " + calendar.getDay() + " month " + calendar.getMonth());
+        curDay = calendar.getDay() + "-" + calendar.getMonth() + "-" + calendar.getYear();
+        Log.e("321", "onCalendarSelect: "+curDay );
+        logs.clear();
+        for (int i = 0; i < dataList.size(); i++) {
+            if (dataList.get(i).getDay().equals(curDay)) {
+                String[] idsM = dataList.get(i).getIdMotion().split(" ");
+                String[] idsS = dataList.get(i).getIdSymptom().split(" ");
+                String[] idsP = dataList.get(i).getIdPhysic().split(" ");
+                String[] idsO = dataList.get(i).getIdOvulation().split(" ");
+                for (String s : idsM) {
+                    if (!s.trim().equals("")) {
+                        logs.add(motions.get(Integer.parseInt(s.trim())));
+                    }
+                }
+                for (String s : idsS) {
+                    if (!s.trim().equals("")) {
+                        logs.add(symptoms.get(Integer.parseInt(s.trim())));
+                    }
+                }
+                for (String s : idsP) {
+                    if (!s.trim().equals("")) {
+                        logs.add(physics.get(Integer.parseInt(s.trim())));
+                    }
+                }
+                for (String s : idsO) {
+                    if (!s.trim().equals("")) {
+                        logs.add(ovulations.get(Integer.parseInt(s.trim())));
+                    }
+                }
+            }
+        }
+        if (logs.size() > 0) {
+            rcvLog.setVisibility(View.VISIBLE);
+            llLog.setVisibility(View.INVISIBLE);
+            logTodayAdapter.notifyDataSetChanged();
+        } else {
+            rcvLog.setVisibility(View.INVISIBLE);
+            llLog.setVisibility(View.VISIBLE);
+        }
 
         if (!beginDay.equals(getString(R.string.not_sure))) {
             String curDateString = calendar.toString();
@@ -392,7 +478,7 @@ public class ReportFragment extends Fragment implements
                 e.printStackTrace();
             }
             Log.e("HDT0309", "curDate " + curDate); //Oke
-            int curDayNumber = countNumberDay(Integer.parseInt(sdfYeah.format(curDate)), Integer.parseInt(sdfMonth.format(curDate)), Integer.parseInt(sdfDay.format(curDate)));
+            curDayNumber = countNumberDay(Integer.parseInt(sdfYeah.format(curDate)), Integer.parseInt(sdfMonth.format(curDate)), Integer.parseInt(sdfDay.format(curDate)));
 
             if (curDayNumber >= beginDayNumber) {
                 if (!flagIsLate) {
@@ -580,14 +666,14 @@ public class ReportFragment extends Fragment implements
                             }
                         }
                     } else {
-                        if(curDayNumber>todayNumber){
+                        if (curDayNumber > todayNumber) {
                             if (isVisible) {
                                 isVisible = false;
                                 txtDay.setVisibility(View.GONE);
                                 txtComment.setVisibility(View.GONE);
                             }
                             txtTitle.setText("Log your periods\nfor better predictions");
-                        }else {
+                        } else {
                             if (!isVisible) {
                                 isVisible = true;
                                 txtDay.setVisibility(View.VISIBLE);

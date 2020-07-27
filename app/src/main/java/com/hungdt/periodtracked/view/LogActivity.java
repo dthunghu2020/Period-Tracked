@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,17 +14,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungdt.periodtracked.R;
+import com.hungdt.periodtracked.database.DBHelper;
+import com.hungdt.periodtracked.model.Data;
 import com.hungdt.periodtracked.model.Log;
+import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.view.adapter.LogAdapter;
 import com.hungdt.periodtracked.view.fragment.ReportFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hungdt.periodtracked.view.MainActivity.dataList;
 import static com.hungdt.periodtracked.view.MainActivity.motions;
 import static com.hungdt.periodtracked.view.MainActivity.ovulations;
 import static com.hungdt.periodtracked.view.MainActivity.physics;
-import static com.hungdt.periodtracked.view.MainActivity.setData;
 import static com.hungdt.periodtracked.view.MainActivity.symptoms;
 
 public class LogActivity extends AppCompatActivity {
@@ -36,9 +40,15 @@ public class LogActivity extends AppCompatActivity {
     List<Log> physicss = new ArrayList<>();
     List<Log> ovulationss = new ArrayList<>();
 
-    RecyclerView rcvMotion,rcvPhysic,rcvSymptom,rcvOvulation;
+    TextView txtDayTitle;
+    RecyclerView rcvMotion, rcvPhysic, rcvSymptom, rcvOvulation;
     Button btnSave;
     ImageView imgBack;
+
+    int position = -1;
+    boolean haveData = false;
+     String curDay;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,73 +60,77 @@ public class LogActivity extends AppCompatActivity {
         rcvPhysic = findViewById(R.id.rcvPhysic);
         rcvOvulation = findViewById(R.id.rcvOvulation);
         btnSave = findViewById(R.id.btnSave);
+        txtDayTitle = findViewById(R.id.txtDayTitle);
 
-        if(!setData){
-            motions.add(new Log(R.drawable.calm,R.string.motion3,false));
-            motions.add(new Log(R.drawable.happy,R.string.motion8,false));
-            motions.add(new Log(R.drawable.energetic,R.string.motion6,false));
-            motions.add(new Log(R.drawable.frisky,R.string.motion7,false));
-            motions.add(new Log(R.drawable.mood_swing,R.string.motion10,false));
-            motions.add(new Log(R.drawable.irritated,R.string.motion9,false));
-            motions.add(new Log(R.drawable.sad,R.string.motion13,false));
-            motions.add(new Log(R.drawable.anxious,R.string.motion1,false));
-            motions.add(new Log(R.drawable.depressed,R.string.motion5,false));
-            motions.add(new Log(R.drawable.feeling_guilty,R.string.motion12,false));
-            motions.add(new Log(R.drawable.obsessive_thoughts,R.string.motion11,false));
-            motions.add(new Log(R.drawable.apathetic,R.string.motion2,false));
-            motions.add(new Log(R.drawable.confused,R.string.motion4,false));
-
-            symptoms.add(new Log(R.drawable.fine,R.string.symptom8,false));
-            symptoms.add(new Log(R.drawable.cramps,R.string.symptom5,false));
-            symptoms.add(new Log(R.drawable.tender_breast,R.string.symptom15,false));
-            symptoms.add(new Log(R.drawable.headache,R.string.symptom10,false));
-            symptoms.add(new Log(R.drawable.acne,R.string.symptom2,false));
-            symptoms.add(new Log(R.drawable.backache,R.string.symptom3,false));
-            symptoms.add(new Log(R.drawable.nausea,R.string.symptom12,false));
-            symptoms.add(new Log(R.drawable.fatigue,R.string.symptom9,false));
-            symptoms.add(new Log(R.drawable.craving,R.string.symptom6,false));
-            symptoms.add(new Log(R.drawable.insomnia,R.string.symptom11,false));
-            symptoms.add(new Log(R.drawable.constipation,R.string.symptom4,false));
-            symptoms.add(new Log(R.drawable.diarrhea,R.string.symptom7,false));
-            symptoms.add(new Log(R.drawable.abdominal_pain,R.string.symptom1,false));
-            symptoms.add(new Log(R.drawable.perineum_pain,R.string.symptom13,false));
-            symptoms.add(new Log(R.drawable.swelling,R.string.symptom14,false));
-
-            physics.add(new Log(R.drawable.didnt_excercise,R.string.physic2,false));
-            physics.add(new Log(R.drawable.running,R.string.physic4,false));
-            physics.add(new Log(R.drawable.cycling,R.string.physic1,false));
-            physics.add(new Log(R.drawable.gym,R.string.physic3,false));
-            physics.add(new Log(R.drawable.yoga,R.string.physic7,false));
-            physics.add(new Log(R.drawable.team_sport,R.string.physic6,false));
-            physics.add(new Log(R.drawable.swimming,R.string.physic5,false));
-
-            ovulations.add(new Log(R.drawable.didnot_take_test,R.string.ovulation1,false));
-            ovulations.add(new Log(R.drawable.positive,R.string.ovulation4,false));
-            ovulations.add(new Log(R.drawable.negative,R.string.ovulation2,false));
-            ovulations.add(new Log(R.drawable.ovulation_my_method,R.string.ovulation3,false));
-
-            setData=true;
-        }
         motionss.addAll(motions);
         symptomss.addAll(symptoms);
         physicss.addAll(physics);
         ovulationss.addAll(ovulations);
+        for(int i = 0; i<motions.size();i++){
+            android.util.Log.e("111", "onCreate: "+motions.get(i).isChecked());
+        }for(int i = 0; i<symptoms.size();i++){
+            android.util.Log.e("111", "onCreate: "+symptoms.get(i).isChecked());
+        }for(int i = 0; i<physics.size();i++){
+            android.util.Log.e("111", "onCreate: "+physics.get(i).isChecked());
+        }for(int i = 0; i<ovulations.size();i++){
+            android.util.Log.e("111", "onCreate: "+ovulations.get(i).isChecked());
+        }
+
+        curDay = getIntent().getStringExtra(KEY.CURDAY);
+        txtDayTitle.setText(curDay);
+        Data data = null;
+        for (int i = 0; i < dataList.size(); i++) {
+            if (dataList.get(i).getDay().equals(curDay)) {
+                data = dataList.get(i);
+                position = i;
+                break;
+            }
+        }
+        if (data != null) {
+            haveData = true;
+            String[] idsM = data.getIdMotion().split(" ");
+            String[] idsS = data.getIdSymptom().split(" ");
+            String[] idsP = data.getIdPhysic().split(" ");
+            String[] idsO = data.getIdOvulation().split(" ");
 
 
-        rcvMotion.setLayoutManager( new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        motionAdapter = new LogAdapter(this,motionss);
+            for (String s : idsM) {
+                if (!s.trim().equals("")) {
+                    motionss.get(Integer.parseInt(s)).setChecked(true);
+                }
+            }
+            for (String s : idsS) {
+                if (!s.trim().equals("")) {
+                    symptomss.get(Integer.parseInt(s)).setChecked(true);
+                }
+            }
+            for (String s : idsP) {
+                if (!s.trim().equals("")) {
+                    physicss.get(Integer.parseInt(s)).setChecked(true);
+                }
+            }
+            for (String s : idsO) {
+                if (!s.trim().equals("")) {
+                    ovulationss.get(Integer.parseInt(s)).setChecked(true);
+                }
+            }
+        }
+
+
+        rcvMotion.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        motionAdapter = new LogAdapter(this, motionss);
         rcvMotion.setAdapter(motionAdapter);
 
-        rcvSymptom.setLayoutManager( new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        symptomAdapter = new LogAdapter(this,symptomss);
+        rcvSymptom.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        symptomAdapter = new LogAdapter(this, symptomss);
         rcvSymptom.setAdapter(symptomAdapter);
 
-        rcvPhysic.setLayoutManager( new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        physicAdapter = new LogAdapter(this,physicss);
+        rcvPhysic.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        physicAdapter = new LogAdapter(this, physicss);
         rcvPhysic.setAdapter(physicAdapter);
 
-        rcvOvulation.setLayoutManager( new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        ovulationAdapter = new LogAdapter(this,ovulationss);
+        rcvOvulation.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        ovulationAdapter = new LogAdapter(this, ovulationss);
         rcvOvulation.setAdapter(ovulationAdapter);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -129,18 +143,55 @@ public class LogActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                motions.clear();
-                symptoms.clear();
-                physics.clear();
-                ovulations.clear();
-                motions.addAll(motionss);
-                symptoms.addAll(symptomss);
-                physics.addAll(physicss);
-                ovulations.addAll(ovulationss);
-                Toast.makeText(LogActivity.this, "Save success", Toast.LENGTH_SHORT).show();
-                sendBroadcast(new Intent(ReportFragment.ACTION_UPDATE_LOG));
+                String mId = "";
+                String sId = "";
+                String pId = "";
+                String oId = "";
+                for (int i = 0; i < motionss.size(); i++) {
+                    if (motionss.get(i).isChecked()) {
+                        String text = mId + " " + i;
+                        mId = text;
+                    }
+                }
+                for (int i = 0; i < symptomss.size(); i++) {
+                    if (symptomss.get(i).isChecked()) {
+                        String text = sId + " " + i;
+                        sId = text;
+                    }
+                }
+                for (int i = 0; i < physicss.size(); i++) {
+                    if (physicss.get(i).isChecked()) {
+                        String text = pId + " " + i;
+                        pId = text;
+                    }
+                }
+                for (int i = 0; i < ovulationss.size(); i++) {
+                    if (ovulationss.get(i).isChecked()) {
+                        String text = oId + " " + i;
+                        oId = text;
+                    }
+                }
+                if (position == -1) {
+                    dataList.add(new Data("id", curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim()));
+                    DBHelper.getInstance(LogActivity.this).addPeriodData(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim());
+                    position = dataList.size() - 1;
+                } else {
+                    dataList.get(position).setIdMotion(mId.trim());
+                    dataList.get(position).setIdSymptom(sId.trim());
+                    dataList.get(position).setIdPhysic(pId.trim());
+                    dataList.get(position).setIdOvulation(oId.trim());
+                    DBHelper.getInstance(LogActivity.this).updatePeriod(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim());
+                }
+
+
+                Toast.makeText(LogActivity.this, "Save success!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ReportFragment.ACTION_UPDATE_LOG);
+                intent.putExtra(KEY.POSITION, position);
+                sendBroadcast(intent);
             }
         });
+
+
     }
 
 }
