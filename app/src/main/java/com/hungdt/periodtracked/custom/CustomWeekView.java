@@ -174,14 +174,14 @@ public class CustomWeekView extends WeekView {
         }
 
         if (calendar.isWeekend() && calendar.isCurrentMonth()) {
-            mCurMonthTextPaint.setColor(0xFF489dff);
+            mCurMonthTextPaint.setColor(0xFFffffff); //weekend
             //mCurMonthLunarTextPaint.setColor(0xFF489dff);
             //mSchemeTextPaint.setColor(0xFF489dff);
             //mSchemeLunarTextPaint.setColor(0xFF489dff);
             //mOtherMonthLunarTextPaint.setColor(0xFF489dff);
             //mOtherMonthTextPaint.setColor(0xFF489dff);
         } else {
-            mCurMonthTextPaint.setColor(0xff333333);
+            mCurMonthTextPaint.setColor(0xffffffff); //day normal
             //mCurMonthLunarTextPaint.setColor(0xffCFCFCF);
            // mSchemeTextPaint.setColor(0xff333333);
             //mSchemeLunarTextPaint.setColor(0xffCFCFCF);

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/color_bg"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,145 +33,154 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:weightSum="4"
-        android:background="@color/color_bg"
-        android:padding="@dimen/_6sdp"
+    <ScrollView
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:elevation="@dimen/_2sdp"
-            android:background="@drawable/shape_log"
-            android:layout_margin="@dimen/_6sdp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/color_bg"
             android:orientation="vertical"
-            android:padding="@dimen/_6sdp"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/txtMoods"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="@string/moods"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:padding="@dimen/_4sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/txtMoods"
-                android:id="@+id/rcvMotion"
-                android:padding="@dimen/_2sdp"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:elevation="@dimen/_2sdp"
-            android:background="@drawable/shape_log"
-            android:layout_margin="@dimen/_6sdp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:padding="@dimen/_6sdp"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/txtSymptom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="@string/symptoms"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_log"
+                android:elevation="@dimen/_2sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_4sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/txtSymptom"
-                android:id="@+id/rcvSymptom"
-                android:padding="@dimen/_2sdp"
+                <TextView
+                    android:id="@+id/txtMoods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="@string/moods"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvMotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:padding="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtMoods" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:elevation="@dimen/_2sdp"
-            android:background="@drawable/shape_log"
-            android:layout_margin="@dimen/_6sdp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:padding="@dimen/_6sdp"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/txtPhysic"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="@string/physical_activity"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_log"
+                android:elevation="@dimen/_2sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_4sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/txtPhysic"
-                android:id="@+id/rcvPhysic"
-                android:padding="@dimen/_2sdp"
+                <TextView
+                    android:id="@+id/txtSymptom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="@string/symptoms"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvSymptom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:padding="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtSymptom" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:elevation="@dimen/_2sdp"
-            android:background="@drawable/shape_log"
-            android:layout_margin="@dimen/_6sdp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:padding="@dimen/_6sdp"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/txtOvulation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="@string/ovulation"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_log"
+                android:elevation="@dimen/_2sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_4sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/txtOvulation"
-                android:id="@+id/rcvOvulation"
-                android:padding="@dimen/_2sdp"
+                <TextView
+                    android:id="@+id/txtPhysic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="@string/physical_activity"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvPhysic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:padding="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtPhysic" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_log"
+                android:elevation="@dimen/_2sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_4sdp">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/txtOvulation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="@string/ovulation"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvOvulation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:padding="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtOvulation" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
     <Button
         android:id="@+id/btnSave"

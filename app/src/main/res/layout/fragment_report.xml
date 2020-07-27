@@ -49,56 +49,54 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.haibin.calendarview.CalendarLayout
+        android:id="@+id/calendarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/_2sdp"
+        android:paddingEnd="@dimen/_2sdp"
+        app:calendar_content_view_id="@+id/nestedScrollView"
+        app:calendar_show_mode="only_week_view"
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
+
+        <com.haibin.calendarview.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            app:current_day_lunar_text_color="#ff0000"
+            app:current_day_text_color="#ff0000"
+            app:current_month_text_color="#333333"
+            app:max_year="2050"
+            app:max_year_day="31"
+            app:max_year_month="12"
+            app:min_year="2008"
+            app:min_year_day="1"
+            app:min_year_month="1"
+            app:selected_text_color="@color/violet"
+            app:selected_theme_color="@color/white"
+            app:week_bar_height="@dimen/_12sdp"
+            app:week_bar_view="com.hungdt.periodtracked.custom.CustomWeekBar"
+            app:week_line_background="#00000000"
+            app:week_start_with="sun"
+            app:week_text_size="30sp"
+            app:week_view="com.hungdt.periodtracked.custom.CustomWeekView">
+
+        </com.haibin.calendarview.CalendarView>
+
+    </com.haibin.calendarview.CalendarLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        tools:context="com.haibin.calendarviewproject.MainActivity"
-        tools:ignore="RtlHardcoded,HardcodedText,RtlSymmetry,SmallSp">
-
-
-        <com.haibin.calendarview.CalendarLayout
-            android:id="@+id/calendarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/_2sdp"
-            android:paddingEnd="@dimen/_2sdp"
-            app:calendar_content_view_id="@+id/nestedScrollView"
-            app:calendar_show_mode="only_week_view">
-
-            <com.haibin.calendarview.CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                app:current_day_lunar_text_color="#ff0000"
-                app:current_day_text_color="#ff0000"
-                app:current_month_text_color="#333333"
-                app:max_year="2050"
-                app:max_year_day="31"
-                app:max_year_month="12"
-                app:min_year="2008"
-                app:min_year_day="1"
-                app:min_year_month="1"
-                app:selected_text_color="@color/violet"
-                app:selected_theme_color="@color/white"
-                app:week_bar_height="@dimen/_12sdp"
-                app:week_bar_view="com.hungdt.periodtracked.custom.CustomWeekBar"
-                app:week_line_background="#00000000"
-                app:week_start_with="sun"
-                app:week_text_size="30sp"
-                app:week_view="com.hungdt.periodtracked.custom.CustomWeekView">
-
-            </com.haibin.calendarview.CalendarView>
-
-        </com.haibin.calendarview.CalendarLayout>
+        android:gravity="center"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lav_ring"
@@ -111,16 +109,18 @@
                 app:lottie_fileName="lottie/main_bubble/data.json"
                 app:lottie_imageAssetsFolder="lottie/main_bubble/images"
                 app:lottie_loop="true" />
+
             <TextView
                 android:id="@+id/txtCurDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_60sdp"
                 android:textColor="@color/black"
                 android:textSize="10sp"
-                android:layout_marginTop="@dimen/_60sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <LinearLayout
                 android:layout_width="@dimen/_210sdp"
                 android:layout_height="@dimen/_210sdp"
@@ -154,78 +154,85 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp" />
             </LinearLayout>
-            <LinearLayout
-                android:elevation="@dimen/_2sdp"
-                android:padding="@dimen/_5sdp"
-                android:background="@drawable/shape_log"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lav_ring"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="@dimen/_280sdp"
-                android:gravity="center"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"
-                    android:text="Log Weight, Symptoms And More" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_60sdp">
-                    <LinearLayout
-                        android:id="@+id/llLog"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <ImageView
-                            android:id="@+id/imgMotion"
-                            android:background="@drawable/zo"
-                            android:layout_width="@dimen/_48sdp"
-                            android:layout_height="@dimen/_48sdp"/>
-                        <ImageView
-                            android:id="@+id/imgSymptoms"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:src="@drawable/ic_no_record_symptom"
-                            android:layout_width="@dimen/_48sdp"
-                            android:layout_height="@dimen/_48sdp"/>
-                        <ImageView
-                            android:id="@+id/imgPhysic"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:src="@drawable/ic_no_record_exercise"
-                            android:layout_width="@dimen/_48sdp"
-                            android:layout_height="@dimen/_48sdp"/>
-                        <ImageView
-                            android:id="@+id/imgOvulation"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:src="@drawable/ic_no_record_ovulation"
-                            android:layout_width="@dimen/_48sdp"
-                            android:layout_height="@dimen/_48sdp"/>
-                    </LinearLayout>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcvLog"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <Button
-                    android:id="@+id/btnLog"
-                    android:text="ADD NOTE"
-                    android:textColor="@color/white"
-                    android:layout_width="@dimen/_200sdp"
-                    android:background="@drawable/shape_bg_button"
-                    android:layout_height="@dimen/_30sdp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"/>
-            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:layout_width="@dimen/_256sdp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_log"
+            android:elevation="@dimen/_2sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Weight, Symptoms And More"
+                android:textColor="@color/black" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_48sdp">
+
+                <LinearLayout
+                    android:id="@+id/llLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imgMotion"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:background="@drawable/zo" />
+
+                    <ImageView
+                        android:id="@+id/imgSymptoms"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/ic_no_record_symptom" />
+
+                    <ImageView
+                        android:id="@+id/imgPhysic"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/ic_no_record_exercise" />
+
+                    <ImageView
+                        android:id="@+id/imgOvulation"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/ic_no_record_ovulation" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvLog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnLog"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/shape_bg_button"
+                android:text="ADD NOTE"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
