@@ -1,5 +1,6 @@
 package com.hungdt.periodtracked.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,24 +22,24 @@ import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.view.adapter.LogAdapter;
 import com.hungdt.periodtracked.view.fragment.ReportFragment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.hungdt.periodtracked.view.MainActivity.dataList;
-import static com.hungdt.periodtracked.view.MainActivity.motions;
-import static com.hungdt.periodtracked.view.MainActivity.ovulations;
-import static com.hungdt.periodtracked.view.MainActivity.physics;
-import static com.hungdt.periodtracked.view.MainActivity.symptoms;
 
 public class LogActivity extends AppCompatActivity {
     LogAdapter motionAdapter;
     LogAdapter symptomAdapter;
     LogAdapter physicAdapter;
     LogAdapter ovulationAdapter;
-    List<Log> motionss = new ArrayList<>();
-    List<Log> symptomss = new ArrayList<>();
-    List<Log> physicss = new ArrayList<>();
-    List<Log> ovulationss = new ArrayList<>();
+    List<Log> motionList = new ArrayList<>();
+    List<Log> symptomList = new ArrayList<>();
+    List<Log> physicList = new ArrayList<>();
+    List<Log> ovulationList = new ArrayList<>();
 
     TextView txtDayTitle;
     RecyclerView rcvMotion, rcvPhysic, rcvSymptom, rcvOvulation;
@@ -47,8 +48,9 @@ public class LogActivity extends AppCompatActivity {
 
     int position = -1;
     boolean haveData = false;
-     String curDay;
+    String curDay;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,75 +64,158 @@ public class LogActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         txtDayTitle = findViewById(R.id.txtDayTitle);
 
-        motionss.addAll(motions);
-        symptomss.addAll(symptoms);
-        physicss.addAll(physics);
-        ovulationss.addAll(ovulations);
-        for(int i = 0; i<motions.size();i++){
-            android.util.Log.e("111", "onCreate: "+motions.get(i).isChecked());
-        }for(int i = 0; i<symptoms.size();i++){
-            android.util.Log.e("111", "onCreate: "+symptoms.get(i).isChecked());
-        }for(int i = 0; i<physics.size();i++){
-            android.util.Log.e("111", "onCreate: "+physics.get(i).isChecked());
-        }for(int i = 0; i<ovulations.size();i++){
-            android.util.Log.e("111", "onCreate: "+ovulations.get(i).isChecked());
+        motionList.add(new Log(R.drawable.calm, R.string.motion01, false));
+        motionList.add(new Log(R.drawable.happy, R.string.motion02, false));
+        motionList.add(new Log(R.drawable.energetic, R.string.motion03, false));
+        motionList.add(new Log(R.drawable.frisky, R.string.motion04, false));
+        motionList.add(new Log(R.drawable.mood_swing, R.string.motion05, false));
+        motionList.add(new Log(R.drawable.irritated, R.string.motion06, false));
+        motionList.add(new Log(R.drawable.sad, R.string.motion07, false));
+        motionList.add(new Log(R.drawable.anxious, R.string.motion08, false));
+        motionList.add(new Log(R.drawable.depressed, R.string.motion09, false));
+        motionList.add(new Log(R.drawable.feeling_guilty, R.string.motion10, false));
+        motionList.add(new Log(R.drawable.obsessive_thoughts, R.string.motion11, false));
+        motionList.add(new Log(R.drawable.apathetic, R.string.motion12, false));
+        motionList.add(new Log(R.drawable.confused, R.string.motion13, false));
+
+        symptomList.add(new Log(R.drawable.fine, R.string.symptom01, false));
+        symptomList.add(new Log(R.drawable.cramps, R.string.symptom02, false));
+        symptomList.add(new Log(R.drawable.tender_breast, R.string.symptom03, false));
+        symptomList.add(new Log(R.drawable.headache, R.string.symptom04, false));
+        symptomList.add(new Log(R.drawable.acne, R.string.symptom05, false));
+        symptomList.add(new Log(R.drawable.backache, R.string.symptom06, false));
+        symptomList.add(new Log(R.drawable.nausea, R.string.symptom07, false));
+        symptomList.add(new Log(R.drawable.fatigue, R.string.symptom08, false));
+        symptomList.add(new Log(R.drawable.craving, R.string.symptom09, false));
+        symptomList.add(new Log(R.drawable.insomnia, R.string.symptom10, false));
+        symptomList.add(new Log(R.drawable.constipation, R.string.symptom11, false));
+        symptomList.add(new Log(R.drawable.diarrhea, R.string.symptom12, false));
+        symptomList.add(new Log(R.drawable.abdominal_pain, R.string.symptom13, false));
+        symptomList.add(new Log(R.drawable.perineum_pain, R.string.symptom14, false));
+        symptomList.add(new Log(R.drawable.swelling, R.string.symptom15, false));
+
+        physicList.add(new Log(R.drawable.didnt_excercise, R.string.physic01, false));
+        physicList.add(new Log(R.drawable.running, R.string.physic02, false));
+        physicList.add(new Log(R.drawable.cycling, R.string.physic03, false));
+        physicList.add(new Log(R.drawable.gym, R.string.physic04, false));
+        physicList.add(new Log(R.drawable.yoga, R.string.physic05, false));
+        physicList.add(new Log(R.drawable.team_sport, R.string.physic06, false));
+        physicList.add(new Log(R.drawable.swimming, R.string.physic07, false));
+
+        ovulationList.add(new Log(R.drawable.didnot_take_test, R.string.ovulation1, false));
+        ovulationList.add(new Log(R.drawable.positive, R.string.ovulation2, false));
+        ovulationList.add(new Log(R.drawable.negative, R.string.ovulation3, false));
+        ovulationList.add(new Log(R.drawable.ovulation_my_method, R.string.ovulation4, false));
+
+
+        @SuppressLint("SimpleDateFormat") DateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") DateFormat sdfMonth = new SimpleDateFormat("MM");
+        @SuppressLint("SimpleDateFormat") DateFormat sdfDay = new SimpleDateFormat("dd");
+        @SuppressLint("SimpleDateFormat") DateFormat sdfYear = new SimpleDateFormat("yyyy");
+        curDay = getIntent().getStringExtra(KEY.CURDAY);
+        Date date = new Date();
+        try {
+            date = sdfDate.parse(curDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        curDay = getIntent().getStringExtra(KEY.CURDAY);
-        txtDayTitle.setText(curDay);
+        assert date != null;
+        switch (Integer.parseInt(sdfMonth.format(date))) {
+            case 1:
+                txtDayTitle.setText(getResources().getString(R.string.january) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 2:
+                txtDayTitle.setText(getResources().getString(R.string.february) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 3:
+                txtDayTitle.setText(getResources().getString(R.string.march) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 4:
+                txtDayTitle.setText(getResources().getString(R.string.april) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 5:
+                txtDayTitle.setText(getResources().getString(R.string.may) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 6:
+                txtDayTitle.setText(getResources().getString(R.string.june) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 7:
+                txtDayTitle.setText(getResources().getString(R.string.july) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 8:
+                txtDayTitle.setText(getResources().getString(R.string.august) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 9:
+                txtDayTitle.setText(getResources().getString(R.string.september) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 10:
+                txtDayTitle.setText(getResources().getString(R.string.october) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 11:
+                txtDayTitle.setText(getResources().getString(R.string.november) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            case 12:
+                txtDayTitle.setText(getResources().getString(R.string.december) + " " + sdfDay.format(date) + ", " + sdfYear.format(date));
+                break;
+            default:
+                break;
+        }
         Data data = null;
         for (int i = 0; i < dataList.size(); i++) {
+            android.util.Log.e("111", "(0.1)datalist: "+dataList.get(i).getDay()+" curDay"+curDay );
             if (dataList.get(i).getDay().equals(curDay)) {
+                android.util.Log.e("111", "(0.2) equal datalist: "+dataList.get(i).getDay()+" curDay"+curDay );
                 data = dataList.get(i);
                 position = i;
                 break;
             }
         }
+        android.util.Log.e("111", "(1)Have data: "+haveData );
         if (data != null) {
             haveData = true;
+            android.util.Log.e("111", "(2)Have data: true" );
             String[] idsM = data.getIdMotion().split(" ");
             String[] idsS = data.getIdSymptom().split(" ");
             String[] idsP = data.getIdPhysic().split(" ");
             String[] idsO = data.getIdOvulation().split(" ");
-
-
             for (String s : idsM) {
                 if (!s.trim().equals("")) {
-                    motionss.get(Integer.parseInt(s)).setChecked(true);
+                    motionList.get(Integer.parseInt(s)).setChecked(true);
                 }
             }
             for (String s : idsS) {
                 if (!s.trim().equals("")) {
-                    symptomss.get(Integer.parseInt(s)).setChecked(true);
+                    symptomList.get(Integer.parseInt(s)).setChecked(true);
                 }
             }
             for (String s : idsP) {
                 if (!s.trim().equals("")) {
-                    physicss.get(Integer.parseInt(s)).setChecked(true);
+                    physicList.get(Integer.parseInt(s)).setChecked(true);
                 }
             }
             for (String s : idsO) {
                 if (!s.trim().equals("")) {
-                    ovulationss.get(Integer.parseInt(s)).setChecked(true);
+                    ovulationList.get(Integer.parseInt(s)).setChecked(true);
                 }
             }
         }
 
 
         rcvMotion.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        motionAdapter = new LogAdapter(this, motionss);
+        motionAdapter = new LogAdapter(this, motionList);
         rcvMotion.setAdapter(motionAdapter);
 
         rcvSymptom.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        symptomAdapter = new LogAdapter(this, symptomss);
+        symptomAdapter = new LogAdapter(this, symptomList);
         rcvSymptom.setAdapter(symptomAdapter);
 
         rcvPhysic.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        physicAdapter = new LogAdapter(this, physicss);
+        physicAdapter = new LogAdapter(this, physicList);
         rcvPhysic.setAdapter(physicAdapter);
 
         rcvOvulation.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        ovulationAdapter = new LogAdapter(this, ovulationss);
+        ovulationAdapter = new LogAdapter(this, ovulationList);
         rcvOvulation.setAdapter(ovulationAdapter);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -147,26 +232,26 @@ public class LogActivity extends AppCompatActivity {
                 String sId = "";
                 String pId = "";
                 String oId = "";
-                for (int i = 0; i < motionss.size(); i++) {
-                    if (motionss.get(i).isChecked()) {
+                for (int i = 0; i < motionList.size(); i++) {
+                    if (motionList.get(i).isChecked()) {
                         String text = mId + " " + i;
                         mId = text;
                     }
                 }
-                for (int i = 0; i < symptomss.size(); i++) {
-                    if (symptomss.get(i).isChecked()) {
+                for (int i = 0; i < symptomList.size(); i++) {
+                    if (symptomList.get(i).isChecked()) {
                         String text = sId + " " + i;
                         sId = text;
                     }
                 }
-                for (int i = 0; i < physicss.size(); i++) {
-                    if (physicss.get(i).isChecked()) {
+                for (int i = 0; i < physicList.size(); i++) {
+                    if (physicList.get(i).isChecked()) {
                         String text = pId + " " + i;
                         pId = text;
                     }
                 }
-                for (int i = 0; i < ovulationss.size(); i++) {
-                    if (ovulationss.get(i).isChecked()) {
+                for (int i = 0; i < ovulationList.size(); i++) {
+                    if (ovulationList.get(i).isChecked()) {
                         String text = oId + " " + i;
                         oId = text;
                     }
@@ -188,10 +273,10 @@ public class LogActivity extends AppCompatActivity {
                 Intent intent = new Intent(ReportFragment.ACTION_UPDATE_LOG);
                 intent.putExtra(KEY.POSITION, position);
                 sendBroadcast(intent);
+                onBackPressed();
             }
         });
 
 
     }
-
 }

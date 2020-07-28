@@ -11,7 +11,7 @@
         android:layout_height="@dimen/_112sdp"
         android:layout_marginTop="@dimen/_12sdp"
         android:orientation="vertical"
-        android:src="@drawable/ic_calendar" />
+        android:src="@drawable/calm" />
 
     <TextView
         android:layout_width="match_parent"

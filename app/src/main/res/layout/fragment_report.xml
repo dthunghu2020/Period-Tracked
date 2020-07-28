@@ -158,7 +158,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:layout_width="@dimen/_256sdp"
+            android:layout_width="@dimen/_240sdp"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_log"
             android:elevation="@dimen/_2sdp"
@@ -173,7 +173,7 @@
                 android:textColor="@color/black" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/_200sdp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_4sdp"
                 android:paddingBottom="@dimen/_4sdp">
@@ -188,28 +188,31 @@
                         android:id="@+id/imgMotion"
                         android:layout_width="@dimen/_48sdp"
                         android:layout_height="@dimen/_48sdp"
-                        android:padding="@dimen/_4sdp"
+                        android:padding="@dimen/_7sdp"
                         android:src="@drawable/zo" />
 
                     <ImageView
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:id="@+id/imgSymptoms"
                         android:layout_width="@dimen/_48sdp"
                         android:layout_height="@dimen/_48sdp"
-                        android:padding="@dimen/_4sdp"
+                        android:padding="@dimen/_7sdp"
                         android:src="@drawable/ic_no_record_symptom" />
 
                     <ImageView
                         android:id="@+id/imgPhysic"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:layout_width="@dimen/_48sdp"
                         android:layout_height="@dimen/_48sdp"
-                        android:padding="@dimen/_4sdp"
+                        android:padding="@dimen/_7sdp"
                         android:src="@drawable/ic_no_record_exercise" />
 
                     <ImageView
                         android:id="@+id/imgOvulation"
                         android:layout_width="@dimen/_48sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:layout_height="@dimen/_48sdp"
-                        android:padding="@dimen/_4sdp"
+                        android:padding="@dimen/_7sdp"
                         android:src="@drawable/ic_no_record_ovulation" />
                 </LinearLayout>
 

@@ -32,7 +32,7 @@ import com.google.android.gms.ads.formats.NativeAd;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.formats.UnifiedNativeAdView;
-import com.hungdt.periodtracked.ContactConfig;
+import com.hungdt.periodtracked.PeriodConfig;
 import com.hungdt.periodtracked.R;
 
 
@@ -48,7 +48,7 @@ public class Ads {
     public static final String CONFIG_NA_CL_S_L = "config_na_cl_s_l";
 
     public static String getJsonConfig(Context context, String keyConfig) {
-        String json = ContactConfig.getInstance().getConfig().getString(keyConfig);
+        String json = PeriodConfig.getInstance().getConfig().getString(keyConfig);
         if (json.equals("false")) {
             return "";
         } else {

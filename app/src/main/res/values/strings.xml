@@ -193,4 +193,34 @@
     <string name="symptoms">Symptoms</string>
     <string name="physical_activity">Physical Activity</string>
     <string name="ovulation">Ovulation</string>
+    <string name="hide">Hide</string>
+    <string name="get_all_feature_once_forever"><![CDATA[Get All Feature Once & Forever]]></string>
+    <string name="and_more_upcoming_features">And More Upcoming Features</string>
+    <string name="unlock_all_predictions_and_content">Unlock all predictions and content</string>
+    <string name="no_ads">No Ads</string>
+    <string name="cannot_add_note">Can\'t add note in future!!!</string>
+
+    <string name="january">January</string>
+    <string name="jan">Jan</string>
+    <string name="february">February</string>
+    <string name="feb">Feb</string>
+    <string name="march">March</string>
+    <string name="mar">Mar</string>
+    <string name="april">April</string>
+    <string name="apr">Apr</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="jun">Jun</string>
+    <string name="july">July</string>
+    <string name="jul">Jul</string>
+    <string name="august">August</string>
+    <string name="aug">Aug</string>
+    <string name="september">September</string>
+    <string name="sep">Sep</string>
+    <string name="october">October</string>
+    <string name="oct">Oct</string>
+    <string name="november">November</string>
+    <string name="nov">Nov</string>
+    <string name="december">December</string>
+    <string name="dec">Dec</string>
 </resources>

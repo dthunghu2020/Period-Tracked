@@ -10,8 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:supportsRtl="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
@@ -68,11 +68,36 @@
         <activity
             android:name=".view.Question3Activity"
             android:launchMode="singleTask" />
-        <activity android:name=".view.CalendarMonthActivity" />
-        <activity android:name=".view.Question4Activity" />
-        <activity android:name=".view.DetailPaperActivity" />
-        <activity android:name=".view.MainActivity" />
-        <activity android:name=".view.LogActivity" />
+        <activity
+            android:name=".view.CalendarMonthActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.Question4Activity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.DetailPaperActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.MainActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.LogActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.RateAppActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.MoreAppActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.PolicyActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.VipActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.SettingActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

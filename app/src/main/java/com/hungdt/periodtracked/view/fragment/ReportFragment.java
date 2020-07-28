@@ -1,9 +1,11 @@
 package com.hungdt.periodtracked.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,25 +25,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
-import com.haibin.calendarview.TrunkBranchAnnals;
-import com.haibin.calendarview.WeekViewPager;
 import com.hungdt.periodtracked.R;
-import com.hungdt.periodtracked.database.DBHelper;
 import com.hungdt.periodtracked.model.Data;
 import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.utils.MySetting;
 import com.hungdt.periodtracked.view.LogActivity;
-import com.hungdt.periodtracked.view.adapter.LogAdapter;
 import com.hungdt.periodtracked.view.adapter.LogTodayAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 import static com.hungdt.periodtracked.view.MainActivity.dataList;
 import static com.hungdt.periodtracked.view.MainActivity.motions;
@@ -96,6 +91,7 @@ public class ReportFragment extends Fragment implements
         return inflater.inflate(R.layout.fragment_report, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -116,8 +112,6 @@ public class ReportFragment extends Fragment implements
         rcvLog.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         logTodayAdapter = new LogTodayAdapter(getContext(), logs);
         rcvLog.setAdapter(logTodayAdapter);
-
-        txtMonth.setText("Month " + mCalendarView.getCurMonth());
         String weekDay = "";
         switch (mCalendarView.getSelectedCalendar().getWeek()) {
             case 0:
@@ -142,8 +136,58 @@ public class ReportFragment extends Fragment implements
                 weekDay = getString(R.string.satur_day);
                 break;
         }
-
-        txtCurDay.setText(weekDay + ", " + mCalendarView.getCurDay() + " month " + mCalendarView.getCurMonth());
+        switch (mCalendarView.getCurMonth()) {
+            case 1:
+                txtMonth.setText(getResources().getString(R.string.january)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jan) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 2:
+                txtMonth.setText(getResources().getString(R.string.february)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.feb) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 3:
+                txtMonth.setText(getResources().getString(R.string.march)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.mar) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 4:
+                txtMonth.setText(getResources().getString(R.string.april)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.apr) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 5:
+                txtMonth.setText(getResources().getString(R.string.may)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.may) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 6:
+                txtMonth.setText(getResources().getString(R.string.june)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jun) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 7:
+                txtMonth.setText(getResources().getString(R.string.july)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jul) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 8:
+                txtMonth.setText(getResources().getString(R.string.august)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.aug) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 9:
+                txtMonth.setText(getResources().getString(R.string.september)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.sep) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 10:
+                txtMonth.setText(getResources().getString(R.string.october)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.oct) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 11:
+                txtMonth.setText(getResources().getString(R.string.november)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.nov) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            case 12:
+                txtMonth.setText(getResources().getString(R.string.december)+" "+ mCalendarView.getCurYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.dec) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
+                break;
+            default:
+                break;
+        }
         curDay = mCalendarView.getCurDay() + "-" + mCalendarView.getCurMonth() + "-" + mCalendarView.getCurYear();
         for (int i = 0; i < dataList.size(); i++) {
             if (dataList.get(i).getDay().equals(curDay)) {
@@ -309,9 +353,13 @@ public class ReportFragment extends Fragment implements
         btnLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("321", "onClick: "+curDayNumber+" "+todayNumber );
+                Log.e("321", "onClick: " + curDayNumber + " " + todayNumber);
                 if (curDayNumber > todayNumber) {
-                    Toast.makeText(getContext(), "Can add in future!!!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getContext(), R.string.cannot_add_note, Toast.LENGTH_LONG);
+                    View view = toast.getView();
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.WHITE);
+                    toast.show();
                 } else {
                     Intent intent = new Intent(getContext(), LogActivity.class);
                     intent.putExtra(KEY.CURDAY, curDay);
@@ -321,7 +369,7 @@ public class ReportFragment extends Fragment implements
         });
 
         IntentFilter intentFilter = new IntentFilter(ACTION_UPDATE_LOG);
-        getLayoutInflater().getContext().registerReceiver(broadCastUpdateLog, intentFilter);
+        getContext().registerReceiver(broadCastUpdateLog, intentFilter);
     }
 
     private BroadcastReceiver broadCastUpdateLog = new BroadcastReceiver() {
@@ -389,6 +437,7 @@ public class ReportFragment extends Fragment implements
         Toast.makeText(getContext(), String.format("%s : LongClickOutOfRange", calendar), Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCalendarSelect(Calendar calendar, boolean isClick) {
 //Todo ............................................................................................
@@ -397,7 +446,6 @@ public class ReportFragment extends Fragment implements
         //calendar format: yyyyMMdd
 
         //Thay đổi text dòng trên hiển thị ngày tháng năm
-        txtMonth.setText("Month " + calendar.getMonth());
         String weekDay = "";
         switch (calendar.getWeek()) {
             case 0:
@@ -422,9 +470,60 @@ public class ReportFragment extends Fragment implements
                 weekDay = getString(R.string.satur_day);
                 break;
         }
-        txtCurDay.setText(weekDay + ", " + calendar.getDay() + " month " + calendar.getMonth());
+        switch (calendar.getMonth()) {
+            case 1:
+                txtMonth.setText(getResources().getString(R.string.january)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jan) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 2:
+                txtMonth.setText(getResources().getString(R.string.february)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.feb) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 3:
+                txtMonth.setText(getResources().getString(R.string.march)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.mar) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 4:
+                txtMonth.setText(getResources().getString(R.string.april)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.apr) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 5:
+                txtMonth.setText(getResources().getString(R.string.may)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.may) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 6:
+                txtMonth.setText(getResources().getString(R.string.june)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jun) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 7:
+                txtMonth.setText(getResources().getString(R.string.july)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jul) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 8:
+                txtMonth.setText(getResources().getString(R.string.august)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.aug) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 9:
+                txtMonth.setText(getResources().getString(R.string.september)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.sep) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 10:
+                txtMonth.setText(getResources().getString(R.string.october)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.oct) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 11:
+                txtMonth.setText(getResources().getString(R.string.november)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.nov) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            case 12:
+                txtMonth.setText(getResources().getString(R.string.december)+" "+calendar.getYear());
+                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.dec) + " " + calendar.getDay() + ", " + calendar.getYear());
+                break;
+            default:
+                break;
+        }
         curDay = calendar.getDay() + "-" + calendar.getMonth() + "-" + calendar.getYear();
-        Log.e("321", "onCalendarSelect: "+curDay );
+        Log.e("321", "onCalendarSelect: " + curDay);
         logs.clear();
         for (int i = 0; i < dataList.size(); i++) {
             if (dataList.get(i).getDay().equals(curDay)) {

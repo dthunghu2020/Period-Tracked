@@ -68,7 +68,7 @@ public class EnableMultiDex extends MultiDexApplication {
 
         try {
             FirebaseRemoteConfig config = FirebaseRemoteConfig.getInstance();
-            ContactConfig.getInstance().setConfig(config);
+            PeriodConfig.getInstance().setConfig(config);
             FirebaseRemoteConfigSettings settings = new FirebaseRemoteConfigSettings.Builder()
                     .setDeveloperModeEnabled(BuildConfig.DEBUG).build();
             config.setConfigSettingsAsync(settings);
@@ -81,7 +81,7 @@ public class EnableMultiDex extends MultiDexApplication {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                ContactConfig.getInstance().getConfig().fetchAndActivate();
+                                PeriodConfig.getInstance().getConfig().fetchAndActivate();
                                 getConfigGgFb();
                             }
                         }
@@ -93,7 +93,7 @@ public class EnableMultiDex extends MultiDexApplication {
 
     private void getConfigGgFb(){
         try{
-            long config = ContactConfig.getInstance().getConfig().getLong("config_gg_fb");
+            long config = PeriodConfig.getInstance().getConfig().getLong("config_gg_fb");
             MySetting.putConfigGgFb(this, (int) config);
         }catch (Exception e){
             e.printStackTrace();
