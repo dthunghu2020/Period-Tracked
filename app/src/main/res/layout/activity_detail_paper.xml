@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
+        android:background="@color/violet"
         android:layout_height="?attr/actionBarSize">
 
         <ImageView
@@ -17,7 +18,7 @@
             android:layout_height="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_6sdp"
             android:padding="@dimen/_8sdp"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_back_w"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:text="@string/insights"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_22sdp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgBack"

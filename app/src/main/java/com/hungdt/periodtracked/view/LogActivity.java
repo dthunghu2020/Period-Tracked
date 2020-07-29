@@ -3,9 +3,13 @@ package com.hungdt.periodtracked.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +24,7 @@ import com.hungdt.periodtracked.model.Data;
 import com.hungdt.periodtracked.model.Log;
 import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.view.adapter.LogAdapter;
-import com.hungdt.periodtracked.view.fragment.ReportFragment;
+import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,23 +36,30 @@ import java.util.List;
 import static com.hungdt.periodtracked.view.MainActivity.dataList;
 
 public class LogActivity extends AppCompatActivity {
-    LogAdapter motionAdapter;
-    LogAdapter symptomAdapter;
-    LogAdapter physicAdapter;
-    LogAdapter ovulationAdapter;
+    LogAdapter motionAdapter, symptomAdapter, physicAdapter, ovulationAdapter;
     List<Log> motionList = new ArrayList<>();
     List<Log> symptomList = new ArrayList<>();
     List<Log> physicList = new ArrayList<>();
     List<Log> ovulationList = new ArrayList<>();
 
-    TextView txtDayTitle;
+    TextView txtDayTitle, txtWeight, txtSleep, txtWater;
     RecyclerView rcvMotion, rcvPhysic, rcvSymptom, rcvOvulation;
+    LinearLayout llWeight, llSleep, llWater, llWeightInput, llSleepInput, llWaterInput, llUp;
     Button btnSave;
     ImageView imgBack;
+    EditText edtWeight, edtHour, edtMinutes, edtLit;
+    boolean inputWeightVisible = false;
+    boolean inputSleepVisible = false;
+    boolean inputWatertVisible = false;
 
     int position = -1;
     boolean haveData = false;
     String curDay;
+
+    float kilogram;
+    int hour;
+    int minute;
+    float lit;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -56,13 +67,12 @@ public class LogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
-        imgBack = findViewById(R.id.imgBack);
-        rcvMotion = findViewById(R.id.rcvMotion);
-        rcvSymptom = findViewById(R.id.rcvSymptom);
-        rcvPhysic = findViewById(R.id.rcvPhysic);
-        rcvOvulation = findViewById(R.id.rcvOvulation);
-        btnSave = findViewById(R.id.btnSave);
-        txtDayTitle = findViewById(R.id.txtDayTitle);
+        initView();
+
+        llWeightInput.setVisibility(View.GONE);
+        llSleepInput.setVisibility(View.GONE);
+        llWaterInput.setVisibility(View.GONE);
+        llUp.setVisibility(View.GONE);
 
         motionList.add(new Log(R.drawable.calm, R.string.motion01, false));
         motionList.add(new Log(R.drawable.happy, R.string.motion02, false));
@@ -163,18 +173,18 @@ public class LogActivity extends AppCompatActivity {
         }
         Data data = null;
         for (int i = 0; i < dataList.size(); i++) {
-            android.util.Log.e("111", "(0.1)datalist: "+dataList.get(i).getDay()+" curDay"+curDay );
+            android.util.Log.e("111", "(0.1)datalist: " + dataList.get(i).getDay() + " curDay" + curDay);
             if (dataList.get(i).getDay().equals(curDay)) {
-                android.util.Log.e("111", "(0.2) equal datalist: "+dataList.get(i).getDay()+" curDay"+curDay );
+                android.util.Log.e("111", "(0.2) equal datalist: " + dataList.get(i).getDay() + " curDay" + curDay);
                 data = dataList.get(i);
                 position = i;
                 break;
             }
         }
-        android.util.Log.e("111", "(1)Have data: "+haveData );
+        android.util.Log.e("111", "(1)Have data: " + haveData);
         if (data != null) {
             haveData = true;
-            android.util.Log.e("111", "(2)Have data: true" );
+            android.util.Log.e("111", "(2)Have data: true");
             String[] idsM = data.getIdMotion().split(" ");
             String[] idsS = data.getIdSymptom().split(" ");
             String[] idsP = data.getIdPhysic().split(" ");
@@ -270,13 +280,223 @@ public class LogActivity extends AppCompatActivity {
 
 
                 Toast.makeText(LogActivity.this, "Save success!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ReportFragment.ACTION_UPDATE_LOG);
+                Intent intent = new Intent(TodayFragment.ACTION_UPDATE_LOG);
                 intent.putExtra(KEY.POSITION, position);
                 sendBroadcast(intent);
                 onBackPressed();
             }
         });
 
+        llWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (inputWeightVisible) {
+                    inputWeightVisible = false;
+                    llWeightInput.setVisibility(View.GONE);
+                    llUp.setVisibility(View.GONE);
+                } else {
+                    inputWeightVisible = true;
+                    llWeightInput.setVisibility(View.VISIBLE);
+                    llUp.setVisibility(View.VISIBLE);
+                }
+                if (inputSleepVisible) {
+                    inputSleepVisible = false;
+                    llSleepInput.setVisibility(View.GONE);
+                }
+                if (inputWatertVisible) {
+                    inputWatertVisible = false;
+                    llWaterInput.setVisibility(View.GONE);
+                }
 
+            }
+        });
+
+
+        llSleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (inputSleepVisible) {
+                    inputSleepVisible = false;
+                    llSleepInput.setVisibility(View.GONE);
+                    llUp.setVisibility(View.GONE);
+                } else {
+                    inputSleepVisible = true;
+                    llSleepInput.setVisibility(View.VISIBLE);
+                    llUp.setVisibility(View.VISIBLE);
+                }
+                if (inputWeightVisible) {
+                    inputWeightVisible = false;
+                    llWeightInput.setVisibility(View.GONE);
+                }
+                if (inputWatertVisible) {
+                    inputWatertVisible = false;
+                    llWaterInput.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        llWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (inputWatertVisible) {
+                    inputWatertVisible = false;
+                    llWaterInput.setVisibility(View.GONE);
+                    llUp.setVisibility(View.GONE);
+                } else {
+                    inputWatertVisible = true;
+                    llWaterInput.setVisibility(View.VISIBLE);
+                    llUp.setVisibility(View.VISIBLE);
+                }
+                if (inputWeightVisible) {
+                    inputWeightVisible = false;
+                    llWeightInput.setVisibility(View.GONE);
+                }
+                if (inputSleepVisible) {
+                    inputSleepVisible = false;
+                    llSleepInput.setVisibility(View.GONE);
+                }
+            }
+        });
+        llUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llUp.setVisibility(View.GONE);
+                if (inputWeightVisible) {
+                    inputWeightVisible = false;
+                    llWeightInput.setVisibility(View.GONE);
+                }
+                if (inputSleepVisible) {
+                    inputSleepVisible = false;
+                    llSleepInput.setVisibility(View.GONE);
+                }
+                if (inputWatertVisible) {
+                    inputWatertVisible = false;
+                    llWaterInput.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        edtWeight.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0)
+                    txtWeight.setText(s + " kg");
+            }
+        });
+        edtWeight.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0){
+                    kilogram = 0;
+                }else {
+                    kilogram = Integer.parseInt(String.valueOf(s));
+                }
+                txtWeight.setText(kilogram + " kg");
+            }
+        });
+        edtHour.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0){
+                    hour = 0;
+                }else {
+                    hour = Integer.parseInt(String.valueOf(s));
+                }
+                txtSleep.setText(hour +"h" +minute+"m");
+            }
+        });
+        edtMinutes.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0){
+                    minute = 0;
+                }else {
+                    minute = Integer.parseInt(String.valueOf(s));
+                }
+
+                txtSleep.setText(hour +"h" +minute+"m");
+            }
+        });
+        edtLit.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0){
+                    lit = 0;
+                }else {
+                    lit = Float.parseFloat(String.valueOf(s));
+                }
+
+                txtWater.setText(lit + " L");
+            }
+        });
+    }
+
+    private void initView() {
+        imgBack = findViewById(R.id.imgBack);
+        rcvMotion = findViewById(R.id.rcvMotion);
+        rcvSymptom = findViewById(R.id.rcvSymptom);
+        rcvPhysic = findViewById(R.id.rcvPhysic);
+        rcvOvulation = findViewById(R.id.rcvOvulation);
+        btnSave = findViewById(R.id.btnSave);
+        txtDayTitle = findViewById(R.id.txtDayTitle);
+        txtWeight = findViewById(R.id.txtWeight);
+        txtSleep = findViewById(R.id.txtSleep);
+        txtWater = findViewById(R.id.txtWater);
+        llWeight = findViewById(R.id.llWeight);
+        llSleep = findViewById(R.id.llSleep);
+        llWater = findViewById(R.id.llWater);
+        llWeightInput = findViewById(R.id.llWeightInput);
+        edtWeight = findViewById(R.id.edtWeight);
+        llUp = findViewById(R.id.llUp);
+        llSleepInput = findViewById(R.id.llSleepInput);
+        llWaterInput = findViewById(R.id.llWaterInput);
+        edtHour = findViewById(R.id.edtHour);
+        edtMinutes = findViewById(R.id.edtMinutes);
+        edtLit = findViewById(R.id.edtLit);
     }
 }

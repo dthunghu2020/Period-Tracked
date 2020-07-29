@@ -1,7 +1,6 @@
 package com.hungdt.periodtracked.view;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +11,10 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.hungdt.periodtracked.R;
-import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

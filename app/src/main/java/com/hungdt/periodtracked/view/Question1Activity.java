@@ -105,6 +105,7 @@ public class Question1Activity extends AppCompatActivity {
                 }
                 if (checkbox.isChecked()) {
                     MySetting.putFirstDay(getApplicationContext(), getString(R.string.not_sure));
+                    MySetting.putFirstDayOfCircle(getApplicationContext(), getString(R.string.not_sure));
                     startActivity(new Intent(Question1Activity.this, Question2Activity.class));
                 } else {
                     if (countNumberDay(Integer.parseInt(sdfYear.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)))
@@ -112,6 +113,7 @@ public class Question1Activity extends AppCompatActivity {
                         Toast.makeText(Question1Activity.this, "Please select a date no greater than today", Toast.LENGTH_SHORT).show();
                     } else {
                         MySetting.putFirstDay(getApplicationContext(), text);
+                        MySetting.putFirstDayOfCircle(getApplicationContext(), text);
                         startActivity(new Intent(Question1Activity.this, Question2Activity.class));
                     }
 

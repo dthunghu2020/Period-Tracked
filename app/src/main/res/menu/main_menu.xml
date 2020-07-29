@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/setting" />
+    <item
         android:id="@+id/nav_remove_add"
         android:icon="@drawable/ic_calendar"
         android:title="@string/remove_ads" />
@@ -28,8 +32,4 @@
         android:id="@+id/nav_policy"
         android:icon="@drawable/ic_calendar"
         android:title="@string/policy" />
-    <item
-        android:id="@+id/nav_setting"
-        android:icon="@drawable/ic_calendar"
-        android:title="@string/setting" />
 </menu>

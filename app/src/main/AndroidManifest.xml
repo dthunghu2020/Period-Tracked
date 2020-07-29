@@ -54,13 +54,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.fragment.ReportFragment"
+            android:name=".view.fragment.TodayFragment"
             android:launchMode="singleTask" />
         <activity
             android:name=".view.fragment.PaperFragment"
             android:launchMode="singleTask" />
         <activity
-            android:name=".view.fragment.TodayFragment"
+            android:name=".view.fragment.ReportFragment"
             android:launchMode="singleTask" />
         <activity
             android:name=".view.Question2Activity"

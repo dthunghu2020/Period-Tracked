@@ -1,86 +1,55 @@
 package com.hungdt.periodtracked.view.fragment;
 
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.haibin.calendarview.Calendar;
-import com.haibin.calendarview.CalendarLayout;
-import com.haibin.calendarview.CalendarView;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.model.Data;
-import com.hungdt.periodtracked.utils.KEY;
+import com.hungdt.periodtracked.model.Report;
 import com.hungdt.periodtracked.utils.MySetting;
-import com.hungdt.periodtracked.view.LogActivity;
-import com.hungdt.periodtracked.view.adapter.LogTodayAdapter;
+import com.hungdt.periodtracked.view.adapter.LogAdapter;
+import com.hungdt.periodtracked.view.adapter.ReportAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import static com.hungdt.periodtracked.view.MainActivity.dataList;
-import static com.hungdt.periodtracked.view.MainActivity.motions;
-import static com.hungdt.periodtracked.view.MainActivity.ovulations;
-import static com.hungdt.periodtracked.view.MainActivity.physics;
-import static com.hungdt.periodtracked.view.MainActivity.symptoms;
 
-public class ReportFragment extends Fragment implements
-        CalendarView.OnCalendarSelectListener,
-        CalendarView.OnWeekChangeListener,
-        CalendarView.OnMonthChangeListener,
-        CalendarView.OnViewChangeListener {
-    public static final String ACTION_UPDATE_LOG = "Update Log";
-    private List<com.hungdt.periodtracked.model.Log> logs = new ArrayList<>();
-    private LogTodayAdapter logTodayAdapter;
+@SuppressLint("SimpleDateFormat")
+public class ReportFragment extends Fragment {
 
-
-    TextView txtMonth, txtTitle, txtComment, txtDay, txtCurDay;
-    Button btnLog;
-    CalendarView mCalendarView;
-    CalendarLayout mCalendarLayout;
-    RecyclerView rcvLog;
-    LinearLayout llLog;
-
-    Date curDate, firstDateOfWeek, date, firstDate;
-    int beginRed = 0, endRed = 0, beginEgg = 0, endEgg = 0, eggDay = 0;
-    int periodCircle, periodLength;
-    String beginDay, curDay;
-    int beginDayNumber;
-    int flagPrediction = 0;
-    boolean isVisible = true;
-    boolean flagIsLate = false;
-    int todayNumber;
-    int curDayNumber;
-
-    java.util.Calendar calendar = java.util.Calendar.getInstance();
-
+    private String beginCircleDay;
+    private int periodCircle;
+    private String motionIds = "";
+    private String symptomIds = "";
+    private String physicIds = "";
+    private String ovulationIds = "";
+    int[] cM = new int[13];
+    int[] cS = new int[15];
+    int[] cP = new int[7];
+    int[] cO = new int[4];
+    private List<Report> motions = new ArrayList<>();
+    private List<Report> symptoms = new ArrayList<>();
+    private List<Report> physics = new ArrayList<>();
+    private List<Report> ovulations = new ArrayList<>();
+    private ReportAdapter motionAdapter, symptomAdapter, physicAdapter, ovulationAdapter;
+    private RecyclerView rcvMotion, rcvSymptom, rcvPhysic, rcvOvulation;
 
     SimpleDateFormat sdfMyDate = new SimpleDateFormat("dd-MM-yyyy");
-    SimpleDateFormat sdfLibraryDate = new SimpleDateFormat("yyyyMMdd");
-    SimpleDateFormat sdfMY = new SimpleDateFormat("MM-yyyy");
-    SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
-    SimpleDateFormat sdfYeah = new SimpleDateFormat("yyyy");
-    SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
 
     public ReportFragment() {
     }
@@ -95,779 +64,368 @@ public class ReportFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView(view);
 
-        beginDay = MySetting.getFirstDay(getActivity());
+        rcvMotion = view.findViewById(R.id.rcvMoodR);
+        rcvSymptom = view.findViewById(R.id.rcvSymptomR);
+        rcvPhysic = view.findViewById(R.id.rcvPhysicR);
+        rcvOvulation = view.findViewById(R.id.rcvOvulationR);
+        beginCircleDay = MySetting.getFirstDayOfCircle(getActivity());
         periodCircle = MySetting.getPeriodCircle(getActivity());
-        periodLength = MySetting.getPeriodLength(getActivity());
+        if (!beginCircleDay.equals(getString(R.string.not_sure))) {
+            Arrays.fill(cM, 0);
+            Arrays.fill(cS, 0);
+            Arrays.fill(cP, 0);
+            Arrays.fill(cO, 0);
+            Date beginCircleDate = null;
 
-
-        Log.e("123", "onViewCreated: " + beginDay + " " + periodCircle + " " + periodLength);
-        mCalendarView.setOnCalendarSelectListener(this);
-        mCalendarView.setOnMonthChangeListener(this);
-        mCalendarView.setOnWeekChangeListener(this);
-
-        mCalendarView.setOnViewChangeListener(this);
-
-        rcvLog.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        logTodayAdapter = new LogTodayAdapter(getContext(), logs);
-        rcvLog.setAdapter(logTodayAdapter);
-        String weekDay = "";
-        switch (mCalendarView.getSelectedCalendar().getWeek()) {
-            case 0:
-                weekDay = getString(R.string.sun_day);
-                break;
-            case 1:
-                weekDay = getString(R.string.mon_day);
-                break;
-            case 2:
-                weekDay = getString(R.string.tues_day);
-                break;
-            case 3:
-                weekDay = getString(R.string.wednes_day);
-                break;
-            case 4:
-                weekDay = getString(R.string.thurs_day);
-                break;
-            case 5:
-                weekDay = getString(R.string.fri_day);
-                break;
-            case 6:
-                weekDay = getString(R.string.satur_day);
-                break;
-        }
-        switch (mCalendarView.getCurMonth()) {
-            case 1:
-                txtMonth.setText(getResources().getString(R.string.january)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jan) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 2:
-                txtMonth.setText(getResources().getString(R.string.february)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.feb) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 3:
-                txtMonth.setText(getResources().getString(R.string.march)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.mar) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 4:
-                txtMonth.setText(getResources().getString(R.string.april)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.apr) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 5:
-                txtMonth.setText(getResources().getString(R.string.may)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.may) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 6:
-                txtMonth.setText(getResources().getString(R.string.june)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jun) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 7:
-                txtMonth.setText(getResources().getString(R.string.july)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jul) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 8:
-                txtMonth.setText(getResources().getString(R.string.august)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.aug) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 9:
-                txtMonth.setText(getResources().getString(R.string.september)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.sep) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 10:
-                txtMonth.setText(getResources().getString(R.string.october)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.oct) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 11:
-                txtMonth.setText(getResources().getString(R.string.november)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.nov) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            case 12:
-                txtMonth.setText(getResources().getString(R.string.december)+" "+ mCalendarView.getCurYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.dec) + " " + mCalendarView.getCurDay() + ", " + mCalendarView.getCurYear());
-                break;
-            default:
-                break;
-        }
-        curDay = mCalendarView.getCurDay() + "-" + mCalendarView.getCurMonth() + "-" + mCalendarView.getCurYear();
-        for (int i = 0; i < dataList.size(); i++) {
-            if (dataList.get(i).getDay().equals(curDay)) {
-                String[] idsM = dataList.get(i).getIdMotion().split(" ");
-                String[] idsS = dataList.get(i).getIdSymptom().split(" ");
-                String[] idsP = dataList.get(i).getIdPhysic().split(" ");
-                String[] idsO = dataList.get(i).getIdOvulation().split(" ");
-                for (String s : idsM) {
-                    if (!s.trim().equals("")) {
-                        logs.add(motions.get(Integer.parseInt(s.trim())));
-                    }
-                }
-                for (String s : idsS) {
-                    if (!s.trim().equals("")) {
-                        logs.add(symptoms.get(Integer.parseInt(s.trim())));
-                    }
-                }
-                for (String s : idsP) {
-                    if (!s.trim().equals("")) {
-                        logs.add(physics.get(Integer.parseInt(s.trim())));
-                    }
-                }
-                for (String s : idsO) {
-                    if (!s.trim().equals("")) {
-                        logs.add(ovulations.get(Integer.parseInt(s.trim())));
-                    }
-                }
-            }
-        }
-        if (logs.size() > 0) {
-            rcvLog.setVisibility(View.VISIBLE);
-            llLog.setVisibility(View.INVISIBLE);
-            logTodayAdapter.notifyDataSetChanged();
-        } else {
-            rcvLog.setVisibility(View.INVISIBLE);
-            llLog.setVisibility(View.VISIBLE);
-        }
-
-        Log.e("HDT0309", "firstDateOfWeek " + mCalendarView.getCurrentWeekCalendars().get(0));
-        ///////////// Convert Date
-        String firstDateString = mCalendarView.getCurrentWeekCalendars().get(0).toString();
-        try {
-            firstDateOfWeek = sdfLibraryDate.parse(firstDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        assert firstDateOfWeek != null;
-        firstDateString = sdfMyDate.format(firstDateOfWeek);
-        try {
-            firstDateOfWeek = sdfMyDate.parse(firstDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.e("HDT0309", "firstDateOfWeek " + firstDateOfWeek); //Oke
-        ///
-
-        if (!beginDay.equals(getString(R.string.not_sure))) {
-            date = calendar.getTime();
-            todayNumber = countNumberDay(Integer.parseInt(sdfYeah.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)));
             try {
-                date = sdfMyDate.parse(beginDay);
+                beginCircleDate = sdfMyDate.parse(beginCircleDay);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            beginDayNumber = countNumberDay(Integer.parseInt(sdfYeah.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)));
-            if (todayNumber >= beginDayNumber + periodCircle) {
-                flagIsLate = true;
-            }
-            curDayNumber = countNumberDay(mCalendarView.getCurYear(), mCalendarView.getCurMonth(), mCalendarView.getCurDay());
-            //If not late
-            if (!flagIsLate) {
-                java.util.Calendar calendar = java.util.Calendar.getInstance();
-                assert date != null;
-                calendar.setTime(date);
-                Date beginDate = null;
+            Log.e("123123", "(0)beginCircleDate: " + beginCircleDate);
+
+            for (int i = 0; i < dataList.size(); i++) {
+                Data data = dataList.get(i);
+                Date date = null;
                 try {
-                    beginDate = sdfMyDate.parse(beginDay);
+                    date = sdfMyDate.parse(data.getDay());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                while (beginDate.before(firstDateOfWeek)) {
-                    calendar.add(java.util.Calendar.DATE, periodCircle);
-                    beginDate = calendar.getTime();
-                }
-                calendar.add(java.util.Calendar.DATE, -periodCircle);
-                firstDate = calendar.getTime();
-                /////////////////
-                beginRed = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
-                endRed = beginRed + periodLength - 1;
-                eggDay = beginRed + periodCircle - 15;
-                beginEgg = eggDay - 6;
-                endEgg = eggDay + 4;
-
-                if (curDayNumber >= beginRed + periodCircle) {
-                    beginRed += periodCircle;
-                    endRed += periodCircle;
-                    eggDay += periodCircle;
-                    beginEgg += periodCircle;
-                    endEgg += periodCircle;
-                }
-                if (curDayNumber >= beginRed && curDayNumber <= endRed) {
-                    int number = curDayNumber - beginRed + 1;
-                    txtTitle.setText("Period");
-                    txtDay.setText("Day " + number);
-                    txtDay.setTextColor(getResources().getColor(R.color.red));
-                    txtComment.setText("");
-                } else {
-                    if (curDayNumber < eggDay) {
-                        int number = eggDay - curDayNumber;
-                        if (curDayNumber < beginEgg) {
-                            txtTitle.setText("Ovulation in");
-                            txtDay.setText(number + " days");
-                            txtDay.setTextColor(getResources().getColor(R.color.black));
-                            txtComment.setText("Low chance of getting pregnant");
-                        } else {
-                            txtTitle.setText("Ovulation in");
-                            txtDay.setText(number + " days");
-                            txtDay.setTextColor(getResources().getColor(R.color.violet));
-                            txtComment.setText("Have a chance of getting pregnant");
-                        }
-                    } else if (curDayNumber > eggDay) {
-                        int number = beginRed + periodCircle - curDayNumber;
-                        if (curDayNumber > endEgg) {
-                            txtTitle.setText("Period in");
-                            txtDay.setText(number + " days");
-                            txtDay.setTextColor(getResources().getColor(R.color.black));
-                            txtComment.setText("Low chance of getting pregnant");
-                        } else {
-                            txtTitle.setText("Period in");
-                            txtDay.setText(number + " days");
-                            txtDay.setTextColor(getResources().getColor(R.color.violet));
-                            txtComment.setText("Have a chance to get pregnant");
-                        }
-                    } else {
-                        txtTitle.setText("Prediction: Day of");
-                        txtDay.setText("OVULATION");
-                        txtDay.setTextColor(getResources().getColor(R.color.bright_green));
-                        txtComment.setText("High chance of getting pregnant");
+                Log.e("123123", "(1)id: " + data.getIdMotion() + " / date: " + date);
+                if (!date.before(beginCircleDate)) {
+                    if (data.getIdMotion() != null) {
+                        motionIds = data.getIdMotion() + " " + motionIds;
                     }
-                }
-            }//if late
-            else {
-                beginRed = beginDayNumber;
-                endRed = beginRed + periodLength - 1;
-                eggDay = beginRed + periodCircle - 15;
-                beginEgg = eggDay - 6;
-                endEgg = eggDay + 4;
+                    if (data.getIdSymptom() != null) {
+                        symptomIds = data.getIdSymptom() + " " + symptomIds;
+                    }
+                    if (data.getIdPhysic() != null) {
+                        physicIds = data.getIdPhysic() + " " + physicIds;
+                    }
+                    if (data.getIdOvulation() != null) {
+                        ovulationIds = data.getIdOvulation() + " " + ovulationIds;
+                    }
 
-                int number = curDayNumber - beginDayNumber - periodCircle + 1;
-                txtTitle.setText("Late:");
-                txtDay.setText(number + " Days");
-                txtDay.setTextColor(getResources().getColor(R.color.gray));
-                txtComment.setText("");
-            }
-            Log.e("HDT0309", "Data:  firstDate-" + firstDateString + " beginDay: " + firstDate);
-            //int displayDate = countNumberDay(Integer.parseInt(sdfYeah.format(itemDate)), Integer.parseInt(sdfMonth.format(itemDate)), Integer.parseInt(sdfDay.format(itemDate)));
-        } else {
-            txtTitle.setText("Log the first day of\nyour last period for\nbetter predictions");
-            txtDay.setVisibility(View.GONE);
-            txtComment.setVisibility(View.GONE);
-        }
 
-        btnLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("321", "onClick: " + curDayNumber + " " + todayNumber);
-                if (curDayNumber > todayNumber) {
-                    Toast toast = Toast.makeText(getContext(), R.string.cannot_add_note, Toast.LENGTH_LONG);
-                    View view = toast.getView();
-                    TextView text = view.findViewById(android.R.id.message);
-                    text.setTextColor(Color.WHITE);
-                    toast.show();
-                } else {
-                    Intent intent = new Intent(getContext(), LogActivity.class);
-                    intent.putExtra(KEY.CURDAY, curDay);
-                    getContext().startActivity(intent);
+                    Log.e("123123", "(2)getDay: " + data.getDay() + "/" + beginCircleDay);
                 }
             }
-        });
-
-        IntentFilter intentFilter = new IntentFilter(ACTION_UPDATE_LOG);
-        getContext().registerReceiver(broadCastUpdateLog, intentFilter);
-    }
-
-    private BroadcastReceiver broadCastUpdateLog = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            logs.clear();
-            int position = intent.getIntExtra(KEY.POSITION, -1);
-            Data data;
-            if (position == -1) {
-                data = dataList.get(dataList.size() - 1);
-            } else {
-                data = dataList.get(position);
-            }
-            String[] idsM = data.getIdMotion().split(" ");
-            String[] idsS = data.getIdSymptom().split(" ");
-            String[] idsP = data.getIdPhysic().split(" ");
-            String[] idsO = data.getIdOvulation().split(" ");
+            Log.e("123123", "(3)motionIds: " + motionIds + "/" + symptomIds + "/" + physicIds + "/" + ovulationIds);
+            String[] idsM = motionIds.split(" ");
+            String[] idsS = symptomIds.split(" ");
+            String[] idsP = physicIds.split(" ");
+            String[] idsO = ovulationIds.split(" ");
 
             for (String s : idsM) {
                 if (!s.trim().equals("")) {
-                    logs.add(motions.get(Integer.parseInt(s.trim())));
+                    switch (Integer.parseInt(s.trim())) {
+                        case 0:
+                            cM[0]++;
+                            break;
+                        case 1:
+                            cM[1]++;
+                            break;
+                        case 2:
+                            cM[2]++;
+                            break;
+                        case 3:
+                            cM[3]++;
+                            break;
+                        case 4:
+                            cM[4]++;
+                            break;
+                        case 5:
+                            cM[5]++;
+                            break;
+                        case 6:
+                            cM[6]++;
+                            break;
+                        case 7:
+                            cM[7]++;
+                            break;
+                        case 8:
+                            cM[8]++;
+                            break;
+                        case 9:
+                            cM[9]++;
+                            break;
+                        case 10:
+                            cM[10]++;
+                            break;
+                        case 11:
+                            cM[11]++;
+                            break;
+                        case 12:
+                            cM[12]++;
+                            break;
+                    }
                 }
             }
             for (String s : idsS) {
                 if (!s.trim().equals("")) {
-                    logs.add(symptoms.get(Integer.parseInt(s.trim())));
+                    switch (Integer.parseInt(s.trim())) {
+                        case 0:
+                            cS[0]++;
+                            break;
+                        case 1:
+                            cS[1]++;
+                            break;
+                        case 2:
+                            cS[2]++;
+                            break;
+                        case 3:
+                            cS[3]++;
+                            break;
+                        case 4:
+                            cS[4]++;
+                            break;
+                        case 5:
+                            cS[5]++;
+                            break;
+                        case 6:
+                            cS[6]++;
+                            break;
+                        case 7:
+                            cS[7]++;
+                            break;
+                        case 8:
+                            cS[8]++;
+                            break;
+                        case 9:
+                            cS[9]++;
+                            break;
+                        case 10:
+                            cS[10]++;
+                            break;
+                        case 11:
+                            cS[11]++;
+                            break;
+                        case 12:
+                            cS[12]++;
+                            break;
+                        case 13:
+                            cS[13]++;
+                            break;
+                        case 14:
+                            cS[14]++;
+                            break;
+                    }
                 }
             }
             for (String s : idsP) {
                 if (!s.trim().equals("")) {
-                    logs.add(physics.get(Integer.parseInt(s.trim())));
+                    switch (Integer.parseInt(s.trim())) {
+                        case 0:
+                            cP[0]++;
+                            break;
+                        case 1:
+                            cP[1]++;
+                            break;
+                        case 2:
+                            cP[2]++;
+                            break;
+                        case 3:
+                            cP[3]++;
+                            break;
+                        case 4:
+                            cP[4]++;
+                            break;
+                        case 5:
+                            cP[5]++;
+                            break;
+                        case 6:
+                            cP[6]++;
+                            break;
+                    }
                 }
             }
             for (String s : idsO) {
                 if (!s.trim().equals("")) {
-                    logs.add(ovulations.get(Integer.parseInt(s.trim())));
-                }
-            }
-            if (logs.size() > 0) {
-                rcvLog.setVisibility(View.VISIBLE);
-                llLog.setVisibility(View.INVISIBLE);
-                logTodayAdapter.notifyDataSetChanged();
-            } else {
-                rcvLog.setVisibility(View.INVISIBLE);
-                llLog.setVisibility(View.VISIBLE);
-            }
-        }
-    };
-
-    private void initView(View view) {
-        mCalendarView = view.findViewById(R.id.calendarView);
-        mCalendarLayout = view.findViewById(R.id.calendarLayout);
-        txtMonth = view.findViewById(R.id.txtMonth);
-        txtTitle = view.findViewById(R.id.txtTitle);
-        txtComment = view.findViewById(R.id.txtComment);
-        txtDay = view.findViewById(R.id.txtDay);
-        txtCurDay = view.findViewById(R.id.txtCurDay);
-        btnLog = view.findViewById(R.id.btnLog);
-        rcvLog = view.findViewById(R.id.rcvLog);
-        llLog = view.findViewById(R.id.llLog);
-    }
-
-    @Override
-    public void onCalendarOutOfRange(Calendar calendar) {
-        Toast.makeText(getContext(), String.format("%s : LongClickOutOfRange", calendar), Toast.LENGTH_SHORT).show();
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onCalendarSelect(Calendar calendar, boolean isClick) {
-//Todo ............................................................................................
-        Log.e("HDT0309", "(2)onCalendarSelect: calendar " + calendar + " - isClick " + isClick);
-        //Toast.makeText(getContext(), getCalendarText(calendar), Toast.LENGTH_SHORT).show();
-        //calendar format: yyyyMMdd
-
-        //Thay đổi text dòng trên hiển thị ngày tháng năm
-        String weekDay = "";
-        switch (calendar.getWeek()) {
-            case 0:
-                weekDay = getString(R.string.sun_day);
-                break;
-            case 1:
-                weekDay = getString(R.string.mon_day);
-                break;
-            case 2:
-                weekDay = getString(R.string.tues_day);
-                break;
-            case 3:
-                weekDay = getString(R.string.wednes_day);
-                break;
-            case 4:
-                weekDay = getString(R.string.thurs_day);
-                break;
-            case 5:
-                weekDay = getString(R.string.fri_day);
-                break;
-            case 6:
-                weekDay = getString(R.string.satur_day);
-                break;
-        }
-        switch (calendar.getMonth()) {
-            case 1:
-                txtMonth.setText(getResources().getString(R.string.january)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jan) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 2:
-                txtMonth.setText(getResources().getString(R.string.february)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.feb) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 3:
-                txtMonth.setText(getResources().getString(R.string.march)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.mar) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 4:
-                txtMonth.setText(getResources().getString(R.string.april)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.apr) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 5:
-                txtMonth.setText(getResources().getString(R.string.may)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.may) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 6:
-                txtMonth.setText(getResources().getString(R.string.june)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jun) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 7:
-                txtMonth.setText(getResources().getString(R.string.july)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.jul) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 8:
-                txtMonth.setText(getResources().getString(R.string.august)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.aug) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 9:
-                txtMonth.setText(getResources().getString(R.string.september)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.sep) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 10:
-                txtMonth.setText(getResources().getString(R.string.october)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.oct) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 11:
-                txtMonth.setText(getResources().getString(R.string.november)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.nov) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            case 12:
-                txtMonth.setText(getResources().getString(R.string.december)+" "+calendar.getYear());
-                txtCurDay.setText(weekDay + ", " + getResources().getString(R.string.dec) + " " + calendar.getDay() + ", " + calendar.getYear());
-                break;
-            default:
-                break;
-        }
-        curDay = calendar.getDay() + "-" + calendar.getMonth() + "-" + calendar.getYear();
-        Log.e("321", "onCalendarSelect: " + curDay);
-        logs.clear();
-        for (int i = 0; i < dataList.size(); i++) {
-            if (dataList.get(i).getDay().equals(curDay)) {
-                String[] idsM = dataList.get(i).getIdMotion().split(" ");
-                String[] idsS = dataList.get(i).getIdSymptom().split(" ");
-                String[] idsP = dataList.get(i).getIdPhysic().split(" ");
-                String[] idsO = dataList.get(i).getIdOvulation().split(" ");
-                for (String s : idsM) {
-                    if (!s.trim().equals("")) {
-                        logs.add(motions.get(Integer.parseInt(s.trim())));
-                    }
-                }
-                for (String s : idsS) {
-                    if (!s.trim().equals("")) {
-                        logs.add(symptoms.get(Integer.parseInt(s.trim())));
-                    }
-                }
-                for (String s : idsP) {
-                    if (!s.trim().equals("")) {
-                        logs.add(physics.get(Integer.parseInt(s.trim())));
-                    }
-                }
-                for (String s : idsO) {
-                    if (!s.trim().equals("")) {
-                        logs.add(ovulations.get(Integer.parseInt(s.trim())));
+                    switch (Integer.parseInt(s.trim())) {
+                        case 0:
+                            cO[0]++;
+                            break;
+                        case 1:
+                            cO[1]++;
+                            break;
+                        case 2:
+                            cO[2]++;
+                            break;
+                        case 3:
+                            cO[3]++;
+                            break;
                     }
                 }
             }
-        }
-        if (logs.size() > 0) {
-            rcvLog.setVisibility(View.VISIBLE);
-            llLog.setVisibility(View.INVISIBLE);
-            logTodayAdapter.notifyDataSetChanged();
-        } else {
-            rcvLog.setVisibility(View.INVISIBLE);
-            llLog.setVisibility(View.VISIBLE);
-        }
-
-        if (!beginDay.equals(getString(R.string.not_sure))) {
-            String curDateString = calendar.toString();
-            try {
-                curDate = sdfLibraryDate.parse(curDateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            assert curDate != null;
-            curDateString = sdfMyDate.format(curDate);
-            try {
-                curDate = sdfMyDate.parse(curDateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Log.e("HDT0309", "curDate " + curDate); //Oke
-            curDayNumber = countNumberDay(Integer.parseInt(sdfYeah.format(curDate)), Integer.parseInt(sdfMonth.format(curDate)), Integer.parseInt(sdfDay.format(curDate)));
-
-            if (curDayNumber >= beginDayNumber) {
-                if (!flagIsLate) {
-                    if (curDayNumber >= beginRed + periodCircle) {
-                        flagPrediction++;
-                        beginRed += periodCircle;
-                        endRed += periodCircle;
-                        eggDay += periodCircle;
-                        beginEgg += periodCircle;
-                        endEgg += periodCircle;
+            for (int i = 0; i < cM.length; i++) {
+                if (cM[i] > 0) {
+                    switch (i) {
+                        case 0:
+                            motions.add(new Report(R.drawable.calm, getResources().getString(R.string.motion01), cM[i] * 100 / periodCircle));
+                            break;
+                        case 1:
+                            motions.add(new Report(R.drawable.happy, getResources().getString(R.string.motion02), cM[i] * 100 / periodCircle));
+                            break;
+                        case 2:
+                            motions.add(new Report(R.drawable.energetic, getResources().getString(R.string.motion03), cM[i] * 100 / periodCircle));
+                            break;
+                        case 3:
+                            motions.add(new Report(R.drawable.frisky, getResources().getString(R.string.motion04), cM[i] * 100 / periodCircle));
+                            break;
+                        case 4:
+                            motions.add(new Report(R.drawable.mood_swing, getResources().getString(R.string.motion05), cM[i] * 100 / periodCircle));
+                            break;
+                        case 5:
+                            motions.add(new Report(R.drawable.irritated, getResources().getString(R.string.motion06), cM[i] * 100 / periodCircle));
+                            break;
+                        case 6:
+                            motions.add(new Report(R.drawable.sad, getResources().getString(R.string.motion07), cM[i] * 100 / periodCircle));
+                            break;
+                        case 7:
+                            motions.add(new Report(R.drawable.anxious, getResources().getString(R.string.motion08), cM[i] * 100 / periodCircle));
+                            break;
+                        case 8:
+                            motions.add(new Report(R.drawable.depressed, getResources().getString(R.string.motion09), cM[i] * 100 / periodCircle));
+                            break;
+                        case 9:
+                            motions.add(new Report(R.drawable.feeling_guilty, getResources().getString(R.string.motion10), cM[i] * 100 / periodCircle));
+                            break;
+                        case 10:
+                            motions.add(new Report(R.drawable.obsessive_thoughts, getResources().getString(R.string.motion11), cM[i] * 100 / periodCircle));
+                            break;
+                        case 11:
+                            motions.add(new Report(R.drawable.apathetic, getResources().getString(R.string.motion12), cM[i] * 100 / periodCircle));
+                            break;
+                        case 12:
+                            motions.add(new Report(R.drawable.confused, getResources().getString(R.string.motion13), (cM[i] * 100 / periodCircle)));
+                            break;
                     }
-
-                    if (beginRed > curDayNumber) {
-                        flagPrediction--;
-                        beginRed -= periodCircle;
-                        endRed -= periodCircle;
-                        eggDay -= periodCircle;
-                        beginEgg -= periodCircle;
-                        endEgg -= periodCircle;
-                    }
-                    Log.e("123", "onCalendarSelect: \ncurDayNumber " + curDayNumber + "\nbeginRed " + beginRed);
-                    if (curDayNumber >= beginRed && curDayNumber <= endRed) {
-                        int number = curDayNumber - beginRed + 1;
-                        if (!isVisible) {
-                            isVisible = true;
-                            txtDay.setVisibility(View.VISIBLE);
-                            txtComment.setVisibility(View.VISIBLE);
-                        }
-                        if (flagPrediction > 0) {
-                            txtTitle.setText("Prediction: Period");
-                        } else {
-                            txtTitle.setText("Period");
-                        }
-
-                        txtDay.setText("Day " + number);
-                        txtDay.setTextColor(getResources().getColor(R.color.red));
-                        txtComment.setText("");
-                    } else {
-                        if (curDayNumber < eggDay) {
-                            int number = eggDay - curDayNumber;
-                            if (curDayNumber < beginEgg) {
-                                if (!isVisible) {
-                                    isVisible = true;
-                                    txtDay.setVisibility(View.VISIBLE);
-                                    txtComment.setVisibility(View.VISIBLE);
-                                }
-                                if (flagPrediction > 0) {
-                                    txtTitle.setText("Prediction: Ovulation in");
-                                } else {
-                                    txtTitle.setText("Ovulation in");
-                                }
-                                txtDay.setText(number + " days");
-                                txtDay.setTextColor(getResources().getColor(R.color.black));
-                                txtComment.setText("Low chance of getting pregnant");
-                            } else {
-                                if (!isVisible) {
-                                    isVisible = true;
-                                    txtDay.setVisibility(View.VISIBLE);
-                                    txtComment.setVisibility(View.VISIBLE);
-                                }
-                                if (flagPrediction > 0) {
-                                    txtTitle.setText("Prediction: Ovulation in");
-                                } else {
-                                    txtTitle.setText("Ovulation in");
-                                }
-                                txtDay.setText(number + " days");
-                                txtDay.setTextColor(getResources().getColor(R.color.violet));
-                                txtComment.setText("Have a chance of getting pregnant");
-                            }
-                        } else if (curDayNumber > eggDay) {
-                            int number = beginRed + periodCircle - curDayNumber;
-                            if (curDayNumber > endEgg) {
-                                if (!isVisible) {
-                                    isVisible = true;
-                                    txtDay.setVisibility(View.VISIBLE);
-                                    txtComment.setVisibility(View.VISIBLE);
-                                }
-                                if (flagPrediction > 0) {
-                                    txtTitle.setText("Prediction: Period in");
-                                } else {
-                                    txtTitle.setText("Period in");
-                                }
-                                txtDay.setText(number + " days");
-                                txtDay.setTextColor(getResources().getColor(R.color.black));
-                                txtComment.setText("Low chance of getting pregnant");
-                            } else {
-                                if (!isVisible) {
-                                    isVisible = true;
-                                    txtDay.setVisibility(View.VISIBLE);
-                                    txtComment.setVisibility(View.VISIBLE);
-                                }
-                                if (flagPrediction > 0) {
-                                    txtTitle.setText("Prediction: Period in");
-                                } else {
-                                    txtTitle.setText("Period in");
-                                }
-                                txtDay.setText(number + " days");
-                                txtDay.setTextColor(getResources().getColor(R.color.violet));
-                                txtComment.setText("Have a chance to get pregnant");
-                            }
-                        } else {
-                            if (!isVisible) {
-                                isVisible = true;
-                                txtDay.setVisibility(View.VISIBLE);
-                                txtComment.setVisibility(View.VISIBLE);
-                            }
-                            txtTitle.setText("Prediction: Day of");
-                            txtDay.setText("OVULATION");
-                            txtDay.setTextColor(getResources().getColor(R.color.bright_green));
-                            txtComment.setText("High chance of getting pregnant");
-                        }
-                    }
-                } else {
-                    //Chu kì cũ
-                    if (curDayNumber < beginRed + periodCircle) {
-                        if (curDayNumber >= beginRed && curDayNumber <= endRed) {
-                            int number = curDayNumber - beginRed + 1;
-                            if (!isVisible) {
-                                isVisible = true;
-                                txtDay.setVisibility(View.VISIBLE);
-                                txtComment.setVisibility(View.VISIBLE);
-                            }
-                            txtTitle.setText("Period");
-                            txtDay.setText("Day " + number);
-                            txtDay.setTextColor(getResources().getColor(R.color.red));
-                            txtComment.setText("");
-                        } else {
-                            if (curDayNumber < eggDay) {
-                                int number = eggDay - curDayNumber;
-                                if (curDayNumber < beginEgg) {
-                                    if (!isVisible) {
-                                        isVisible = true;
-                                        txtDay.setVisibility(View.VISIBLE);
-                                        txtComment.setVisibility(View.VISIBLE);
-                                    }
-                                    txtTitle.setText("Ovulation in");
-                                    txtDay.setText(number + " days");
-                                    txtDay.setTextColor(getResources().getColor(R.color.black));
-                                    txtComment.setText("Already a chance to getting pregnant");
-                                } else {
-                                    if (!isVisible) {
-                                        isVisible = true;
-                                        txtDay.setVisibility(View.VISIBLE);
-                                        txtComment.setVisibility(View.VISIBLE);
-                                    }
-
-                                    txtTitle.setText("Ovulation in");
-                                    txtDay.setText(number + " days");
-                                    txtDay.setTextColor(getResources().getColor(R.color.blue));
-                                    txtComment.setText("Already a chance to getting pregnant");
-                                }
-                            } else if (curDayNumber > eggDay) {
-                                int number = beginRed + periodCircle - curDayNumber;
-                                if (curDayNumber > endEgg) {
-                                    if (!isVisible) {
-                                        isVisible = true;
-                                        txtDay.setVisibility(View.VISIBLE);
-                                        txtComment.setVisibility(View.VISIBLE);
-                                    }
-                                    txtTitle.setText("Period in");
-                                    txtDay.setText(number + " days");
-                                    txtDay.setTextColor(getResources().getColor(R.color.black));
-                                    txtComment.setText("Already a chance to getting pregnant");
-                                } else {
-                                    if (!isVisible) {
-                                        isVisible = true;
-                                        txtDay.setVisibility(View.VISIBLE);
-                                        txtComment.setVisibility(View.VISIBLE);
-                                    }
-                                    txtTitle.setText("Period in");
-                                    txtDay.setText(number + " days");
-                                    txtDay.setTextColor(getResources().getColor(R.color.blue));
-                                    txtComment.setText("Already a chance to get pregnant");
-                                }
-                            } else {
-                                if (!isVisible) {
-                                    isVisible = true;
-                                    txtDay.setVisibility(View.VISIBLE);
-                                    txtComment.setVisibility(View.VISIBLE);
-                                }
-                                txtTitle.setText("Prediction: Day of");
-                                txtDay.setText("OVULATION");
-                                txtDay.setTextColor(getResources().getColor(R.color.bright_green));
-                                txtComment.setText("High chance of getting pregnant");
-                            }
-                        }
-                    } else {
-                        if (curDayNumber > todayNumber) {
-                            if (isVisible) {
-                                isVisible = false;
-                                txtDay.setVisibility(View.GONE);
-                                txtComment.setVisibility(View.GONE);
-                            }
-                            txtTitle.setText("Log your periods\nfor better predictions");
-                        } else {
-                            if (!isVisible) {
-                                isVisible = true;
-                                txtDay.setVisibility(View.VISIBLE);
-                                txtComment.setVisibility(View.VISIBLE);
-                            }
-                            int number = curDayNumber - beginRed - periodCircle + 1;
-                            txtTitle.setText("Late:");
-                            txtDay.setText(number + " Days");
-                            txtDay.setTextColor(getResources().getColor(R.color.gray));
-                            txtComment.setText("");
-                        }
-
-                    }
-
-                }
-                //txtCircleText.setText("selectDay: +"+curDayNumber+"\nbeginRed: "+bR+" "+beginRed+"\nendRed"+endRed+"\neggDay"+eggDay);
-
-            } else {
-                txtTitle.setText("Predictions will be\nmore accurate if you log\nyour past periods");
-                if (isVisible) {
-                    isVisible = false;
-                    txtDay.setVisibility(View.GONE);
-                    txtComment.setVisibility(View.GONE);
                 }
             }
+            for (int i = 0; i < cS.length; i++) {
 
-
-        } else {
-            txtTitle.setText("Log the first day of\nyour last period for\nbetter predictions");
-            if (isVisible) {
-                isVisible = false;
-                txtDay.setVisibility(View.GONE);
-                txtComment.setVisibility(View.GONE);
+                if (cS[i] > 0) {
+                    switch (i) {
+                        case 0:
+                            symptoms.add(new Report(R.drawable.fine, getResources().getString(R.string.symptom01), cS[i] * 100 / periodCircle));
+                            break;
+                        case 1:
+                            symptoms.add(new Report(R.drawable.cramps, getResources().getString(R.string.symptom02), cS[i] * 100 / periodCircle));
+                            break;
+                        case 2:
+                            symptoms.add(new Report(R.drawable.tender_breast, getResources().getString(R.string.symptom03), cS[i] * 100 / periodCircle));
+                            break;
+                        case 3:
+                            symptoms.add(new Report(R.drawable.headache, getResources().getString(R.string.symptom04), cS[i] * 100 / periodCircle));
+                            break;
+                        case 4:
+                            symptoms.add(new Report(R.drawable.acne, getResources().getString(R.string.symptom05), cS[i] * 100 / periodCircle));
+                            break;
+                        case 5:
+                            symptoms.add(new Report(R.drawable.backache, getResources().getString(R.string.symptom06), cS[i] * 100 / periodCircle));
+                            break;
+                        case 6:
+                            symptoms.add(new Report(R.drawable.nausea, getResources().getString(R.string.symptom07), cS[i] * 100 / periodCircle));
+                            break;
+                        case 7:
+                            symptoms.add(new Report(R.drawable.fatigue, getResources().getString(R.string.symptom08), cS[i] * 100 / periodCircle));
+                            break;
+                        case 8:
+                            symptoms.add(new Report(R.drawable.craving, getResources().getString(R.string.symptom09), cS[i] * 100 / periodCircle));
+                            break;
+                        case 9:
+                            symptoms.add(new Report(R.drawable.insomnia, getResources().getString(R.string.symptom10), cS[i] * 100 / periodCircle));
+                            break;
+                        case 10:
+                            symptoms.add(new Report(R.drawable.constipation, getResources().getString(R.string.symptom11), cS[i] * 100 / periodCircle));
+                            break;
+                        case 11:
+                            symptoms.add(new Report(R.drawable.diarrhea, getResources().getString(R.string.symptom12), cS[i] * 100 / periodCircle));
+                            break;
+                        case 12:
+                            symptoms.add(new Report(R.drawable.abdominal_pain, getResources().getString(R.string.symptom13), cS[i] * 100 / periodCircle));
+                            break;
+                        case 13:
+                            symptoms.add(new Report(R.drawable.perineum_pain, getResources().getString(R.string.symptom14), cS[i] * 100 / periodCircle));
+                            break;
+                        case 14:
+                            symptoms.add(new Report(R.drawable.swelling, getResources().getString(R.string.symptom15), cS[i] * 100 / periodCircle));
+                            break;
+                    }
+                }
             }
+            for (int i = 0; i < cP.length; i++) {
+                if (cP[i] > 0) {
+                    switch (i) {
+                        case 0:
+                            physics.add(new Report(R.drawable.didnt_excercise, getResources().getString(R.string.physic01), cP[i] * 100 / periodCircle));
+                            break;
+                        case 1:
+                            physics.add(new Report(R.drawable.running, getResources().getString(R.string.physic02), cP[i] * 100 / periodCircle));
+                            break;
+                        case 2:
+                            physics.add(new Report(R.drawable.cycling, getResources().getString(R.string.physic03), cP[i] * 100 / periodCircle));
+                            break;
+                        case 3:
+                            physics.add(new Report(R.drawable.gym, getResources().getString(R.string.physic04), cP[i] * 100 / periodCircle));
+                            break;
+                        case 4:
+                            physics.add(new Report(R.drawable.yoga, getResources().getString(R.string.physic05), cP[i] * 100 / periodCircle));
+                            break;
+                        case 5:
+                            physics.add(new Report(R.drawable.team_sport, getResources().getString(R.string.physic06), cP[i] * 100 / periodCircle));
+                            break;
+                        case 6:
+                            physics.add(new Report(R.drawable.swimming, getResources().getString(R.string.physic07), cP[i] * 100 / periodCircle));
+                            break;
+                    }
+                }
+            }
+            for (int i = 0; i < cO.length; i++) {
+                if (cO[i] > 0) {
+                    switch (i) {
+                        case 0:
+                            ovulations.add(new Report(R.drawable.didnot_take_test, getResources().getString(R.string.ovulation1), cO[i] * 100 / periodCircle));
+                            break;
+                        case 1:
+                            ovulations.add(new Report(R.drawable.positive, getResources().getString(R.string.ovulation2), cO[i] * 100 / periodCircle));
+                            break;
+                        case 2:
+                            ovulations.add(new Report(R.drawable.negative, getResources().getString(R.string.ovulation3), cO[i] * 100 / periodCircle));
+                            break;
+                        case 3:
+                            ovulations.add(new Report(R.drawable.ovulation_my_method, getResources().getString(R.string.ovulation4), cO[i] * 100 / periodCircle));
+                            break;
+                    }
+                }
+            }
+            Log.e("123123", "(4)motions: " + motions.size() + " " + symptoms.size() + " " + physics.size() + " " + ovulations.size());
+
         }
 
-        /*Log.e("onDateSelected", "  -- " + calendar.getYear() +
-                "  --  " + calendar.getMonth() +
-                "  -- " + calendar.getDay() +
-                "  --  " + isClick + "  --   " + calendar.getScheme());
-        Log.e("onDateSelected", "  " + mCalendarView.getSelectedCalendar().getScheme() +
-                "  --  " + mCalendarView.getSelectedCalendar().isCurrentDay());*/
-        //Todo ............................................................................................
+        if(motions.size()==0) motions.add(new Report(R.drawable.zo, getString(R.string.no_mood_yet), 0));
+        if(symptoms.size()==0) symptoms.add(new Report(R.drawable.ic_no_record_symptom, getString(R.string.no_symptom_yet), 0));
+        if(physics.size()==0) physics.add(new Report(R.drawable.ic_no_record_exercise, getString(R.string.no_physic_yet), 0));
+        if(ovulations.size()==0) ovulations.add(new Report(R.drawable.ic_no_record_ovulation, getString(R.string.no_ovulation_yet), 0));
 
-    }
+        rcvMotion.setLayoutManager(new LinearLayoutManager(getActivity()));
+        motionAdapter = new ReportAdapter(getActivity(), motions);
+        rcvMotion.setAdapter(motionAdapter);
 
-    @Override
-    public void onWeekChange(List<Calendar> weekCalendars) {
-        //Todo ............................................................................................
-        ///////////// Convert Date
-        String firstDateString = weekCalendars.get(0).toString();
-        try {
-            firstDateOfWeek = sdfLibraryDate.parse(firstDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        assert firstDateOfWeek != null;
-        firstDateString = sdfMyDate.format(firstDateOfWeek);
-        try {
-            firstDateOfWeek = sdfMyDate.parse(firstDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.e("HDT0309", "firstDateOfWeek " + firstDateOfWeek); //Oke
-        ///
-        for (Calendar calendar : weekCalendars) {
-            //Log.e("HDT0309", "(3)onWeekChange:" + calendar.toString());
-        }
-    }
+        rcvSymptom.setLayoutManager(new LinearLayoutManager(getActivity()));
+        symptomAdapter = new ReportAdapter(getActivity(), symptoms);
+        rcvSymptom.setAdapter(symptomAdapter);
 
-    @Override
-    public void onMonthChange(int year, int month) {
-        //Todo ............................................................................................
-        Log.e("HDT0309", "onMonthChange: " + year + "  --  " + month);
-        Calendar calendar = mCalendarView.getSelectedCalendar();
-        //mTextMonthDay.setText("day " + calendar.getDay() + " month " + calendar.getMonth());
-        //Todo ............................................................................................
-    }
+        rcvPhysic.setLayoutManager(new LinearLayoutManager(getActivity()));
+        physicAdapter = new ReportAdapter(getActivity(), physics);
+        rcvPhysic.setAdapter(physicAdapter);
 
-    @Override
-    public void onViewChange(boolean isMonthView) {
-        //Todo ............................................................................................
-        Log.e("HDT0309", "(1) onViewChange: isMonthView : " + (isMonthView ? "Xem tháng" : "Xem tuần"));
-    }
+        rcvOvulation.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ovulationAdapter = new ReportAdapter(getActivity(), ovulations);
+        rcvOvulation.setAdapter(ovulationAdapter);
 
- /*   private static String getCalendarText(Calendar calendar) {
-        Log.e("HDT0309", "(3)getCalendarText: ");
-        return String.format("%s", "ngày " + calendar.getDay() + " tháng " + calendar.getMonth() + " năm " + calendar.getYear());
-    }*/
 
-    private int countNumberDay(int year, int month, int day) {
-        if (month < 3) {
-            year--;
-            month += 12;
-        }
-        return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 306;
     }
 }

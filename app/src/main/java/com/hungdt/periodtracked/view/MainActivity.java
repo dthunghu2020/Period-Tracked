@@ -2,7 +2,6 @@ package com.hungdt.periodtracked.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -21,7 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.database.DBHelper;
@@ -30,8 +28,8 @@ import com.hungdt.periodtracked.model.Log;
 import com.hungdt.periodtracked.utils.Helper;
 import com.hungdt.periodtracked.utils.MySetting;
 import com.hungdt.periodtracked.view.fragment.PaperFragment;
-import com.hungdt.periodtracked.view.fragment.ReportFragment;
 import com.hungdt.periodtracked.view.fragment.TodayFragment;
+import com.hungdt.periodtracked.view.fragment.ReportFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,12 +172,12 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
 
         imgTodayOff.setVisibility(View.INVISIBLE);
         txtToday.setTextColor(getResources().getColor(R.color.violet));
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ReportFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TodayFragment()).commit();
 
         clToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedFragment = new ReportFragment();
+                selectedFragment = new TodayFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                 imgTodayOn.setVisibility(View.VISIBLE);
                 imgTodayOff.setVisibility(View.INVISIBLE);
@@ -195,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
         clReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedFragment = new TodayFragment();
+                selectedFragment = new ReportFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                 imgReportOn.setVisibility(View.VISIBLE);
                 imgReportOff.setVisibility(View.INVISIBLE);

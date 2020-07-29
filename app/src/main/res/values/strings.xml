@@ -9,7 +9,7 @@
         <item>Fri</item>
         <item>Sat</item>
     </string-array>
-    <string name="app_name">PeriodTracked</string>
+    <string name="app_name">Period Tracker</string>
     <string name="author">com.hungdt.periodtracked</string>
 
     <string name="today">Today</string>
@@ -47,11 +47,11 @@
         \nImportant note: if you have a gastrointestinal condition, drinking room temperature water is recommended.</string>
     <string name="title3"><b>5 Signs Your Period Is About To Start</b></string>
     <string name="body3"><b>&#160;&#160;&#160;&#160;&#160;&#160;1. Mood swings</b>\n
-        \nThe emotional symptoms can be more severe than the physical ones for some people. You may experience:\n
-        \n<i>&#160;&#160;&#160;&#160;&#160;&#160;mood swings</i>\n
-        <i>&#160;&#160;&#160;&#160;&#160;&#160;depression</i>\n
-        <i>&#160;&#160;&#160;&#160;&#160;&#160;irritability</i>\n
-        <i>&#160;&#160;&#160;&#160;&#160;&#160;anxiety</i>\n
+        \nThe emotional symptoms can be more severe than the physical ones for some people. You may experience:\n\n
+        <i>&#160;&#160;&#160;&#160;&#160;&#160;- Mood swings</i>\n
+        <i>&#160;&#160;&#160;&#160;&#160;&#160;- Depression</i>\n
+        <i>&#160;&#160;&#160;&#160;&#160;&#160;- Irritability</i>\n
+        <i>&#160;&#160;&#160;&#160;&#160;&#160;- Anxiety</i>\n
         \nIf you feel like you’re on an emotional roller coaster or feel sadder or crankier than usual, fluctuating estrogen and progesterone levels may be to blame.\n
         \nEstrogen can affect production of serotonin and feel-good endorphins in the brain, decreasing feelings of well-being and increasing depression and irritability.\n
         \nFor some, progesterone may have a calming effect. When progesterone levels are low, this effect may be diminished. Periods of crying for no reason and emotional hypersensitivity can result.\n
@@ -59,7 +59,7 @@
         \nSince hormones are responsible for generating the pain response, it’s understandable that fluctuating hormonal levels might cause headaches and migraines to occur.\n
         \nSerotonin is a neurotransmitter that often sets off migraines and headaches. Estrogen may increase serotonin levels and the number of serotonin receptors in the brain at certain points during the menstrual cycle. The interplay between estrogen and serotonin may cause migraines to occur in those who are prone to them.\n
         \nMore than 50 percent of women who get migraines report an association between the occurrence of migraines and their period. Migraines might occur before, during, or immediately following menstruation.\n
-        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;3. Fatigue</b>/n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;3. Fatigue</b>\n
         \nAs your period approaches, your body shifts gears from getting ready to sustain a pregnancy to getting ready to menstruate. Hormonal levels plummet, and fatigue is often the result. Changes in mood may also make you feel tired.\n
         \nOn top of all that, some women have trouble sleeping during this part of their menstrual cycle. Lack of sleep can exacerbate daytime fatigue.\n
         \n<b>&#160;&#160;&#160;&#160;&#160;&#160;4. Lower back pain</b>\n
@@ -69,14 +69,14 @@
         \nAbnormal symptoms can all affect your sleep making it harder to fall or stay asleep. Your body temperature may also make it harder for you to catch those much needed Zzz\'s.\n
         \nCore body temperature rises about half a degree after ovulation and stays high until you start to menstruate or shortly after. That may not sound like much, but cooler body temps are associated with better sleep. That half a degree can impair your ability to rest and renew.</string>
     <string name="title4"><b>The Most Common Signs Of Menstruation Before 1 Week</b></string>
-    <string name="body4"><b>&#160;&#160;&#160;&#160;&#160;&#160;1. The air is broken out much</b>\nSigns of menstruation before the first week is the phenomenon of the body emitting a lot of discharge. Because when the \"day\" is near, the girl\'s estrogen hormone will increase more than usual – resulting in more vaginal discharge and the \"girl\" becoming more moist. But girls need to pay attention: if signs of unpleasant odors, strange colored discharge or vaginal itching occur at the same time … girls will need to see a doctor because there is a risk of gynecological infection.\n
+    <string name="body4"><b>&#160;&#160;&#160;&#160;&#160;&#160;1. The air is broken out much</b>\n\nSigns of menstruation before the first week is the phenomenon of the body emitting a lot of discharge. Because when the \"day\" is near, the girl\'s estrogen hormone will increase more than usual – resulting in more vaginal discharge and the \"girl\" becoming more moist. But girls need to pay attention: if signs of unpleasant odors, strange colored discharge or vaginal itching occur at the same time … girls will need to see a doctor because there is a risk of gynecological infection.\n
         \nReference: More white blood is about to menstruate.\n
         \n<b>&#160;&#160;&#160;&#160;&#160;&#160;2. Oily skin, acne</b>\n
         \nThe skin produces a lot of sebum, acne is also one of the most common signs of menstruation before 1 week in girls. It is also because hormone levels rise when the period is approaching, which stimulates sebum production and clog pores – causing breakouts when preparing to menstruate. Girls do not forget to wash your face and clean hygiene to limit this situation \"unpleasant\" okay!\n
         \n<b>&#160;&#160;&#160;&#160;&#160;&#160;3. The first round is tight</b>\n
         \nIf your breasts become tense or you feel an increase in size in the first round, don\'t be surprised, it\'s just that girls are experiencing signs of menstruation before a typical week in women. The increase in estrogen hormone makes the breast tissue erect, girls will feel slightly swollen nipples and spread to the surrounding areas. Note to wear a little loose bra to round 1 more comfortable on \"that day\" my daughter.\n
         \nReference: Chest pain for how long menstruation.\n
-        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;4. Lower abdominal pain, back pain</b>\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;4. Lower abdominal pain, back pain</b>\n\n
         Lower abdominal pain is also a common symptom 1 week before menstruation, especially often appearing 1 to 2 days before the \"strawberry season\". Due to the increased secretion of female sex hormones, it can cause spasms and lower abdominal pain, which can also cause back pain.\n
         \nReference: Dysmenorrhea but no bleeding.\n
         \n<b>&#160;&#160;&#160;&#160;&#160;&#160;5. Digestive disorders</b>\n
@@ -101,18 +101,18 @@
     <string name="title7"><b>Check Yourself!!!!!!\n</b></string>
     <string name="body7">Take a few minutes to check your breasts. It can save your life.\n
         \nProtect yourself from breast cancer.\n
-        \n<i>How to do a Breast Self - Exam.</i>\n
+        \n<b><i>How to do a Breast Self - Exam.</i></b>\n
         \nA breast self - exam is a regular check that women do themselves.\n
-        \n<i>Why it\'s important.</i>\n
+        \n<b><i>Why it\'s important.</i></b>\n
         \nA breast self - exam will increase your chances of early detection of breast cancer.\n
-        \n<i>When</i>\n
+        \n<b><i>When</i></b>\n
         \nMonthly on day 7 - 10 of the cycle\n
         \n<b>&#160;&#160;&#160;&#160;&#160;&#160;1. Observation</b>\n
         \n<b>Stand in front of the mirror. Examine your breasts in each of the following positions:</b>\n
         \nPut your hands on your waist.\n
         \nPlace your hands behind your head.\n
         \nLean forward, contract your chest muscles.\n
-        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;2. Palpation in standing position</b>\n<b>Place your left hand behind your head</b>\n
+        \n<b>&#160;&#160;&#160;&#160;&#160;&#160;2. Palpation in standing position</b>\n\n<b>Place your left hand behind your head:</b>\n
         \nStart to move your fingers around your breast with slight circular movements clockwise to wards the nipple.\n
         \nCheck your armpit.\n
         \nThen examine your right breast the same way.\n
@@ -121,7 +121,7 @@
         \nMove your fingers gently around the entire breast in small circular motions.\n
         \nSqueeze the nipple to check for unusual nipple discharge.\n
     </string>
-    <string name="title8"><b>How is an irregular menstrual cycle affects?</b></string>
+    <string name="title8"><b>How Is An Irregular Menstrual Cycle Affects?</b></string>
     <string name="body8">Irregular menstruation is a fairly common phenomenon that many women of reproductive age often encounter. There are many causes for this condition, but whatever the reason, irregular menstruation causes certain effects on the health of women.\n
         \n<b>Causing difficulty conception in women</b>\n
         \nIrregular menstruation is a warning sign of gynecological infections such as vaginitis, cervicitis. Therefore, if this treatment is not detected in time, it will cause damage to the cervix, increasing the risk of ovarian polycystic syndrome leading to very difficult conception. According to studies, more than 80% of the causes of infertility and infertility in women belong to the group of menstrual irregularities, menstrual disorders.\n
@@ -198,7 +198,9 @@
     <string name="and_more_upcoming_features">And More Upcoming Features</string>
     <string name="unlock_all_predictions_and_content">Unlock all predictions and content</string>
     <string name="no_ads">No Ads</string>
-    <string name="cannot_add_note">Can\'t add note in future!!!</string>
+
+    <string name="cannot_add_note_future">Can\'t add note in future!!!</string>
+    <string name="cannot_add_note_past">Can\'t add note in past!!!</string>
 
     <string name="january">January</string>
     <string name="jan">Jan</string>
@@ -223,4 +225,9 @@
     <string name="nov">Nov</string>
     <string name="december">December</string>
     <string name="dec">Dec</string>
+    <string name="period_tracker">Period Tracker</string>
+    <string name="no_mood_yet">No Mood Yet!</string>
+    <string name="no_symptom_yet">No Symptom Yet!</string>
+    <string name="no_physic_yet">No Physic Activity Yet!</string>
+    <string name="no_ovulation_yet">No Ovulation Yet!</string>
 </resources>

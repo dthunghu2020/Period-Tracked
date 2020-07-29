@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 public class MySetting {
     public static final String FIRST_DAY = "first_day";
+    public static final String FIRST_DAY_OF_CIRCLE = "first_day_circle";
     public static final String P_LENGTH = "period_length";
     public static final String P_CIRCLE = "period_circle";
     public static final String GEMS = "gems";
@@ -26,6 +27,18 @@ public class MySetting {
     public static String getFirstDay(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         return preferences.getString(FIRST_DAY, "01-01-2020");
+    }
+
+    public static void putFirstDayOfCircle(Context context, String firstDayCircle) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(FIRST_DAY_OF_CIRCLE, firstDayCircle);
+        editor.apply();
+    }
+
+    public static String getFirstDayOfCircle(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        return preferences.getString(FIRST_DAY_OF_CIRCLE, getFirstDay(context));
     }
 
     public static void putPeriodLength(Context context, int length) {

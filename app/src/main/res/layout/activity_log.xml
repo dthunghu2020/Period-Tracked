@@ -57,95 +57,256 @@
                 android:background="@drawable/shape_log"
                 android:elevation="@dimen/_2sdp"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:padding="@dimen/_8sdp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Weight"
-                        android:textColor="@color/black" />
+                    <LinearLayout
+                        android:id="@+id/llWeight"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imgWeight"
-                        android:layout_width="@dimen/_52sdp"
-                        android:layout_height="@dimen/_52sdp"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:src="@drawable/ic_weight" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weight"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:textColor="@color/black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:text="-:- Kg" />
+                        <ImageView
+                            android:id="@+id/imgWeight"
+                            android:layout_width="@dimen/_52sdp"
+                            android:layout_height="@dimen/_52sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:src="@drawable/ic_weight" />
+
+                        <TextView
+                            android:id="@+id/txtWeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:text="--:-- Kg"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llSleep"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sleep"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imgSleep"
+                            android:layout_width="@dimen/_52sdp"
+                            android:layout_height="@dimen/_52sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:src="@drawable/ic_sleep" />
+
+                        <TextView
+                            android:id="@+id/txtSleep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:text="00h00m"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llWater"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Water"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imgWater"
+                            android:layout_width="@dimen/_52sdp"
+                            android:layout_height="@dimen/_52sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:src="@drawable/ic_water" />
+
+                        <TextView
+                            android:id="@+id/txtWater"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:text="0,00 L"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:id="@+id/llWeightInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <EditText
+                        android:id="@+id/edtWeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sleep"
-                        android:textColor="@color/black" />
-
-                    <ImageView
-                        android:id="@+id/imgSleep"
-                        android:layout_width="@dimen/_52sdp"
-                        android:layout_height="@dimen/_52sdp"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:src="@drawable/ic_sleep" />
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:hint="--"
+                        android:inputType="numberDecimal"
+                        android:maxLength="5"
+                        android:minWidth="@dimen/_36sdp"
+                        android:padding="@dimen/_6sdp"
+                        android:textColor="@color/violet"
+                        android:textColorHint="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:text="00h00m" />
+
+                        android:text="kg"
+                        android:textColor="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:id="@+id/llSleepInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <EditText
+                        android:id="@+id/edtHour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Water"
-                        android:textColor="@color/black" />
-
-                    <ImageView
-                        android:id="@+id/imgWater"
-                        android:layout_width="@dimen/_52sdp"
-                        android:layout_height="@dimen/_52sdp"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:src="@drawable/ic_water" />
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:hint="--"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:minWidth="@dimen/_36sdp"
+                        android:padding="@dimen/_6sdp"
+                        android:textColor="@color/violet"
+                        android:textColorHint="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:text="0,00 L" />
+
+                        android:text="h"
+                        android:textColor="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtMinutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:hint="--"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:minWidth="@dimen/_36sdp"
+                        android:padding="@dimen/_6sdp"
+                        android:textColor="@color/violet"
+                        android:textColorHint="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="m"
+                        android:textColor="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <!--<com.kevalpatel2106.rulerpicker.RulerValuePicker
+                        android:id="@+id/ruler_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_28sdp"
+                        android:background="@color/violet"
+                        app:indicator_color="@color/white"
+                        app:indicator_interval="@dimen/_6sdp"
+                        app:indicator_width="@dimen/_1sdp"
+                        app:max_value="121"
+                        app:min_value="35"
+                        app:notch_color="@android:color/white"
+                        app:ruler_text_color="@color/white"
+                        app:ruler_text_size="6sp" />-->
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/llWaterInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtLit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:hint="--"
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        android:minWidth="@dimen/_36sdp"
+                        android:padding="@dimen/_6sdp"
+                        android:textColor="@color/violet"
+                        android:textColorHint="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="L"
+                        android:textColor="@color/violet"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_16sdp"
+                    android:background="@drawable/shape_bg_button"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/ic_up" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -287,6 +448,11 @@
         </LinearLayout>
     </ScrollView>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_78sdp"
+        android:src="@drawable/bottom_white"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/btnSave"
