@@ -230,4 +230,5 @@
     <string name="no_symptom_yet">No Symptom Yet!</string>
     <string name="no_physic_yet">No Physic Activity Yet!</string>
     <string name="no_ovulation_yet">No Ovulation Yet!</string>
+    <string name="save">Save</string>
 </resources>

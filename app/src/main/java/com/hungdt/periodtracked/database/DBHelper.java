@@ -25,6 +25,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SYMPTOMS = "SYMPTOM";
     public static final String COLUMN_PHYSICS = "PHYSIC";
     public static final String COLUMN_OVULATIONS = "OVULATION";
+    public static final String COLUMN_WEIGHT = "WEIGHT";
+    public static final String COLUMN_HOUR = "HOUR";
+    public static final String COLUMN_MINUTES = "MINUTES";
+    public static final String COLUMN_WATER = "WATER";
 
 
     public static final String SQL_CREATE_TABLE_PAPER = "CREATE TABLE " + TABLE_PERIOD + "("
@@ -34,7 +38,11 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_MOTIONS + " TEXT NOT NULL, "
             + COLUMN_SYMPTOMS + " TEXT NOT NULL, "
             + COLUMN_PHYSICS + " TEXT NOT NULL, "
-            + COLUMN_OVULATIONS + " TEXT NOT NULL " + ");";
+            + COLUMN_OVULATIONS + " TEXT NOT NULL, "
+            + COLUMN_WEIGHT + " FLOAT NOT NULL, "
+            + COLUMN_HOUR + " INT NOT NULL, "
+            + COLUMN_MINUTES + " INT NOT NULL, "
+            + COLUMN_WATER + " FLOAT NOT NULL " + ");";
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -47,7 +55,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return instance;
     }
 
-    public void addPeriodData(String day, String type, String motions,String symptoms,String physics,String ovulations) {
+    public void addPeriodData(String day, String type, String motions, String symptoms, String physics, String ovulations, float weight, int hour, int minutes, float water) {
         SQLiteDatabase database = instance.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -57,6 +65,10 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SYMPTOMS, symptoms);
         values.put(COLUMN_PHYSICS, physics);
         values.put(COLUMN_OVULATIONS, ovulations);
+        values.put(COLUMN_WEIGHT, weight);
+        values.put(COLUMN_HOUR, hour);
+        values.put(COLUMN_MINUTES, minutes);
+        values.put(COLUMN_WATER, water);
 
         database.insert(TABLE_PERIOD, null, values);
         database.close();
@@ -75,7 +87,11 @@ public class DBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_MOTIONS)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_SYMPTOMS)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_PHYSICS)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OVULATIONS))));
+                        cursor.getString(cursor.getColumnIndex(COLUMN_OVULATIONS)),
+                        cursor.getFloat(cursor.getColumnIndex(COLUMN_WEIGHT)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_HOUR)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_MINUTES)),
+                        cursor.getFloat(cursor.getColumnIndex(COLUMN_WATER))));
                 cursor.moveToNext();
             }
         }
@@ -84,7 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return contacts;
     }
 
-    public void updatePeriod(String curDay, String type, String motions,String symptoms,String physics,String ovulations) {
+    public void updatePeriod(String curDay, String type, String motions, String symptoms, String physics, String ovulations, float weight, int hour, int minutes, float water) {
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TYPE_DAY, type);
@@ -92,6 +108,10 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SYMPTOMS, symptoms);
         values.put(COLUMN_PHYSICS, physics);
         values.put(COLUMN_OVULATIONS, ovulations);
+        values.put(COLUMN_WEIGHT, weight);
+        values.put(COLUMN_HOUR, hour);
+        values.put(COLUMN_MINUTES, minutes);
+        values.put(COLUMN_WATER, water);
         db.update(TABLE_PERIOD, values, COLUMN_DAY + "='" + curDay + "'", null);
         db.close();
     }
@@ -105,7 +125,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERIOD);
     }
-
 
 
 }

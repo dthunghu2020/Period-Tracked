@@ -10,8 +10,12 @@ public class Data {
     private String idSymptom;
     private String idPhysic;
     private String idOvulation;
+    private float weight;
+    private int hour;
+    private int minutes;
+    private float water;
 
-    public Data(String id, String day, String typeDay, String idMotion, String idSymptom, String idPhysic, String idOvulation) {
+    public Data(String id, String day, String typeDay, String idMotion, String idSymptom, String idPhysic, String idOvulation, float weight, int hour, int minutes, float water) {
         this.id = id;
         this.day = day;
         this.typeDay = typeDay;
@@ -19,6 +23,42 @@ public class Data {
         this.idSymptom = idSymptom;
         this.idPhysic = idPhysic;
         this.idOvulation = idOvulation;
+        this.weight = weight;
+        this.hour = hour;
+        this.minutes = minutes;
+        this.water = water;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public float getWater() {
+        return water;
+    }
+
+    public void setWater(float water) {
+        this.water = water;
     }
 
     public String getId() {

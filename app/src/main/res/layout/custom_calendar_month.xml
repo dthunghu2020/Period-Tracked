@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_custom_calendar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/_6sdp"
-        android:paddingBottom="@dimen/_6sdp">
+        android:orientation="horizontal">
 
         <ImageView
-            android:padding="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/imgPrevious"
             android:layout_width="@dimen/_30sdp"
+            app:layout_constraintEnd_toStartOf="@+id/txtDate"
             android:layout_height="@dimen/_30sdp"
-            android:layout_margin="@dimen/_6sdp"
-            android:src="@drawable/ic_left" />
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_back_r" />
 
         <TextView
             android:id="@+id/txtDate"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_weight="3"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:padding="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/imgNext"
+            app:layout_constraintStart_toEndOf="@+id/txtDate"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_margin="@dimen/_6sdp"
-            android:src="@drawable/ic_right" />
-    </LinearLayout>
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_next_r" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:layout_marginEnd="@dimen/_4sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
         android:orientation="horizontal"
         android:paddingTop="@dimen/_2sdp"
         android:paddingBottom="@dimen/_2sdp">
@@ -53,8 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="SUN"
-            android:textColor="@color/white"
+            android:text="@string/sun"
             android:textStyle="bold" />
 
         <TextView
@@ -62,8 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="MON"
-            android:textColor="@color/white"
+            android:text="@string/mon"
             android:textStyle="bold" />
 
         <TextView
@@ -71,8 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="TUE"
-            android:textColor="@color/white"
+            android:text="@string/tue"
             android:textStyle="bold" />
 
         <TextView
@@ -80,8 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="WED"
-            android:textColor="@color/white"
+            android:text="@string/wed"
             android:textStyle="bold" />
 
         <TextView
@@ -89,8 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="THU"
-            android:textColor="@color/white"
+            android:text="@string/thu"
             android:textStyle="bold" />
 
         <TextView
@@ -98,8 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="FRI"
-            android:textColor="@color/white"
+            android:text="@string/fri"
             android:textStyle="bold" />
 
         <TextView
@@ -107,8 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="SAT"
-            android:textColor="@color/white"
+            android:text="@string/sat"
             android:textStyle="bold" />
     </LinearLayout>
 

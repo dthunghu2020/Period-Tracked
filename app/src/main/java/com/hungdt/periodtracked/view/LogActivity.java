@@ -1,11 +1,17 @@
 package com.hungdt.periodtracked.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +32,9 @@ import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.view.adapter.LogAdapter;
 import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +43,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.hungdt.periodtracked.view.MainActivity.dataList;
+import static com.unity3d.services.core.properties.ClientProperties.getActivity;
 
 public class LogActivity extends AppCompatActivity {
     LogAdapter motionAdapter, symptomAdapter, physicAdapter, ovulationAdapter;
@@ -56,17 +66,17 @@ public class LogActivity extends AppCompatActivity {
     boolean haveData = false;
     String curDay;
 
-    float kilogram;
-    int hour;
-    int minute;
-    float lit;
+    boolean haveSleep=false;
+    private float kilogram = -1;
+    private int hour = 0;
+    private int minute = -1;
+    private float lit = -1;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
-
         initView();
 
         llWeightInput.setVisibility(View.GONE);
@@ -173,18 +183,18 @@ public class LogActivity extends AppCompatActivity {
         }
         Data data = null;
         for (int i = 0; i < dataList.size(); i++) {
-            android.util.Log.e("111", "(0.1)datalist: " + dataList.get(i).getDay() + " curDay" + curDay);
             if (dataList.get(i).getDay().equals(curDay)) {
-                android.util.Log.e("111", "(0.2) equal datalist: " + dataList.get(i).getDay() + " curDay" + curDay);
                 data = dataList.get(i);
                 position = i;
                 break;
             }
         }
-        android.util.Log.e("111", "(1)Have data: " + haveData);
         if (data != null) {
             haveData = true;
-            android.util.Log.e("111", "(2)Have data: true");
+            kilogram = data.getWeight();
+            hour = data.getHour();
+            minute = data.getMinutes();
+            lit = data.getWater();
             String[] idsM = data.getIdMotion().split(" ");
             String[] idsS = data.getIdSymptom().split(" ");
             String[] idsP = data.getIdPhysic().split(" ");
@@ -210,6 +220,22 @@ public class LogActivity extends AppCompatActivity {
                 }
             }
         }
+        if (kilogram == -1) {
+            txtWeight.setText("-- kg");
+        } else {
+            txtWeight.setText(kilogram + " kg");
+        }
+
+        if (minute == -1) {
+            txtSleep.setText("--h--m");
+        } else {
+            txtSleep.setText(hour + "h" + minute + "m");
+        }
+        if (lit == -1) {
+            txtWater.setText("-- L");
+        } else {
+            txtWater.setText(lit + " L");
+        }
 
 
         rcvMotion.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -234,10 +260,11 @@ public class LogActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        //final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String mId = "";
                 String sId = "";
                 String pId = "";
@@ -266,16 +293,17 @@ public class LogActivity extends AppCompatActivity {
                         oId = text;
                     }
                 }
+
                 if (position == -1) {
-                    dataList.add(new Data("id", curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim()));
-                    DBHelper.getInstance(LogActivity.this).addPeriodData(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim());
+                    dataList.add(new Data("id", curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit));
+                    DBHelper.getInstance(LogActivity.this).addPeriodData(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
                     position = dataList.size() - 1;
                 } else {
                     dataList.get(position).setIdMotion(mId.trim());
                     dataList.get(position).setIdSymptom(sId.trim());
                     dataList.get(position).setIdPhysic(pId.trim());
                     dataList.get(position).setIdOvulation(oId.trim());
-                    DBHelper.getInstance(LogActivity.this).updatePeriod(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim());
+                    DBHelper.getInstance(LogActivity.this).updatePeriod(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
                 }
 
 
@@ -284,6 +312,8 @@ public class LogActivity extends AppCompatActivity {
                 intent.putExtra(KEY.POSITION, position);
                 sendBroadcast(intent);
                 onBackPressed();
+
+
             }
         });
 
@@ -297,6 +327,9 @@ public class LogActivity extends AppCompatActivity {
                 } else {
                     inputWeightVisible = true;
                     llWeightInput.setVisibility(View.VISIBLE);
+                    if (kilogram != -1) {
+                        edtWeight.setText("" + kilogram);
+                    }
                     llUp.setVisibility(View.VISIBLE);
                 }
                 if (inputSleepVisible) {
@@ -322,6 +355,10 @@ public class LogActivity extends AppCompatActivity {
                 } else {
                     inputSleepVisible = true;
                     llSleepInput.setVisibility(View.VISIBLE);
+                    if (minute != -1) {
+                        edtHour.setText("" + hour);
+                        edtMinutes.setText("" + minute);
+                    }
                     llUp.setVisibility(View.VISIBLE);
                 }
                 if (inputWeightVisible) {
@@ -345,6 +382,9 @@ public class LogActivity extends AppCompatActivity {
                 } else {
                     inputWatertVisible = true;
                     llWaterInput.setVisibility(View.VISIBLE);
+                    if (lit != -1) {
+                        edtLit.setText("" + lit);
+                    }
                     llUp.setVisibility(View.VISIBLE);
                 }
                 if (inputWeightVisible) {
@@ -376,40 +416,30 @@ public class LogActivity extends AppCompatActivity {
             }
         });
 
-        edtWeight.addTextChangedListener(new TextWatcher() {
 
+        edtWeight.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
+
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0)
-                    txtWeight.setText(s + " kg");
-            }
-        });
-        edtWeight.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0){
-                    kilogram = 0;
-                }else {
-                    kilogram = Integer.parseInt(String.valueOf(s));
+                if (s.length() != 0) {
+                    kilogram = Float.parseFloat(String.valueOf(s));
+                } else {
+                    kilogram = -1;
                 }
-                txtWeight.setText(kilogram + " kg");
+                if(kilogram ==-1){
+                    txtWeight.setText("-- kg");
+                }else {
+                    txtWeight.setText(kilogram + " kg");
+                }
             }
         });
         edtHour.addTextChangedListener(new TextWatcher() {
@@ -424,12 +454,23 @@ public class LogActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0){
-                    hour = 0;
-                }else {
+                if (s.length() != 0) {
                     hour = Integer.parseInt(String.valueOf(s));
+                } else {
+                    hour = 0;
                 }
-                txtSleep.setText(hour +"h" +minute+"m");
+                if(minute==-1){
+                    if(hour==0){
+                        txtSleep.setText(  "--h--m");
+                    }else {
+                        minute = 0;
+                        txtSleep.setText(hour + "h" + minute + "m");
+                    }
+                }else {
+                    txtSleep.setText(hour + "h" + minute + "m");
+                }
+
+
             }
         });
         edtMinutes.addTextChangedListener(new TextWatcher() {
@@ -444,13 +485,24 @@ public class LogActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0){
-                    minute = 0;
-                }else {
+                if (s.length() != 0) {
+                    haveSleep=true;
                     minute = Integer.parseInt(String.valueOf(s));
+                } else {
+                    minute = -1;
                 }
 
-                txtSleep.setText(hour +"h" +minute+"m");
+                if(minute==-1){
+                    if(hour==0){
+                        txtSleep.setText(  "--h--m");
+                    }else {
+                        minute=0;
+                        txtSleep.setText(hour + "h" + minute + "m");
+                    }
+                }else {
+                    txtSleep.setText(hour + "h" + minute + "m");
+                }
+
             }
         });
         edtLit.addTextChangedListener(new TextWatcher() {
@@ -465,15 +517,48 @@ public class LogActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0){
-                    lit = 0;
-                }else {
+                if (s.length() != 0) {
                     lit = Float.parseFloat(String.valueOf(s));
+                } else {
+                    lit = -1;
+                }
+                if(lit==-1){
+                    txtWater.setText("-- L");
+                }else {
+                    txtWater.setText(lit + " L");
                 }
 
-                txtWater.setText(lit + " L");
             }
         });
+
+        KeyboardVisibilityEvent.setEventListener(
+                LogActivity.this,
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        if (isOpen) {
+                            btnSave.setVisibility(View.GONE);
+                        } else {
+                            btnSave.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private void initView() {

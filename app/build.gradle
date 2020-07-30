@@ -44,6 +44,9 @@ dependencies {
     //pick sleep
     implementation 'com.kevalpatel2106:ruler-picker:1.1'
 
+    //
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC2'
+
     //Lottie
     implementation "com.airbnb.android:lottie:3.4.1"
 
