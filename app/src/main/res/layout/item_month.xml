@@ -5,7 +5,7 @@
     android:layout_height="@dimen/_38sdp"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/_4sdp">
+    android:padding="@dimen/_2sdp">
 
     <ImageView
         android:id="@+id/imgLeft"
@@ -36,7 +36,7 @@
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_day"
+        android:background="@drawable/shape_egg"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_dot"
+        android:background="@drawable/shape_red_day"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,10 +56,10 @@
         app:layout_constraintTop_toTopOf="parent" />
     <ImageView
         android:id="@+id/imgEgg"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_width="@dimen/_34sdp"
+        android:layout_height="@dimen/_34sdp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_egg"
+        android:background="@drawable/shape_eggday"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,10 +73,22 @@
         android:layout_gravity="center"
         android:text="1"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/txtToday"
+        android:text="Today"
+        android:textSize="8sp"
+        android:layout_marginBottom="@dimen/_17sdp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,96 +1,117 @@
 package com.hungdt.periodtracked.view;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.dataset.Constant;
+import com.hungdt.periodtracked.model.CalendarPick;
 import com.hungdt.periodtracked.utils.MySetting;
+import com.hungdt.periodtracked.view.adapter.CalendarPickAdapter;
+import com.hungdt.periodtracked.view.adapter.LogAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
 
 public class Question1Activity extends AppCompatActivity {
-    private TextView txtFirstDay, txtNotification;
-    private Button btnChoose;
-    private CheckBox checkbox;
+    private TextView txtFirstDay, txtNotification, txtDate;
     private Button btnNext;
+    private CheckBox checkbox;
+    ImageView imgNext, imgPrevious;
+    LinearLayout llCheckBox, llCalendar, llSelectedDate;
+    RecyclerView rcvPick;
     Calendar calendar = Calendar.getInstance();
-    private boolean haveDate = false;
+    private boolean haveData = false;
+    private static final int MAX_CALENDAR_DAYS = 42;
+    Calendar currentCalendar = Calendar.getInstance();
+    Date currentDate;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yyyy");
+    SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
+    SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
+    SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
+    List<CalendarPick> calendarPicks = new ArrayList<>();
+    CalendarPickAdapter calendarPickAdapter;
+    private String firstDate = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_period_start);
 
-        txtFirstDay = findViewById(R.id.txtFirstDay);
-        LinearLayout llCheckBox = findViewById(R.id.llCheckBox);
-        btnChoose = findViewById(R.id.btnChoose);
-        btnNext = findViewById(R.id.btnNext);
-        checkbox = findViewById(R.id.checkbox);
-        txtNotification = findViewById(R.id.txtNotification);
+        initView();
 
         btnNext.setVisibility(View.GONE);
         txtNotification.setVisibility(View.GONE);
+        //imgNext.setVisibility(View.INVISIBLE);
 
-        @SuppressLint("SimpleDateFormat") final SimpleDateFormat sdfDate = new SimpleDateFormat(Constant.getDateFormat());
-        @SuppressLint("SimpleDateFormat") final SimpleDateFormat sdfDay = new SimpleDateFormat(Constant.getDayFormat());
-        @SuppressLint("SimpleDateFormat") final SimpleDateFormat sdfMonth = new SimpleDateFormat(Constant.getMonthFormat());
-        @SuppressLint("SimpleDateFormat") final SimpleDateFormat sdfYear = new SimpleDateFormat(Constant.getYearFormat());
+        setUpCalendar();
+        llSelectedDate.setVisibility(View.INVISIBLE);
 
-        String instanceDate = sdfDate.format(calendar.getTime());
-        txtFirstDay.setText(instanceDate);
+        rcvPick.setLayoutManager(new GridLayoutManager(this, 7));
+        calendarPickAdapter = new CalendarPickAdapter(this, calendarPicks, currentCalendar);
+        rcvPick.setAdapter(calendarPickAdapter);
 
-        final DatePickerDialog.OnDateSetListener dateDialog = new DatePickerDialog.OnDateSetListener() {
+        calendarPickAdapter.setOnCalendarPickListener(new CalendarPickAdapter.OnCalendarPickListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                txtFirstDay.setText(sdfDate.format(calendar.getTime()));
-                Date dateCalendar;
-                try {
-                    dateCalendar = sdfDate.parse(getInstantDateTime());
-                    if (dateCalendar != null) {
-                        calendar.set(Calendar.YEAR, Integer.parseInt(sdfDay.format(dateCalendar)));
-                        calendar.set(Calendar.MONTH, Integer.parseInt(sdfMonth.format(dateCalendar)) - 1);
-                        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(sdfYear.format(dateCalendar)));
+            public void OnItemClicked(int position) {
+                btnNext.setVisibility(View.VISIBLE);
+                for (int i = 0; i < calendarPicks.size(); i++) {
+                    if (calendarPicks.get(i).isPicked()) {
+                        calendarPicks.get(i).setPicked(false);
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-            }
-        };
-
-
-        btnChoose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!haveDate) {
-                    btnNext.setVisibility(View.VISIBLE);
-                    haveDate = true;
-                }
-                new DatePickerDialog(Question1Activity.this, dateDialog, calendar
-                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+                llSelectedDate.setVisibility(View.VISIBLE);
+                calendarPicks.get(position).setPicked(true);
+                firstDate = sdfDate.format(calendarPicks.get(position).getDate().getTime());
+                txtFirstDay.setText(firstDate);
+                calendarPickAdapter.notifyDataSetChanged();
             }
         });
+
+        imgPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentCalendar.add(Calendar.MONTH, -1);
+                setUpCalendar();
+                calendarPickAdapter.notifyDataSetChanged();
+                imgNext.setVisibility(View.VISIBLE);
+            }
+        });
+
+        imgNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentCalendar.add(Calendar.MONTH, 1);
+                setUpCalendar();
+                calendarPickAdapter.notifyDataSetChanged();
+                if (currentCalendar.get(Calendar.MONTH) < calendar.get(Calendar.MONTH) && currentCalendar.get(Calendar.YEAR) <= calendar.get(Calendar.YEAR)) {
+                    imgNext.setVisibility(View.VISIBLE);
+                } /*else {
+                    imgNext.setVisibility(View.INVISIBLE);
+                }*/
+            }
+        });
+
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,50 +145,98 @@ public class Question1Activity extends AppCompatActivity {
         llCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!haveDate) {
-                    btnNext.setVisibility(View.VISIBLE);
-                    haveDate = true;
-                }
+
                 if (checkbox.isChecked()) {
                     checkbox.setChecked(false);
-                    txtFirstDay.setVisibility(View.VISIBLE);
-                    btnChoose.setVisibility(View.VISIBLE);
+                    llSelectedDate.setVisibility(View.VISIBLE);
+                    llCalendar.setVisibility(View.VISIBLE);
                     txtNotification.setVisibility(View.GONE);
                 } else {
                     checkbox.setChecked(true);
-                    txtFirstDay.setVisibility(View.GONE);
-                    btnChoose.setVisibility(View.GONE);
+                    llSelectedDate.setVisibility(View.GONE);
+                    llCalendar.setVisibility(View.GONE);
                     txtNotification.setVisibility(View.VISIBLE);
+                }
+                if (!haveData) {
+                    btnNext.setVisibility(View.VISIBLE);
+                    haveData = true;
+                } else {
+                    if (firstDate.equals("")) {
+                        btnNext.setVisibility(View.INVISIBLE);
+                        haveData = false;
+                        llSelectedDate.setVisibility(View.INVISIBLE);
+                    }
                 }
             }
         });
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!haveDate) {
-                    btnNext.setVisibility(View.VISIBLE);
-                    haveDate = true;
-                }
+
                 if (checkbox.isChecked()) {
                     checkbox.setChecked(true);
-                    txtFirstDay.setVisibility(View.GONE);
-                    btnChoose.setVisibility(View.GONE);
+                    llSelectedDate.setVisibility(View.GONE);
+                    llCalendar.setVisibility(View.GONE);
                     txtNotification.setVisibility(View.VISIBLE);
                 } else {
                     checkbox.setChecked(false);
-                    txtFirstDay.setVisibility(View.VISIBLE);
-                    btnChoose.setVisibility(View.VISIBLE);
+                    llSelectedDate.setVisibility(View.VISIBLE);
+                    llCalendar.setVisibility(View.VISIBLE);
                     txtNotification.setVisibility(View.GONE);
+                }
+                if (!haveData) {
+                    btnNext.setVisibility(View.VISIBLE);
+                    haveData = true;
+                } else {
+                    if (firstDate.equals("")) {
+                        btnNext.setVisibility(View.INVISIBLE);
+                        haveData = false;
+                        llSelectedDate.setVisibility(View.INVISIBLE);
+                    }
                 }
             }
         });
 
+
     }
 
-    private String getInstantDateTime() {
+    private void setUpCalendar() {
+        currentDate = currentCalendar.getTime();
+        String instanceDate = dateFormat.format(currentCalendar.getTime());
+        txtDate.setText(instanceDate);
+        calendarPicks.clear();
+        Calendar calender2 = (Calendar) currentCalendar.clone();
+        calender2.set(Calendar.DAY_OF_MONTH, 1);
+        int firstDayOfMonth = calender2.get(Calendar.DAY_OF_WEEK) - 1;
+        calender2.add(Calendar.DAY_OF_MONTH, -firstDayOfMonth);
+
+        while (calendarPicks.size() < MAX_CALENDAR_DAYS) {
+            calendarPicks.add(new CalendarPick(calender2.getTime()));
+            if (sdfDate.format(calender2.getTime()).equals(firstDate)) {
+                calendarPicks.get(calendarPicks.size() - 1).setPicked(true);
+            }
+            calender2.add(Calendar.DAY_OF_MONTH, 1);
+        }
+    }
+
+    private void initView() {
+        txtFirstDay = findViewById(R.id.txtFirstDay);
+        llCheckBox = findViewById(R.id.llCheckBox);
+        llCalendar = findViewById(R.id.llCalendar);
+        btnNext = findViewById(R.id.btnNext);
+        checkbox = findViewById(R.id.checkbox);
+        txtNotification = findViewById(R.id.txtNotification);
+        imgNext = findViewById(R.id.imgNext);
+        imgPrevious = findViewById(R.id.imgPrevious);
+        txtDate = findViewById(R.id.txtDate);
+        rcvPick = findViewById(R.id.rcvPick);
+        llSelectedDate = findViewById(R.id.llSelectedDate);
+    }
+
+   /* private String getInstantDateTime() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(Constant.getDateTimeFormat());
         return sdf.format(calendar.getTime());
-    }
+    }*/
 
     private int countNumberDay(int year, int month, int day) {
         if (month < 3) {

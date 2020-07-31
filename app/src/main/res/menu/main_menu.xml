@@ -2,34 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_setting"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_settings"
         android:title="@string/setting" />
     <item
+        android:id="@+id/nav_VIP"
+        android:icon="@drawable/ic_vip"
+        android:title="@string/vip" />
+    <item
         android:id="@+id/nav_remove_add"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_removeads"
         android:title="@string/remove_ads" />
     <item
         android:id="@+id/nav_rate_us"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_rate"
         android:title="@string/rate_us" />
     <item
         android:id="@+id/nav_more_app"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_moreapps"
         android:title="@string/more_apps" />
     <item
         android:id="@+id/nav_feedback_dev"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_feedback"
         android:title="@string/feedback" />
     <item
         android:id="@+id/nav_share"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_share"
         android:title="@string/share" />
     <item
-        android:id="@+id/nav_VIP"
-        android:icon="@drawable/ic_calendar"
-        android:title="@string/vip" />
-    <item
         android:id="@+id/nav_policy"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_policy"
         android:title="@string/policy" />
 </menu>

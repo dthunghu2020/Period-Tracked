@@ -34,21 +34,20 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_25sdp"
-                    android:layout_marginEnd="@dimen/_25sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"
+                    android:layout_height="200dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/calm"
-                    android:padding="10dp" />
+                    android:src="@drawable/rate_img"
+                    />
 
                 <FrameLayout
+                    android:layout_marginTop="@dimen/_28sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end">
 
                     <LinearLayout
+
                         android:id="@+id/lnExitRateApp"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:layout_width="wrap_content"

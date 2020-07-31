@@ -6,7 +6,7 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="red">#FF0000</color>
+    <color name="red">#F60404</color>
     <color name="color_text_number_picker">#02776B</color>
     <color name="violet">#9748E6</color>
     <color name="light_violet">#E4D0FE</color>
@@ -16,4 +16,5 @@
     <color name="bright_green">#1CE45F</color>
     <color name="color_bg">#F7F6FB</color>
     <color name="orange">#FF9913</color>
+    <color name="pink">#F152CE</color>
 </resources>

@@ -12,81 +12,48 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/llBanner"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
 
         <ImageView
-            android:layout_width="@dimen/_160sdp"
-            android:layout_height="@dimen/_160sdp"
-            android:src="@drawable/calm"
+            android:layout_width="@dimen/_146sdp"
+            android:layout_height="@dimen/_146sdp"
+            android:src="@drawable/vip_img"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Period Tracker"
-                android:textColor="@color/violet"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="@drawable/shape_bg_orange_pro"
-                android:paddingStart="@dimen/_6sdp"
-                android:paddingTop="@dimen/_4sdp"
-                android:paddingEnd="@dimen/_6sdp"
-                android:paddingBottom="@dimen/_4sdp"
-                android:text="PRO"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnVip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/shape_bg_button"
-            android:paddingStart="@dimen/_45sdp"
-            android:paddingEnd="@dimen/_45sdp"
-            android:text="UpGrate VIP"
-            android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/txtMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:text="$9,99/month"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:layout_marginTop="@dimen/_2sdp"
+            android:text="PERIOD TRACKER"
+            android:textColor="@color/violet"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+        <TextView
+            android:textColor="@color/violet"
+            android:text="Premium Version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:paddingStart="@dimen/_6sdp"
-            android:paddingEnd="@dimen/_6sdp">
+            android:layout_marginTop="@dimen/_8sdp"
+           android:padding="@dimen/_2sdp">
 
             <ImageView
                 android:id="@+id/imgVip3"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_marginStart="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:src="@drawable/zo"
+                android:src="@drawable/today_on"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +66,7 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:text="@string/no_ads"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgVip3"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -118,15 +85,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_6sdp">
+            android:padding="@dimen/_2sdp">
 
             <ImageView
                 android:id="@+id/imgVip1"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_marginStart="@dimen/_25sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:src="@drawable/ic_no_record_symptom"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:src="@drawable/today_on"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -138,7 +104,7 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:text="@string/unlock_all_predictions_and_content"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgVip1"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -158,16 +124,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:padding="@dimen/_6sdp">
+            android:padding="@dimen/_2sdp">
 
 
             <ImageView
                 android:id="@+id/imgVip2"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_marginStart="@dimen/_25sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:src="@drawable/ic_no_record_exercise"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:src="@drawable/today_on"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -179,7 +144,7 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:text="@string/and_more_upcoming_features"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgVip2"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -199,15 +164,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:padding="@dimen/_6sdp">
+            android:padding="@dimen/_2sdp"
+            >
 
 
             <ImageView
                 android:id="@+id/imgVip4"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_marginStart="@dimen/_25sdp"
-                android:src="@drawable/ic_no_record_ovulation"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:src="@drawable/today_on"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -219,7 +185,7 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:text="@string/get_all_feature_once_forever"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgVip4"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -235,7 +201,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtTitleVip2" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <Button
+            android:id="@+id/btnVip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/shape_bg_button"
+            android:paddingStart="@dimen/_45sdp"
+            android:paddingEnd="@dimen/_45sdp"
+            android:text="UpGrate Premium"
+            android:textColor="@color/white" />
 
+        <TextView
+            android:id="@+id/txtMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:text="$9,99/month"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -263,7 +247,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:text="Upgrade VIP"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgBack"
             app:layout_constraintTop_toTopOf="parent" />

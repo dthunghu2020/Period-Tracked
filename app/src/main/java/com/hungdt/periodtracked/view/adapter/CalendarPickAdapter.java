@@ -1,116 +1,128 @@
 package com.hungdt.periodtracked.view.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.hungdt.periodtracked.R;
+import com.hungdt.periodtracked.model.CalendarPick;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class CalendarPickAdapter  extends ArrayAdapter {
-
-    Date firstDate;
-    SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
-    SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
-    SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
-    SimpleDateFormat sdfYeah = new SimpleDateFormat("yyyy");
-    List<Date> dates;
-    Calendar currentCalendar;
-    Calendar calendar = Calendar.getInstance();
+public class CalendarPickAdapter extends RecyclerView.Adapter<CalendarPickAdapter.CalendarPickHolder> {
+    private OnCalendarPickListener onCalendarPickListener;
+    List<CalendarPick> calendars;
+    LayoutInflater layoutInflater;
     Calendar dateCalendar = Calendar.getInstance();
-    LayoutInflater inflater;
-    TextView txtDay,txtTodayPick,txtToday, txtDayPick;
-    ConstraintLayout clPick;
+    Calendar currentCalendar ;
+    Calendar calendar = Calendar.getInstance();
 
-    public CalendarPickAdapter(@NonNull Context context, List<Date> dates, Calendar currentCalendar, Date firstDate) {
-        super(context, R.layout.item_month);
-        this.dates = dates;
-        this.firstDate = firstDate;
+    public CalendarPickAdapter(Context context, List<CalendarPick> calendars,Calendar currentCalendar) {
+        this.calendars = calendars;
         this.currentCalendar = currentCalendar;
-        inflater = LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        //20/6/2020 - Calendar
-        //15/7/2020
+    public CalendarPickHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CalendarPickHolder(layoutInflater.inflate(R.layout.item_pick_day, parent, false));
+    }
 
+    @Override
+    public void onBindViewHolder(@NonNull final CalendarPickHolder holder, final int position) {
+        CalendarPick calendarPick = calendars.get(position);
+        dateCalendar.setTime(calendarPick.getDate());
+        holder.itemView.setVisibility(View.VISIBLE);
+        holder.txtDay.setTextColor(layoutInflater.getContext().getResources().getColor(R.color.black));
 
-        Date date = dates.get(position);
-        dateCalendar.setTime(date);
-
-        int displayDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
-        int displayMonth = dateCalendar.get(Calendar.MONTH) + 1;
-        int displayYear = dateCalendar.get(Calendar.YEAR);
+        final int displayDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
+        final int displayMonth = dateCalendar.get(Calendar.MONTH) + 1;
+        final int displayYear = dateCalendar.get(Calendar.YEAR);
 
         int currentMonth = currentCalendar.get(Calendar.MONTH) + 1;
         int currentYear = currentCalendar.get(Calendar.YEAR);
 
-        int instanceDay = calendar.get(Calendar.DAY_OF_MONTH);
-        int instanceMonth = calendar.get(Calendar.MONTH) + 1;
-        int instanceYear = calendar.get(Calendar.YEAR);
+        final int instanceDay = calendar.get(Calendar.DAY_OF_MONTH);
+        final int instanceMonth = calendar.get(Calendar.MONTH) + 1;
+        final int instanceYear = calendar.get(Calendar.YEAR);
 
+        holder.txtToday.setVisibility(View.INVISIBLE);
+        holder.txtTodayPick.setVisibility(View.INVISIBLE);
 
-        View view = convertView;
-        if (view == null) {
-            view = inflater.inflate(R.layout.item_pick_day, parent, false);
-        }
-        initView(view);
-
-        clPick.setVisibility(View.INVISIBLE);
-        txtToday.setVisibility(View.INVISIBLE);
 
         if (displayDay == instanceDay && displayMonth == instanceMonth && displayYear == instanceYear) {
-            txtToday.setVisibility(View.VISIBLE);
+            holder.txtToday.setVisibility(View.VISIBLE);
+            holder.txtTodayPick.setVisibility(View.VISIBLE);
+        }
+
+        if(!calendarPick.isPicked()){
+            holder.clPick.setVisibility(View.INVISIBLE);
+        }else {
+            holder.txtToday.setVisibility(View.INVISIBLE);
+            holder.clPick.setVisibility(View.VISIBLE);
         }
 
         if (displayMonth != currentMonth || displayYear != currentYear) {
-            view.setVisibility(View.GONE);
+            holder.itemView.setVisibility(View.INVISIBLE);
         }
 
-        txtDay.setText(String.valueOf(displayDay));
-        txtDayPick.setText(String.valueOf(displayDay));
+        if(countNumberDay(displayYear,displayMonth,displayDay)>countNumberDay(instanceYear,instanceMonth,instanceDay)){
+            holder.txtDay.setTextColor(layoutInflater.getContext().getResources().getColor(R.color.gray));
+        }
 
-        return view;
-    }
+        holder.txtDay.setText(String.valueOf(displayDay));
+        holder.txtDayPick.setText(String.valueOf(displayDay));
 
-    private void initView(View view) {
-        txtDay = view.findViewById(R.id.txtDay);
-        txtTodayPick = view.findViewById(R.id.txtTodayPick);
-        txtToday = view.findViewById(R.id.txtToday);
-        txtDayPick = view.findViewById(R.id.txtDayPick);
-        clPick = view.findViewById(R.id.clPick);
-    }
-
-    public void visiblePick(){
-        clPick.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public int getCount() {
-        return dates.size();
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(countNumberDay(displayYear,displayMonth,displayDay)<=countNumberDay(instanceYear,instanceMonth,instanceDay)){
+                    onCalendarPickListener.OnItemClicked(position);
+                }
+            }
+        });
     }
 
     @Override
-    public int getPosition(@Nullable Object item) {
-        return dates.indexOf(item);
+    public int getItemCount() {
+        return calendars.size();
     }
 
-    @Nullable
-    @Override
-    public Object getItem(int position) {
-        return dates.get(position);
+    static class CalendarPickHolder extends ViewHolder {
+        TextView txtDay,txtTodayPick,txtToday,txtDayPick;
+        ConstraintLayout clPick;
+        public CalendarPickHolder(@NonNull View itemView) {
+            super(itemView);
+            txtDay = itemView.findViewById(R.id.txtDay);
+            txtTodayPick = itemView.findViewById(R.id.txtTodayPick);
+            txtToday = itemView.findViewById(R.id.txtToday);
+            txtDayPick = itemView.findViewById(R.id.txtDayPick);
+            clPick = itemView.findViewById(R.id.clPick);
+        }
+    }
+
+    public void setOnCalendarPickListener(OnCalendarPickListener onCalendarPickListener) {
+        this.onCalendarPickListener = onCalendarPickListener;
+    }
+
+    public interface OnCalendarPickListener {
+        void OnItemClicked(int position);
+    }
+    private int countNumberDay(int year, int month, int day) {
+        if (month < 3) {
+            year--;
+            month += 12;
+        }
+        return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 306;
     }
 }
