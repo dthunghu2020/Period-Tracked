@@ -192,6 +192,7 @@ public class LogActivity extends AppCompatActivity {
         if (data != null) {
             haveData = true;
             kilogram = data.getWeight();
+            android.util.Log.e("123123", "onCreate: "+kilogram );
             hour = data.getHour();
             minute = data.getMinutes();
             lit = data.getWater();
@@ -295,14 +296,20 @@ public class LogActivity extends AppCompatActivity {
                 }
 
                 if (position == -1) {
+                    android.util.Log.e("123123", "onClick: -1 " );
                     dataList.add(new Data("id", curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit));
                     DBHelper.getInstance(LogActivity.this).addPeriodData(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
                     position = dataList.size() - 1;
                 } else {
+                    android.util.Log.e("123123", "onClick: >0" +dataList.get(position).getDay());
                     dataList.get(position).setIdMotion(mId.trim());
                     dataList.get(position).setIdSymptom(sId.trim());
                     dataList.get(position).setIdPhysic(pId.trim());
                     dataList.get(position).setIdOvulation(oId.trim());
+                    dataList.get(position).setWeight(kilogram);
+                    dataList.get(position).setHour(hour);
+                    dataList.get(position).setMinutes(minute);
+                    dataList.get(position).setWater(lit);
                     DBHelper.getInstance(LogActivity.this).updatePeriod(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
                 }
 
@@ -331,6 +338,11 @@ public class LogActivity extends AppCompatActivity {
                         edtWeight.setText("" + kilogram);
                     }
                     llUp.setVisibility(View.VISIBLE);
+                    edtWeight.setFocusableInTouchMode(true);
+                    edtWeight.requestFocus();
+                    InputMethodManager inputMethodManager =
+                            (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
                 }
                 if (inputSleepVisible) {
                     inputSleepVisible = false;
@@ -360,6 +372,11 @@ public class LogActivity extends AppCompatActivity {
                         edtMinutes.setText("" + minute);
                     }
                     llUp.setVisibility(View.VISIBLE);
+                    edtHour.setFocusableInTouchMode(true);
+                    edtHour.requestFocus();
+                    InputMethodManager inputMethodManager =
+                            (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
                 }
                 if (inputWeightVisible) {
                     inputWeightVisible = false;
@@ -386,6 +403,11 @@ public class LogActivity extends AppCompatActivity {
                         edtLit.setText("" + lit);
                     }
                     llUp.setVisibility(View.VISIBLE);
+                    edtLit.setFocusableInTouchMode(true);
+                    edtLit.requestFocus();
+                    InputMethodManager inputMethodManager =
+                            (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
                 }
                 if (inputWeightVisible) {
                     inputWeightVisible = false;

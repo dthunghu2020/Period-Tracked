@@ -110,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_4sdp"
-                            android:text="00h00m"
+                            android:text="--h--m"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -141,7 +141,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_4sdp"
-                            android:text="0,00 L"
+                            android:text="-- L"
                             android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>

@@ -15,17 +15,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.hungdt.periodtracked.R;
+import com.hungdt.periodtracked.utils.MySetting;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class Question4Activity extends AppCompatActivity {
     private NumberPicker numberPicker;
-    private TextView txtNotification,txtStep,txtTextDays;
+    private TextView txtNotification, txtStep, txtTextDays;
     private ImageView imgStep;
     private LinearLayout llCheckBox;
     private Button btnNext;
     private TextView txtTitle;
+    private int year = 1998;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,14 +48,14 @@ public class Question4Activity extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText("What year was you born?");
         txtStep.setText("Step 4 out of 4");
-        txtTextDays.setText("               "+getResources().getString(R.string.year));
+        txtTextDays.setText("               " + getResources().getString(R.string.year));
 
         Glide.with(this)
                 .load(R.drawable.step4)
                 .into(imgStep);
 
         numberPicker.setMinValue(1950);
-        numberPicker.setMaxValue(2020);
+        numberPicker.setMaxValue(2050);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             numberPicker.setTextSize(146f);
         }
@@ -75,10 +77,18 @@ public class Question4Activity extends AppCompatActivity {
 
         numberPicker.setValue(1998);
 
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                year = newVal;
+            }
+        });
+
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MySetting.setUserBirthYear(Question4Activity.this, year);
                 startActivity(new Intent(Question4Activity.this, MainActivity.class));
             }
         });

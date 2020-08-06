@@ -51,6 +51,7 @@ public class TodayFragment extends Fragment implements
         CalendarView.OnMonthChangeListener,
         CalendarView.OnViewChangeListener {
     public static final String ACTION_UPDATE_LOG = "Update Log";
+    public static final String ACTION_UPDATE_TODAY_FRAGMENT = "Update Today Fragment";
     private List<com.hungdt.periodtracked.model.Log> logs = new ArrayList<>();
     private LogTodayAdapter logTodayAdapter;
 
@@ -92,18 +93,11 @@ public class TodayFragment extends Fragment implements
         return inflater.inflate(R.layout.fragment_today, container, false);
     }
 
-    @SuppressLint("SetTextI18n")
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-
-        beginDay = MySetting.getFirstDay(getActivity());
-        periodCircle = MySetting.getPeriodCircle(getActivity());
-        periodLength = MySetting.getPeriodLength(getActivity());
-
-
-        Log.e("123", "onViewCreated: " + beginDay + " " + periodCircle + " " + periodLength);
         mCalendarView.setOnCalendarSelectListener(this);
         mCalendarView.setOnMonthChangeListener(this);
         mCalendarView.setOnWeekChangeListener(this);
@@ -113,6 +107,55 @@ public class TodayFragment extends Fragment implements
         rcvLog.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         logTodayAdapter = new LogTodayAdapter(getContext(), logs);
         rcvLog.setAdapter(logTodayAdapter);
+
+
+       setupTodayFragment();
+
+        btnLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("321", "onClick: " + curDayNumber + " " + todayNumber);
+                if (curDayNumber > todayNumber) {
+                    Toast toast = Toast.makeText(getContext(), R.string.cannot_add_note_future, Toast.LENGTH_LONG);
+                    View view = toast.getView();
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.WHITE);
+                    toast.show();
+                }else if(curDayNumber<beginDayNumber){
+                    Toast toast = Toast.makeText(getContext(), R.string.cannot_add_note_past, Toast.LENGTH_LONG);
+                    View view = toast.getView();
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.WHITE);
+                    toast.show();
+                } else{
+                    Log.e("321", "(1)onClick: " + curDayNumber + " " + todayNumber);
+                    Intent intent = new Intent(getContext(), LogActivity.class);
+                    intent.putExtra(KEY.CURDAY, curDay);
+                    getContext().startActivity(intent);
+                }
+            }
+        });
+
+        llCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), CalendarMonthActivity.class));
+            }
+        });
+
+        IntentFilter intentFilter = new IntentFilter(ACTION_UPDATE_LOG);
+        getContext().registerReceiver(broadCastUpdateLog, intentFilter);
+        IntentFilter intentFilter2 = new IntentFilter(ACTION_UPDATE_TODAY_FRAGMENT);
+        getContext().registerReceiver(broadCastUpdateFragament, intentFilter2);
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setupTodayFragment() {
+        beginDay = MySetting.getFirstDay(getActivity());
+        periodCircle = MySetting.getPeriodCircle(getActivity());
+        periodLength = MySetting.getPeriodLength(getActivity());
+
         String weekDay = "";
         switch (mCalendarView.getSelectedCalendar().getWeek()) {
             case 0:
@@ -350,43 +393,14 @@ public class TodayFragment extends Fragment implements
             txtDay.setVisibility(View.GONE);
             txtComment.setVisibility(View.GONE);
         }
-
-        btnLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("321", "onClick: " + curDayNumber + " " + todayNumber);
-                if (curDayNumber > todayNumber) {
-                    Toast toast = Toast.makeText(getContext(), R.string.cannot_add_note_future, Toast.LENGTH_LONG);
-                    View view = toast.getView();
-                    TextView text = view.findViewById(android.R.id.message);
-                    text.setTextColor(Color.WHITE);
-                    toast.show();
-                }else if(curDayNumber<beginDayNumber){
-                    Toast toast = Toast.makeText(getContext(), R.string.cannot_add_note_past, Toast.LENGTH_LONG);
-                    View view = toast.getView();
-                    TextView text = view.findViewById(android.R.id.message);
-                    text.setTextColor(Color.WHITE);
-                    toast.show();
-                } else{
-                    Log.e("321", "(1)onClick: " + curDayNumber + " " + todayNumber);
-                    Intent intent = new Intent(getContext(), LogActivity.class);
-                    intent.putExtra(KEY.CURDAY, curDay);
-                    getContext().startActivity(intent);
-                }
-            }
-        });
-
-        llCalendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), CalendarMonthActivity.class));
-            }
-        });
-
-        IntentFilter intentFilter = new IntentFilter(ACTION_UPDATE_LOG);
-        getContext().registerReceiver(broadCastUpdateLog, intentFilter);
     }
 
+    private final BroadcastReceiver broadCastUpdateFragament = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setupTodayFragment();
+        }
+    };
     private BroadcastReceiver broadCastUpdateLog = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -878,6 +892,13 @@ public class TodayFragment extends Fragment implements
         Log.e("HDT0309", "(3)getCalendarText: ");
         return String.format("%s", "ngày " + calendar.getDay() + " tháng " + calendar.getMonth() + " năm " + calendar.getYear());
     }*/
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(broadCastUpdateFragament);
+        getActivity().unregisterReceiver(broadCastUpdateLog);
+    }
 
     private int countNumberDay(int year, int month, int day) {
         if (month < 3) {

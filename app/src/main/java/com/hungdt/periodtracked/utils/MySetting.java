@@ -3,6 +3,8 @@ package com.hungdt.periodtracked.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.hungdt.periodtracked.view.SettingActivity;
+
 public class MySetting {
     public static final String FIRST_DAY = "first_day";
     public static final String FIRST_DAY_OF_CIRCLE = "first_day_circle";
@@ -10,12 +12,39 @@ public class MySetting {
     public static final String P_CIRCLE = "period_circle";
     public static final String GEMS = "gems";
     public static final String FIRST_TIME = "first";
+    public static final String USER_NAME = "name";
+    public static final String USER_BIRTH_YEAR = "birth_year";
     public static final String CONFIG_GG_FB = "dfhhddfhdf";
     public static final String CONFIG_MORE_GAME = "ssvbvbc";
     public static final String SETTINGS = "ggggdfgdfhfgs";
     public static final String KEY_REMOVE_ADS = "ncvdnrgdcn";
     public static final String KEY_RATE_APP = "yhfghhnrdffndxcx";
     public static final String KEY_SUBSCRIPTION = "nrcvfdbnbre";
+
+
+    public static void setUserBirthYear(Context context, int year) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(USER_BIRTH_YEAR, year);
+        editor.apply();
+    }
+
+    public static int getUserBirthYear(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        return preferences.getInt(USER_BIRTH_YEAR,2000);
+    }
+
+    public static void setUserName(Context context, String name) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(USER_NAME, name);
+        editor.apply();
+    }
+
+    public static String getUserName(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        return preferences.getString(USER_NAME, "");
+    }
 
     public static void putFirstDay(Context context, String firstDay) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
@@ -29,14 +58,14 @@ public class MySetting {
         return preferences.getString(FIRST_DAY, "01-01-2020");
     }
 
-    public static void putFirstDayOfCircle(Context context, String firstDayCircle) {
+    public static void putFirstDayReport(Context context, String firstDayCircle) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(FIRST_DAY_OF_CIRCLE, firstDayCircle);
         editor.apply();
     }
 
-    public static String getFirstDayOfCircle(Context context) {
+    public static String getFirstDayReport(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         return preferences.getString(FIRST_DAY_OF_CIRCLE, getFirstDay(context));
     }
@@ -104,7 +133,6 @@ public class MySetting {
         editor.apply();
     }
 
-    //Put = set Giá trị
     public static void putConfigGgFb(Context context, long value) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -112,7 +140,6 @@ public class MySetting {
         editor.apply();
     }
 
-    //Get
     public static long getConfigGgFb(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         return preferences.getLong(CONFIG_GG_FB, 0);
@@ -153,6 +180,7 @@ public class MySetting {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         return preferences.getBoolean(KEY_REMOVE_ADS, false);
     }
+
 
 
 }

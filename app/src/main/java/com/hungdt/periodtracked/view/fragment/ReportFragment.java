@@ -12,12 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.model.Data;
 import com.hungdt.periodtracked.model.Report;
 import com.hungdt.periodtracked.utils.MySetting;
-import com.hungdt.periodtracked.view.adapter.LogAdapter;
 import com.hungdt.periodtracked.view.adapter.ReportAdapter;
 
 import java.text.ParseException;
@@ -48,6 +48,10 @@ public class ReportFragment extends Fragment {
     private List<Report> ovulations = new ArrayList<>();
     private ReportAdapter motionAdapter, symptomAdapter, physicAdapter, ovulationAdapter;
     private RecyclerView rcvMotion, rcvSymptom, rcvPhysic, rcvOvulation;
+    private TextView txtWeight, txtSleep, txtWater;
+    float weight = -1;
+    float times = -1;
+    float water = -1;
 
     SimpleDateFormat sdfMyDate = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -69,7 +73,10 @@ public class ReportFragment extends Fragment {
         rcvSymptom = view.findViewById(R.id.rcvSymptomR);
         rcvPhysic = view.findViewById(R.id.rcvPhysicR);
         rcvOvulation = view.findViewById(R.id.rcvOvulationR);
-        beginCircleDay = MySetting.getFirstDayOfCircle(getActivity());
+        txtWeight = view.findViewById(R.id.txtWeight);
+        txtSleep = view.findViewById(R.id.txtSleep);
+        txtWater = view.findViewById(R.id.txtWater);
+        beginCircleDay = MySetting.getFirstDayReport(getActivity());
         periodCircle = MySetting.getPeriodCircle(getActivity());
         if (!beginCircleDay.equals(getString(R.string.not_sure))) {
             Arrays.fill(cM, 0);
@@ -95,6 +102,31 @@ public class ReportFragment extends Fragment {
                 }
                 Log.e("123123", "(1)id: " + data.getIdMotion() + " / date: " + date);
                 if (!date.before(beginCircleDate)) {
+                    if (data.getWeight() != -1) {
+                        if (weight == -1) {
+                            weight = data.getWeight();
+                        } else {
+                            weight = (weight + data.getWeight()) / 2;
+                        }
+
+                    }
+                    if (data.getMinutes() != -1) {
+                        if (times == -1) {
+                            times = data.getHour() * 60 + data.getMinutes();
+                        } else {
+                            times = (times + data.getHour() * 60 + data.getMinutes()) / 2;
+                        }
+
+                    }
+
+                    if (data.getWater() != -1) {
+                        if (water == -1) {
+                            water = data.getWater();
+                        } else {
+                            water = (water + data.getWater()) / 2;
+                        }
+
+                    }
                     if (data.getIdMotion() != null) {
                         motionIds = data.getIdMotion() + " " + motionIds;
                     }
@@ -113,6 +145,22 @@ public class ReportFragment extends Fragment {
                 }
             }
             Log.e("123123", "(3)motionIds: " + motionIds + "/" + symptomIds + "/" + physicIds + "/" + ovulationIds);
+
+            int hours = (int) times / 60;
+            int minutes = (int) times - hours * 60;
+
+
+            if (weight != -1) {
+                txtWeight.setText(weight + " kg");
+            }
+            if (times != -1) {
+                txtSleep.setText(hours + "h" + minutes + "m");
+            }
+            if (water != -1) {
+                txtWater.setText(water + " L");
+            }
+
+
             String[] idsM = motionIds.split(" ");
             String[] idsS = symptomIds.split(" ");
             String[] idsP = physicIds.split(" ");
@@ -405,10 +453,14 @@ public class ReportFragment extends Fragment {
 
         }
 
-        if(motions.size()==0) motions.add(new Report(R.drawable.zo, getString(R.string.no_mood_yet), 0));
-        if(symptoms.size()==0) symptoms.add(new Report(R.drawable.ic_no_record_symptom, getString(R.string.no_symptom_yet), 0));
-        if(physics.size()==0) physics.add(new Report(R.drawable.ic_no_record_exercise, getString(R.string.no_physic_yet), 0));
-        if(ovulations.size()==0) ovulations.add(new Report(R.drawable.ic_no_record_ovulation, getString(R.string.no_ovulation_yet), 0));
+        if (motions.size() == 0)
+            motions.add(new Report(R.drawable.zo, getString(R.string.no_mood_yet), 0));
+        if (symptoms.size() == 0)
+            symptoms.add(new Report(R.drawable.ic_no_record_symptom, getString(R.string.no_symptom_yet), 0));
+        if (physics.size() == 0)
+            physics.add(new Report(R.drawable.ic_no_record_exercise, getString(R.string.no_physic_yet), 0));
+        if (ovulations.size() == 0)
+            ovulations.add(new Report(R.drawable.ic_no_record_ovulation, getString(R.string.no_ovulation_yet), 0));
 
         rcvMotion.setLayoutManager(new LinearLayoutManager(getActivity()));
         motionAdapter = new ReportAdapter(getActivity(), motions);

@@ -69,6 +69,7 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
         holder.imgEggDay.setVisibility(View.INVISIBLE);
         holder.imgEgg.setVisibility(View.INVISIBLE);
         holder.txtToday.setVisibility(View.INVISIBLE);
+        holder.txtDay.setTextColor(layoutInflater.getContext().getResources().getColor(R.color.black));
 
         CalendarPick calendarShow = calendars.get(position);
         dateCalendar.setTime(calendarShow.getDate());

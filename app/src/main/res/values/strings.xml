@@ -98,7 +98,7 @@
     <string name="title6"><b>When Does A Woman\'s Menstrual Cycle Begin?</b></string>
     <string name="body6">Typically, the menstrual cycle in women starting from 9 to 15 years of age, this is called puberty. However, menstruation comes sooner or later depending on a number of factors such as: Genetics, diet of each girl, environment and psychology. In addition, there are some girls who can puberty first. 9 years old or later than 15 years old. In the case of girls who are menstruating too early from 3 to 8 years or later than 16 years old, parents should take their children to visit.\n
         \nWomen start menstruating between 9 and 15 years of age, this is called puberty. Menstruation comes sooner or later depending on factors such as genetics, diet, environment, psychology… of girls. In some special cases, girls may have periods before or after the age of 15. Menstruation is a time to mark the fertility of women, starting from here the woman was able to conceive and mother. Menstruation will end when women in their 40s to 50s are called menopause.</string>
-    <string name="title7"><b>Check Yourself!!!!!!\n</b></string>
+    <string name="title7"><b>Check Yourself!!!!!!</b></string>
     <string name="body7">Take a few minutes to check your breasts. It can save your life.\n
         \nProtect yourself from breast cancer.\n
         \n<b><i>How to do a Breast Self - Exam.</i></b>\n
@@ -192,7 +192,6 @@
     <string name="moods">Moods</string>
     <string name="symptoms">Symptoms</string>
     <string name="physical_activity">Physical Activity</string>
-    <string name="ovulation">Ovulation</string>
     <string name="hide">Hide</string>
     <string name="get_all_feature_once_forever"><![CDATA[Get All Feature Once & Forever]]></string>
     <string name="and_more_upcoming_features">And More Upcoming Features</string>
@@ -233,4 +232,16 @@
     <string name="save">Save</string>
     <string name="selected_date">Selected Date:</string>
     <string name="calendar">Calendar</string>
+    <string name="enter_your_name_or_nickname">Enter your name or nickname</string>
+    <string name="name">Name:</string>
+    <string name="birth_year">Birth year:</string>
+    <string name="days">Days</string>
+    <string name="profile_user">Profile User</string>
+    <string name="period_length">Period Length:</string>
+    <string name="cycle">Cycle</string>
+    <string name="period_circle">Period Circle:</string>
+    <string name="edit_period_dates">Edit Period Dates</string>
+    <string name="ovulation">Ovulation</string>
+    <string name="fertile">Fertile</string>
+    <string name="period">Period</string>
 </resources>
