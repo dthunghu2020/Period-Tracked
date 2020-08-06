@@ -31,7 +31,9 @@ import com.hungdt.periodtracked.view.fragment.PaperFragment;
 import com.hungdt.periodtracked.view.fragment.TodayFragment;
 import com.hungdt.periodtracked.view.fragment.ReportFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
     public static List<Log> symptoms = new ArrayList<>();
     public static List<Log> physics = new ArrayList<>();
     public static List<Log> ovulations = new ArrayList<>();
+    int periodCircle, periodLength;
+    String beginDay;
     Fragment selectedFragment = null;
 
     @Override
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
                 else drawerLayout.closeDrawer(Gravity.RIGHT);
             }
         });
+
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -123,6 +128,66 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
                 return true;
             }
         });
+
+
+        //todo 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000\
+
+        if(MySetting.firstTime(this)){
+            MySetting.setFirstTime(this,false);
+            Calendar calendarFirstDayLogin = Calendar.getInstance();
+            Calendar calendarInstance = Calendar.getInstance();
+
+            beginDay = MySetting.getFirstDay(this);
+            periodCircle = MySetting.getPeriodCircle(this);
+            periodLength = MySetting.getPeriodLength(this);
+
+            String[] arrOfStr = beginDay.split("-");
+            calendarFirstDayLogin.set(Calendar.DAY_OF_MONTH, Integer.parseInt(arrOfStr[0]));
+            calendarFirstDayLogin.set(Calendar.MONTH, Integer.parseInt(arrOfStr[1]));
+            calendarFirstDayLogin.set(Calendar.YEAR, Integer.parseInt(arrOfStr[2]));
+
+            int numberFirstDayLogin = countNumberDay(calendarFirstDayLogin.get(Calendar.YEAR), calendarFirstDayLogin.get(Calendar.MONTH), calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH));
+            int numberInstanceDay = countNumberDay(calendarInstance.get(Calendar.YEAR), calendarInstance.get(Calendar.MONTH) + 1, calendarInstance.get(Calendar.DAY_OF_MONTH));
+
+            int checkLate = -periodCircle + 1;
+            int red = periodLength;
+            int eggDay = periodCircle - 15;
+            int beginEgg = eggDay - 6;
+            int endEgg = eggDay + 4;
+
+            for (int i = 0; i < numberInstanceDay - numberFirstDayLogin + 1; i++) {
+                String text = "normal";
+                if (red > 0) {
+                    text = "red";
+                }
+                if (beginEgg <= 0 && endEgg >= 0) {
+                    if (eggDay == 0) {
+                        text = "eggDay";
+                    } else {
+                        text = "egg";
+                    }
+
+                }
+                if (checkLate > 0) {
+                    text = "late" + checkLate;
+                }
+                String day = calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH)+"-"+calendarFirstDayLogin.get(Calendar.MONTH)+"-"+calendarFirstDayLogin.get(Calendar.YEAR);
+                DBHelper.getInstance(this).addPeriodData(day,text,"","","","",-1,0,-1,-1);
+                android.util.Log.e("12345", "check1: " + day);
+                android.util.Log.e("12345", "check2: " + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH) + "-" + text);
+                calendarFirstDayLogin.add(Calendar.DAY_OF_MONTH, 1);
+                red--;
+                eggDay--;
+                beginEgg--;
+                endEgg--;
+                checkLate++;
+
+            }
+
+            android.util.Log.e("12345", "end: " + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH));
+        }
+
+
 
         dataList = DBHelper.getInstance(this).getAllData();
 
@@ -240,6 +305,14 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
         txtToday = findViewById(R.id.txtToday);
         txtReport = findViewById(R.id.txtReport);
         txtInsight = findViewById(R.id.txtInsight);
+    }
+
+    private int countNumberDay(int year, int month, int day) {
+        if (month < 3) {
+            year--;
+            month += 12;
+        }
+        return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 306;
     }
 
     private void removeAds() {

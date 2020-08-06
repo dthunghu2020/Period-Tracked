@@ -30,7 +30,7 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
     int beginEgg = 0;
     int endEgg = 0;
     int eggDay = 0;
-    int beginOfDay ;
+    int numberBeginOfDay;
     private int countNumberFirstDate;
     private Date firstDate = dateAdapter;
     SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
@@ -45,12 +45,12 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
     private boolean setData = false;
 
 
-    public CalendarShowAdapter(Context context, List<CalendarPick> calendars, Calendar currentCalendar, int periodCircle, int periodLength,int beginOfDay) {
+    public CalendarShowAdapter(Context context, List<CalendarPick> calendars, Calendar currentCalendar, int periodCircle, int periodLength, int numberBeginOfDay) {
         this.calendars = calendars;
         this.currentCalendar = currentCalendar;
         this.periodCircle = periodCircle;
         this.periodLength = periodLength;
-        this.beginOfDay = beginOfDay;
+        this.numberBeginOfDay = numberBeginOfDay;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -73,6 +73,10 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
         CalendarPick calendarShow = calendars.get(position);
         dateCalendar.setTime(calendarShow.getDate());
 
+        Log.e("123123", "(1)firstDate: " + sdfDate.format(firstDate));
+        Log.e("123123", "(1)countNumberFirstDate: " + countNumberFirstDate);
+
+
         int displayDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
         int displayMonth = dateCalendar.get(Calendar.MONTH) + 1;
         int displayYear = dateCalendar.get(Calendar.YEAR);
@@ -84,20 +88,23 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
         int instanceMonth = calendar.get(Calendar.MONTH) + 1;
         int instanceYear = calendar.get(Calendar.YEAR);
 
+        holder.txtDay.setText(String.valueOf(displayDay));
+        //holder.txtToday.setTextColor(layoutInflater.getContext().getResources().getColor(R.color.black));
+
         //////////////////////////////////
         if (firstDate != null) {
             countNumberFirstDate = countNumberDay(Integer.parseInt(sdfYeah.format(firstDate)), Integer.parseInt(sdfMonth.format(firstDate)), Integer.parseInt(sdfDay.format(firstDate)));
-
             int countFirstDayOfList = countNumberDay(Integer.parseInt(sdfYeah.format(calendars.get(0).getDate())), Integer.parseInt(sdfMonth.format(calendars.get(0).getDate())), Integer.parseInt(sdfDay.format(calendars.get(0).getDate())));
 
             if (!setData) {
-                for (int i = 0; i < 2; i++) {
-                    if (countFirstDayOfList < countNumberFirstDate) {
-                        countNumberFirstDate -= periodCircle;
-                    }
+
+                if (countFirstDayOfList < countNumberFirstDate) {
+                    countNumberFirstDate -= periodCircle;
                 }
                 setData = true;
             }
+            Log.e("123123", "(2): " + countNumberFirstDate);
+
             boolean isRedDay = false;
             beginRed = countNumberFirstDate;
             endRed = beginRed + periodLength;
@@ -117,8 +124,9 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
                 beginEgg += periodCircle;
                 endEgg += periodCircle;
             }
-
-            if(displayDate>=beginOfDay){
+            Log.e("11122", ""+displayDate+" "+ numberBeginOfDay);
+            if (displayDate >= numberBeginOfDay) {
+                Log.e("11122", "123123123123123");
                 if (beginRed <= displayDate && displayDate < endRed) {
                     Log.e("123123", "red");
                     isRedDay = true;
@@ -168,7 +176,7 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
             holder.itemView.setVisibility(View.GONE);
         }
 
-        holder.txtDay.setText(String.valueOf(displayDay));
+
 
     }
 
@@ -187,7 +195,7 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
 
     static class CalendarShowHolder extends RecyclerView.ViewHolder {
         ImageView imgLeft, imgRight, imgRedDay, imgEggDay, imgEgg;
-        TextView txtDay,txtToday;
+        TextView txtDay, txtToday;
 
         public CalendarShowHolder(@NonNull View itemView) {
             super(itemView);

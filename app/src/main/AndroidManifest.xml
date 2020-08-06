@@ -98,6 +98,7 @@
         <activity
             android:name=".view.SettingActivity"
             android:launchMode="singleTask" />
+        <activity android:name=".view.SettingPeriodActivity" />
     </application>
 
 </manifest>

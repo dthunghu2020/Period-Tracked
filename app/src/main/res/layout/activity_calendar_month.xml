@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -35,11 +36,16 @@
             app:layout_constraintStart_toEndOf="@+id/imgBack"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="-36dp">
+
         <LinearLayout
             android:id="@+id/llCalendar"
             android:layout_width="match_parent"
@@ -164,59 +170,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <LinearLayout
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-               android:background="@color/violet"
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp"/>
-            <TextView
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:gravity="center">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:text="Pregnant"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:background="@color/violet" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="Pregnant"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:background="@drawable/shape_eggday" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="Ovulation"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:background="@drawable/shape_eggday"
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Ovulation"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"/>
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:background="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="Period"
+                    android:textColor="@color/black" />
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_marginStart="@dimen/_16sdp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:background="@color/red"
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Period"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSettingPeriod"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@drawable/shape_bg_button"
+            android:text="Edit Period Day"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

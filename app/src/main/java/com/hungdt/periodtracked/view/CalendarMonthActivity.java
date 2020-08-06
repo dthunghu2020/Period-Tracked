@@ -1,8 +1,10 @@
 package com.hungdt.periodtracked.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +41,7 @@ public class CalendarMonthActivity extends AppCompatActivity {
     private String beginDay;
     private int periodLength;
     private int periodCircle;
+    private Button btnSettingPeriod;
 
 
     Calendar calendar = Calendar.getInstance();
@@ -94,6 +97,13 @@ public class CalendarMonthActivity extends AppCompatActivity {
             }
         });
 
+        btnSettingPeriod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CalendarMonthActivity.this,SettingPeriodActivity.class));
+            }
+        });
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +148,7 @@ public class CalendarMonthActivity extends AppCompatActivity {
                 dateCheck = calendar.getTime();
                 Log.e("11112", "dateCheck: " + sdfDate.format(dateCheck));
             }
-            calendar.add(Calendar.DATE, -(periodCircle * 2));
+            calendar.add(Calendar.DATE, -periodCircle);
             firstDate = calendar.getTime();
             Log.e("11112", "firstDate: " + sdfDate.format(firstDate));
         } else {
@@ -162,5 +172,6 @@ public class CalendarMonthActivity extends AppCompatActivity {
         imgPrevious = findViewById(R.id.imgPrevious);
         txtDate = findViewById(R.id.txtDate);
         rcvCalendarShow = findViewById(R.id.rcvCalendarShow);
+        btnSettingPeriod = findViewById(R.id.btnSettingPeriod);
     }
 }
