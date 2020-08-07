@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.utils.MySetting;
+import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -89,7 +90,11 @@ public class Question4Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MySetting.setUserBirthYear(Question4Activity.this, year);
+                sendBroadcast( new Intent(Question1Activity.ACTION_FINISH_Q1));
+                sendBroadcast( new Intent(Question2Activity.ACTION_FINISH_Q2));
+                sendBroadcast( new Intent(Question3Activity.ACTION_FINISH_Q3));
                 startActivity(new Intent(Question4Activity.this, MainActivity.class));
+                finish();
             }
         });
 

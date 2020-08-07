@@ -1,6 +1,9 @@
 package com.hungdt.periodtracked.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -27,7 +30,7 @@ public class Question2Activity extends AppCompatActivity {
     private TextView txtNotification;
     private ConstraintLayout clData;
     private int length=5;
-
+    public static final String ACTION_FINISH_Q2= "F_Q2";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,5 +125,13 @@ public class Question2Activity extends AppCompatActivity {
                 }
             }
         });
+        IntentFilter intentFilter = new IntentFilter(ACTION_FINISH_Q2);
+        registerReceiver(broadcast, intentFilter);
     }
+    private BroadcastReceiver broadcast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    };
 }

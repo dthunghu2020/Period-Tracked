@@ -31,6 +31,7 @@ import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.utils.MySetting;
 import com.hungdt.periodtracked.view.CalendarMonthActivity;
 import com.hungdt.periodtracked.view.LogActivity;
+import com.hungdt.periodtracked.view.SettingPeriodActivity;
 import com.hungdt.periodtracked.view.adapter.LogTodayAdapter;
 
 import java.text.ParseException;
@@ -57,7 +58,7 @@ public class TodayFragment extends Fragment implements
 
 
     TextView txtMonth, txtTitle, txtComment, txtDay, txtCurDay;
-    Button btnLog;
+    Button btnLog,btnLogPeriod;
     CalendarView mCalendarView;
     CalendarLayout mCalendarLayout;
     RecyclerView rcvLog;
@@ -140,6 +141,13 @@ public class TodayFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), CalendarMonthActivity.class));
+            }
+        });
+
+        btnLogPeriod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().startActivity(new Intent(getContext(), SettingPeriodActivity.class));
             }
         });
 
@@ -457,6 +465,7 @@ public class TodayFragment extends Fragment implements
         txtDay = view.findViewById(R.id.txtDay);
         txtCurDay = view.findViewById(R.id.txtCurDay);
         btnLog = view.findViewById(R.id.btnLog);
+        btnLogPeriod = view.findViewById(R.id.btnLogPeriod);
         rcvLog = view.findViewById(R.id.rcvLog);
         llLog = view.findViewById(R.id.llLog);
         llCalendar = view.findViewById(R.id.llCalendar);

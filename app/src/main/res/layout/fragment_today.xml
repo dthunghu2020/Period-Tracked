@@ -165,6 +165,19 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textSize="13sp" />
             </LinearLayout>
+            <Button
+                android:id="@+id/btnLogPeriod"
+                android:text="@string/log_period"
+                android:layout_marginBottom="@dimen/_56sdp"
+                android:textColor="@color/white"
+                android:background="@drawable/shape_bg_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="@dimen/_80sdp"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:layout_height="@dimen/_24sdp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -179,7 +192,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Log Weight, Symptoms And More"
+                android:text="@string/log_weight_symptoms_and_more"
                 android:textColor="@color/black" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -240,7 +253,7 @@
                 android:layout_width="@dimen/_200sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:background="@drawable/shape_bg_button"
-                android:text="ADD NOTE"
+                android:text="@string/add_note"
                 android:textColor="@color/white" />
 
             <TextView

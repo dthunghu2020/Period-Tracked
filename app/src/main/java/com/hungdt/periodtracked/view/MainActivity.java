@@ -156,15 +156,15 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
             int endEgg = eggDay + 4;
 
             for (int i = 0; i < numberInstanceDay - numberFirstDayLogin + 1; i++) {
-                String text = "normal";
+                String text = getString(R.string.nomal);
                 if (red > 0) {
-                    text = "red";
+                    text = getString(R.string.red);
                 }
                 if (beginEgg <= 0 && endEgg >= 0) {
                     if (eggDay == 0) {
-                        text = "eggDay";
+                        text = getString(R.string.eggDay);
                     } else {
-                        text = "egg";
+                        text = getString(R.string.egg);
                     }
 
                 }
@@ -288,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
             }
         });
 
+        startActivity(new Intent(MainActivity.this,VipActivity.class));
     }
 
     private void initView() {

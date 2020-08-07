@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungdt.periodtracked.R;
+import com.hungdt.periodtracked.model.Data;
+import com.hungdt.periodtracked.model.DataSetting;
 import com.hungdt.periodtracked.model.SettingCalendar;
 
 import java.util.List;
@@ -18,12 +20,14 @@ import java.util.List;
 public class SettingCalendarAdapter extends RecyclerView.Adapter<SettingCalendarAdapter.SettingCalendarHolder> {
 
     List<SettingCalendar> settingCalendars;
+    List<DataSetting> dataSettings;
     LayoutInflater layoutInflater;
     SettingCheckBoxAdapter settingCheckBoxAdapter;
     List<String> monthOfYears;
 
-    public SettingCalendarAdapter(Context context, List<SettingCalendar> settingCalendars, List<String> monthOfYears) {
+    public SettingCalendarAdapter(Context context, List<SettingCalendar> settingCalendars, List<DataSetting> dataSettings, List<String> monthOfYears) {
         this.settingCalendars = settingCalendars;
+        this.dataSettings = dataSettings;
         this.monthOfYears = monthOfYears;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -37,10 +41,15 @@ public class SettingCalendarAdapter extends RecyclerView.Adapter<SettingCalendar
     @Override
     public void onBindViewHolder(@NonNull SettingCalendarHolder holder, int position) {
         holder.txtDate.setText(monthOfYears.get(position));
-
-
+        List<Data> datas = null;
+        for(int i = 0; i< dataSettings.size();i++){
+            if(dataSettings.get(i).getMonth().equals(monthOfYears.get(position))){
+                datas = dataSettings.get(i).getData();
+                break;
+            }
+        }
         holder.rcvSettingCalendar.setLayoutManager(new GridLayoutManager(layoutInflater.getContext(), 7));
-        settingCheckBoxAdapter = new SettingCheckBoxAdapter(layoutInflater.getContext(), settingCalendars.get(position).getCalendarPicks(),monthOfYears.get(position));
+        settingCheckBoxAdapter = new SettingCheckBoxAdapter(layoutInflater.getContext(), settingCalendars.get(position).getCalendarPicks(),datas,monthOfYears.get(position));
         holder.rcvSettingCalendar.setAdapter(settingCheckBoxAdapter);
 
     }

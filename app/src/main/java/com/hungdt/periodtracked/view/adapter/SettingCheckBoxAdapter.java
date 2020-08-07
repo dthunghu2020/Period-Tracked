@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.model.CalendarPick;
+import com.hungdt.periodtracked.model.Data;
+import com.hungdt.periodtracked.model.DataSetting;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,14 +26,17 @@ import java.util.List;
 public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBoxAdapter.SettingCheckBoxHolder> {
     List<CalendarPick> settingPeriods;
     LayoutInflater layoutInflater;
+    List<Data> datas;
     Calendar calendar = Calendar.getInstance();
     Calendar calendarInstance = Calendar.getInstance();
     String monthOfYear;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yyyy");
     SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
     SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
-    public SettingCheckBoxAdapter(Context context ,List<CalendarPick> settingPeriods,String monthOfYear) {
+
+    public SettingCheckBoxAdapter(Context context, List<CalendarPick> settingPeriods, List<Data> datas, String monthOfYear) {
         this.settingPeriods = settingPeriods;
+        this.datas = datas;
         this.monthOfYear = monthOfYear;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -61,13 +66,27 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
         int instanceMonth = calendarInstance.get(Calendar.MONTH) + 1;
         int instanceYear = calendarInstance.get(Calendar.YEAR);
 
-
-
         final int displayDay = calendar.get(Calendar.DAY_OF_MONTH);
         final int displayMonth = calendar.get(Calendar.MONTH) + 1;
         final int displayYear = calendar.get(Calendar.YEAR);
 
-        holder.txtDay.setText(""+displayDay);
+        holder.txtDay.setText("" + displayDay);
+        String curDay = displayDay+"-"+displayMonth+"-"+displayYear;
+        if(datas!=null){
+            for(int i = 0;i<datas.size();i++){
+                if(datas.get(i).getDay().equals(curDay)){
+                    if(datas.get(i).getTypeDay().equals(layoutInflater.getContext().getString(R.string.red))){
+                        holder.checkBox.setChecked(true);
+                    }
+                }
+            }
+        }
+
+
+        if(countNumberDay(displayYear,displayMonth,displayDay)>countNumberDay(instanceYear,instanceMonth,instanceDay)){
+            holder.txtDay.setTextColor(layoutInflater.getContext().getResources().getColor(R.color.gray));
+            holder.checkBox.setVisibility(View.INVISIBLE);
+        }
 
         if (displayDay == instanceDay && displayMonth == instanceMonth && displayYear == instanceYear) {
             holder.txtDay.setTextColor(layoutInflater.getContext().getResources().getColor(R.color.red));
@@ -81,7 +100,7 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(layoutInflater.getContext(), displayDay+"-"+displayMonth+"-"+displayYear, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(layoutInflater.getContext(), displayDay + "-" + displayMonth + "-" + displayYear, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -94,10 +113,20 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
     static class SettingCheckBoxHolder extends RecyclerView.ViewHolder {
         private TextView txtDay;
         private CheckBox checkBox;
+
         public SettingCheckBoxHolder(@NonNull View itemView) {
             super(itemView);
             txtDay = itemView.findViewById(R.id.txtDay);
             checkBox = itemView.findViewById(R.id.checkBox);
         }
     }
+
+    private int countNumberDay(int year, int month, int day) {
+        if (month < 3) {
+            year--;
+            month += 12;
+        }
+        return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 306;
+    }
+
 }

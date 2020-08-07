@@ -232,7 +232,7 @@
     <string name="save">Save</string>
     <string name="selected_date">Selected Date:</string>
     <string name="calendar">Calendar</string>
-    <string name="enter_your_name_or_nickname">Enter your name or nickname</string>
+    <string name="enter_your_name_or_nickname">Enter your name</string>
     <string name="name">Name:</string>
     <string name="birth_year">Birth year:</string>
     <string name="days">Days</string>
@@ -244,4 +244,11 @@
     <string name="ovulation">Ovulation</string>
     <string name="fertile">Fertile</string>
     <string name="period">Period</string>
+    <string name="log_weight_symptoms_and_more">Log Weight, Symptoms And More</string>
+    <string name="add_note">Add Note</string>
+    <string name="log_period">Log Period</string>
+    <string name="nomal">normal</string>
+    <string name="red">red</string>
+    <string name="eggDay">eggDay</string>
+    <string name="egg">egg</string>
 </resources>

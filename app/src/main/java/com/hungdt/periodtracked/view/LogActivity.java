@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.hungdt.periodtracked.database.DBHelper;
 import com.hungdt.periodtracked.model.Data;
 import com.hungdt.periodtracked.model.Log;
 import com.hungdt.periodtracked.utils.KEY;
+import com.hungdt.periodtracked.utils.MinMaxFilter;
 import com.hungdt.periodtracked.view.adapter.LogAdapter;
 import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
@@ -464,6 +466,8 @@ public class LogActivity extends AppCompatActivity {
                 }
             }
         });
+
+        edtHour.setFilters(new InputFilter[]{ new MinMaxFilter("0", "20")});
         edtHour.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -495,6 +499,8 @@ public class LogActivity extends AppCompatActivity {
 
             }
         });
+
+        edtMinutes.setFilters(new InputFilter[]{ new MinMaxFilter("0", "59")});
         edtMinutes.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -527,6 +533,7 @@ public class LogActivity extends AppCompatActivity {
 
             }
         });
+
         edtLit.addTextChangedListener(new TextWatcher() {
 
             @Override

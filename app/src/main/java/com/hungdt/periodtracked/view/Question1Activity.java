@@ -1,7 +1,10 @@
 package com.hungdt.periodtracked.view;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +55,7 @@ public class Question1Activity extends AppCompatActivity {
     List<CalendarPick> calendarPicks = new ArrayList<>();
     CalendarPickAdapter calendarPickAdapter;
     private String firstDate = "";
+    public static final String ACTION_FINISH_Q1= "F_Q1";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,147 +63,157 @@ public class Question1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_ask_period_start);
 
         initView();
+        if(MySetting.firstTime(this)){
+            btnNext.setVisibility(View.GONE);
+            txtNotification.setVisibility(View.GONE);
+            //imgNext.setVisibility(View.INVISIBLE);
 
-        btnNext.setVisibility(View.GONE);
-        txtNotification.setVisibility(View.GONE);
-        //imgNext.setVisibility(View.INVISIBLE);
+            setUpCalendar();
+            llSelectedDate.setVisibility(View.INVISIBLE);
 
-        setUpCalendar();
-        llSelectedDate.setVisibility(View.INVISIBLE);
+            rcvPick.setLayoutManager(new GridLayoutManager(this, 7));
+            calendarPickAdapter = new CalendarPickAdapter(this, calendarPicks, currentCalendar);
+            rcvPick.setAdapter(calendarPickAdapter);
 
-        rcvPick.setLayoutManager(new GridLayoutManager(this, 7));
-        calendarPickAdapter = new CalendarPickAdapter(this, calendarPicks, currentCalendar);
-        rcvPick.setAdapter(calendarPickAdapter);
-
-        calendarPickAdapter.setOnCalendarPickListener(new CalendarPickAdapter.OnCalendarPickListener() {
-            @Override
-            public void OnItemClicked(int position) {
-                btnNext.setVisibility(View.VISIBLE);
-                for (int i = 0; i < calendarPicks.size(); i++) {
-                    if (calendarPicks.get(i).isPicked()) {
-                        calendarPicks.get(i).setPicked(false);
+            calendarPickAdapter.setOnCalendarPickListener(new CalendarPickAdapter.OnCalendarPickListener() {
+                @Override
+                public void OnItemClicked(int position) {
+                    btnNext.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < calendarPicks.size(); i++) {
+                        if (calendarPicks.get(i).isPicked()) {
+                            calendarPicks.get(i).setPicked(false);
+                        }
                     }
+                    llSelectedDate.setVisibility(View.VISIBLE);
+                    calendarPicks.get(position).setPicked(true);
+                    firstDate = sdfDate.format(calendarPicks.get(position).getDate().getTime());
+                    txtFirstDay.setText(firstDate);
+                    calendarPickAdapter.notifyDataSetChanged();
                 }
-                llSelectedDate.setVisibility(View.VISIBLE);
-                calendarPicks.get(position).setPicked(true);
-                firstDate = sdfDate.format(calendarPicks.get(position).getDate().getTime());
-                txtFirstDay.setText(firstDate);
-                calendarPickAdapter.notifyDataSetChanged();
-            }
-        });
+            });
 
-        imgPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentCalendar.add(Calendar.MONTH, -1);
-                setUpCalendar();
-                calendarPickAdapter.notifyDataSetChanged();
-                imgNext.setVisibility(View.VISIBLE);
-            }
-        });
-
-        imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentCalendar.add(Calendar.MONTH, 1);
-                setUpCalendar();
-                calendarPickAdapter.notifyDataSetChanged();
-                if (currentCalendar.get(Calendar.MONTH) < calendar.get(Calendar.MONTH) && currentCalendar.get(Calendar.YEAR) <= calendar.get(Calendar.YEAR)) {
+            imgPrevious.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentCalendar.add(Calendar.MONTH, -1);
+                    setUpCalendar();
+                    calendarPickAdapter.notifyDataSetChanged();
                     imgNext.setVisibility(View.VISIBLE);
-                } /*else {
+                }
+            });
+
+            imgNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentCalendar.add(Calendar.MONTH, 1);
+                    setUpCalendar();
+                    calendarPickAdapter.notifyDataSetChanged();
+                    if (currentCalendar.get(Calendar.MONTH) < calendar.get(Calendar.MONTH) && currentCalendar.get(Calendar.YEAR) <= calendar.get(Calendar.YEAR)) {
+                        imgNext.setVisibility(View.VISIBLE);
+                    } /*else {
                     imgNext.setVisibility(View.INVISIBLE);
                 }*/
-            }
-        });
-
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = txtFirstDay.getText().toString();
-                Date date = null;
-                Date date1 = Calendar.getInstance().getTime();
-                try {
-                    date = sdfDate.parse(text);
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-                if (checkbox.isChecked()) {
-                    MySetting.putFirstDay(getApplicationContext(), getString(R.string.not_sure));
-                    MySetting.putFirstDayReport(getApplicationContext(), getString(R.string.not_sure));
-                    startActivity(new Intent(Question1Activity.this, Question2Activity.class));
-                } else {
-                    if (countNumberDay(Integer.parseInt(sdfYear.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)))
-                            > countNumberDay(Integer.parseInt(sdfYear.format(date1)), Integer.parseInt(sdfMonth.format(date1)), Integer.parseInt(sdfDay.format(date1)))) {
-                        Toast.makeText(Question1Activity.this, "Please select a date no greater than today", Toast.LENGTH_SHORT).show();
-                    } else {
-                        MySetting.putFirstDay(getApplicationContext(), text);
-                        MySetting.putFirstDayReport(getApplicationContext(), text);
+            });
+
+
+            btnNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = txtFirstDay.getText().toString();
+                    Date date = null;
+                    Date date1 = Calendar.getInstance().getTime();
+                    try {
+                        date = sdfDate.parse(text);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (checkbox.isChecked()) {
+                        MySetting.putFirstDay(getApplicationContext(), getString(R.string.not_sure));
+                        MySetting.putFirstDayReport(getApplicationContext(), getString(R.string.not_sure));
                         startActivity(new Intent(Question1Activity.this, Question2Activity.class));
-                    }
+                    } else {
+                        if (countNumberDay(Integer.parseInt(sdfYear.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)))
+                                > countNumberDay(Integer.parseInt(sdfYear.format(date1)), Integer.parseInt(sdfMonth.format(date1)), Integer.parseInt(sdfDay.format(date1)))) {
+                            Toast.makeText(Question1Activity.this, "Please select a date no greater than today", Toast.LENGTH_SHORT).show();
+                        } else {
+                            MySetting.putFirstDay(getApplicationContext(), text);
+                            MySetting.putFirstDayReport(getApplicationContext(), text);
+                            startActivity(new Intent(Question1Activity.this, Question2Activity.class));
+                        }
 
-                }
-            }
-        });
-
-        llCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (checkbox.isChecked()) {
-                    checkbox.setChecked(false);
-                    llSelectedDate.setVisibility(View.VISIBLE);
-                    llCalendar.setVisibility(View.VISIBLE);
-                    txtNotification.setVisibility(View.GONE);
-                } else {
-                    checkbox.setChecked(true);
-                    llSelectedDate.setVisibility(View.GONE);
-                    llCalendar.setVisibility(View.GONE);
-                    txtNotification.setVisibility(View.VISIBLE);
-                }
-                if (!haveData) {
-                    btnNext.setVisibility(View.VISIBLE);
-                    haveData = true;
-                } else {
-                    if (firstDate.equals("")) {
-                        btnNext.setVisibility(View.INVISIBLE);
-                        haveData = false;
-                        llSelectedDate.setVisibility(View.INVISIBLE);
                     }
                 }
-            }
-        });
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            });
 
-                if (checkbox.isChecked()) {
-                    checkbox.setChecked(true);
-                    llSelectedDate.setVisibility(View.GONE);
-                    llCalendar.setVisibility(View.GONE);
-                    txtNotification.setVisibility(View.VISIBLE);
-                } else {
-                    checkbox.setChecked(false);
-                    llSelectedDate.setVisibility(View.VISIBLE);
-                    llCalendar.setVisibility(View.VISIBLE);
-                    txtNotification.setVisibility(View.GONE);
-                }
-                if (!haveData) {
-                    btnNext.setVisibility(View.VISIBLE);
-                    haveData = true;
-                } else {
-                    if (firstDate.equals("")) {
-                        btnNext.setVisibility(View.INVISIBLE);
-                        haveData = false;
-                        llSelectedDate.setVisibility(View.INVISIBLE);
+            llCheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (checkbox.isChecked()) {
+                        checkbox.setChecked(false);
+                        llSelectedDate.setVisibility(View.VISIBLE);
+                        llCalendar.setVisibility(View.VISIBLE);
+                        txtNotification.setVisibility(View.GONE);
+                    } else {
+                        checkbox.setChecked(true);
+                        llSelectedDate.setVisibility(View.GONE);
+                        llCalendar.setVisibility(View.GONE);
+                        txtNotification.setVisibility(View.VISIBLE);
+                    }
+                    if (!haveData) {
+                        btnNext.setVisibility(View.VISIBLE);
+                        haveData = true;
+                    } else {
+                        if (firstDate.equals("")) {
+                            btnNext.setVisibility(View.INVISIBLE);
+                            haveData = false;
+                            llSelectedDate.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }
-            }
-        });
+            });
+            checkbox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    if (checkbox.isChecked()) {
+                        checkbox.setChecked(true);
+                        llSelectedDate.setVisibility(View.GONE);
+                        llCalendar.setVisibility(View.GONE);
+                        txtNotification.setVisibility(View.VISIBLE);
+                    } else {
+                        checkbox.setChecked(false);
+                        llSelectedDate.setVisibility(View.VISIBLE);
+                        llCalendar.setVisibility(View.VISIBLE);
+                        txtNotification.setVisibility(View.GONE);
+                    }
+                    if (!haveData) {
+                        btnNext.setVisibility(View.VISIBLE);
+                        haveData = true;
+                    } else {
+                        if (firstDate.equals("")) {
+                            btnNext.setVisibility(View.INVISIBLE);
+                            haveData = false;
+                            llSelectedDate.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+            });
 
+            IntentFilter intentFilter = new IntentFilter(ACTION_FINISH_Q1);
+            registerReceiver(broadcast, intentFilter);
+        }
+       else {
+           startActivity(new Intent(Question1Activity.this,MainActivity.class));
+        }
     }
-
+    private BroadcastReceiver broadcast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    };
     private void setUpCalendar() {
         currentDate = currentCalendar.getTime();
         String instanceDate = dateFormat.format(currentCalendar.getTime());

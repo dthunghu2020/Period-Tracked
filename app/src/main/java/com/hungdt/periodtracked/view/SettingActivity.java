@@ -33,15 +33,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class SettingActivity extends AppCompatActivity {
-    ConstraintLayout clPeriodLength, clPeriodCircle,clPeriodYear;
+    ConstraintLayout clPeriodLength, clPeriodCircle, clPeriodYear;
     LinearLayout llPC_Up, llPU_Up;
-    ImageView imgEditName, imgEditCircle, imgEditLength, imgBack,imgEditYear;
+    ImageView imgEditName, imgEditCircle, imgEditLength, imgBack, imgEditYear;
     EditText edtName;
-    Button btnSave;
-    TextView txtCircle, txtLength,txtYear;
-    NumberPicker npCircle, npLength,npYear;
-    String userName;
-    int circle,length,year;
+    TextView txtName, txtCircle, txtLength, txtYear, txtSaveName, txtSaveYear, txtSaveCircle, txtSaveLength;
+    NumberPicker npCircle, npLength, npYear;
+    String userName= "";
+    int circle,
+            length,
+            year;
+    int pickC, pickL, pickY;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +57,11 @@ public class SettingActivity extends AppCompatActivity {
         clPeriodYear.setVisibility(View.GONE);
         llPC_Up.setVisibility(View.GONE);
         llPU_Up.setVisibility(View.GONE);
+        txtSaveName.setVisibility(View.INVISIBLE);
+        txtSaveYear.setVisibility(View.INVISIBLE);
+        txtSaveCircle.setVisibility(View.INVISIBLE);
+        txtSaveLength.setVisibility(View.INVISIBLE);
+        edtName.setVisibility(View.GONE);
 
         circle = MySetting.getPeriodCircle(this);
         length = MySetting.getPeriodLength(this);
@@ -62,8 +69,14 @@ public class SettingActivity extends AppCompatActivity {
         year = MySetting.getUserBirthYear(this);
         txtCircle.setText("" + circle);
         txtLength.setText("" + length);
-        txtYear.setText(""+year);
-        edtName.setText(userName);
+        txtYear.setText("" + year);
+        if(userName.equals("")){
+            txtName.setText(getString(R.string.enter_your_name_or_nickname));
+            txtName.setTextColor(getResources().getColor(R.color.gray));
+        }else {
+            edtName.setText(userName);
+        }
+        txtName.setText(userName);
 
         //set Year
         npYear.setMinValue(1950);
@@ -75,8 +88,13 @@ public class SettingActivity extends AppCompatActivity {
         npYear.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                year = newVal;
-                txtYear.setText("" + year);
+                pickY = newVal;
+                if (pickY == year) {
+                    txtSaveYear.setVisibility(View.INVISIBLE);
+                } else {
+                    txtSaveYear.setVisibility(View.VISIBLE);
+                }
+                txtYear.setText("" + pickY);
             }
         });
         npYear.setWrapSelectorWheel(false);
@@ -105,8 +123,13 @@ public class SettingActivity extends AppCompatActivity {
         npCircle.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                circle = newVal;
-                txtCircle.setText("" + circle);
+                pickC = newVal;
+                if (pickC == circle) {
+                    txtSaveCircle.setVisibility(View.INVISIBLE);
+                } else {
+                    txtSaveCircle.setVisibility(View.VISIBLE);
+                }
+                txtCircle.setText("" + pickC);
             }
         });
         npCircle.setWrapSelectorWheel(false);
@@ -135,8 +158,14 @@ public class SettingActivity extends AppCompatActivity {
         npLength.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                length = newVal;
-                txtLength.setText("" + length);
+                pickL = newVal;
+                if (pickL == length) {
+                    txtSaveLength.setVisibility(View.INVISIBLE);
+                } else {
+                    txtSaveLength.setVisibility(View.VISIBLE);
+                }
+
+                txtLength.setText("" + pickL);
             }
         });
 
@@ -179,13 +208,15 @@ public class SettingActivity extends AppCompatActivity {
         imgEditName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txtSaveName.setVisibility(View.VISIBLE);
+                edtName.setVisibility(View.VISIBLE);
                 edtName.setFocusableInTouchMode(true);
                 edtName.requestFocus();
                 InputMethodManager inputMethodManager =
-                        (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
-                edtName.setFocusableInTouchMode(false);
+                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 imgEditName.setVisibility(View.INVISIBLE);
+                txtName.setVisibility(View.INVISIBLE);
             }
         });
         imgEditYear.setOnClickListener(new View.OnClickListener() {
@@ -213,12 +244,69 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        txtSaveName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgEditName.setVisibility(View.VISIBLE);
+                edtName.setVisibility(View.GONE);
+                txtSaveName.setVisibility(View.INVISIBLE);
+                txtName.setVisibility(View.VISIBLE);
+                if(userName.equals("")){
+                    txtName.setText(getString(R.string.enter_your_name_or_nickname));
+                    txtName.setTextColor(getResources().getColor(R.color.gray));
+                }else {
+                    txtName.setText(userName);
+                    txtName.setTextColor(getResources().getColor(R.color.violet));
+                }
+                MySetting.setUserName(SettingActivity.this, userName);
+                Toast.makeText(SettingActivity.this, "Save name success!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
+                sendBroadcast(intent);
+            }
+        });
+
+        txtSaveYear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                year = pickY;
+                txtSaveYear.setVisibility(View.INVISIBLE);
+                MySetting.setUserBirthYear(SettingActivity.this, year);
+                Toast.makeText(SettingActivity.this, "Save birth year success!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
+                sendBroadcast(intent);
+            }
+        });
+        txtSaveCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                circle = pickC;
+                txtSaveCircle.setVisibility(View.INVISIBLE);
+                MySetting.putPeriodCircle(SettingActivity.this, circle);
+                Toast.makeText(SettingActivity.this, "Save period circle success!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
+                sendBroadcast(intent);
+            }
+        });
+        txtSaveLength.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                length = pickL;
+                txtSaveLength.setVisibility(View.INVISIBLE);
+                MySetting.putPeriodLength(SettingActivity.this, length);
+                Toast.makeText(SettingActivity.this, "Save period length success!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
+                sendBroadcast(intent);
+            }
+        });
+
         llPU_Up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txtYear.setText("" + year);
+                txtSaveYear.setVisibility(View.INVISIBLE);
                 llPU_Up.setVisibility(View.GONE);
                 clPeriodYear.setVisibility(View.GONE);
-                imgEditName.setVisibility(View.VISIBLE);
+                /*imgEditName.setVisibility(View.VISIBLE);*/
                 imgEditYear.setVisibility(View.VISIBLE);
             }
         });
@@ -226,6 +314,10 @@ public class SettingActivity extends AppCompatActivity {
         llPC_Up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txtLength.setText("" + length);
+                txtCircle.setText("" + circle);
+                txtSaveLength.setVisibility(View.INVISIBLE);
+                txtSaveCircle.setVisibility(View.INVISIBLE);
                 llPC_Up.setVisibility(View.GONE);
                 clPeriodCircle.setVisibility(View.GONE);
                 clPeriodLength.setVisibility(View.GONE);
@@ -233,33 +325,6 @@ public class SettingActivity extends AppCompatActivity {
                 imgEditLength.setVisibility(View.VISIBLE);
             }
         });
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MySetting.setUserName(SettingActivity.this,userName);
-                MySetting.setUserBirthYear(SettingActivity.this,year);
-                MySetting.putPeriodCircle(SettingActivity.this,circle);
-                MySetting.putPeriodLength(SettingActivity.this,length);
-                Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
-                sendBroadcast(intent);
-                Toast.makeText(SettingActivity.this, "Save success!", Toast.LENGTH_SHORT).show();
-                onBackPressed();
-            }
-        });
-
-        KeyboardVisibilityEvent.setEventListener(
-                SettingActivity.this,
-                new KeyboardVisibilityEventListener() {
-                    @Override
-                    public void onVisibilityChanged(boolean isOpen) {
-                        if (isOpen) {
-                            btnSave.setVisibility(View.GONE);
-                        } else {
-                            btnSave.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,6 +334,7 @@ public class SettingActivity extends AppCompatActivity {
         });
 
     }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (getCurrentFocus() != null) {
@@ -278,6 +344,7 @@ public class SettingActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
+
     private void initView() {
         clPeriodLength = findViewById(R.id.clPeriodLength);
         clPeriodCircle = findViewById(R.id.clPeriodCircle);
@@ -287,7 +354,7 @@ public class SettingActivity extends AppCompatActivity {
         imgEditCircle = findViewById(R.id.imgEditCircle);
         imgEditLength = findViewById(R.id.imgEditLength);
         edtName = findViewById(R.id.edtName);
-        btnSave = findViewById(R.id.btnSave);
+        txtName = findViewById(R.id.txtName);
         txtCircle = findViewById(R.id.txtCircle);
         txtLength = findViewById(R.id.txtLength);
         imgBack = findViewById(R.id.imgBack);
@@ -297,6 +364,10 @@ public class SettingActivity extends AppCompatActivity {
         npYear = findViewById(R.id.npYear);
         clPeriodYear = findViewById(R.id.clPeriodYear);
         txtYear = findViewById(R.id.txtYear);
+        txtSaveName = findViewById(R.id.txtSaveName);
+        txtSaveYear = findViewById(R.id.txtSaveYear);
+        txtSaveCircle = findViewById(R.id.txtSaveCircle);
+        txtSaveLength = findViewById(R.id.txtSaveLength);
     }
 
 }
