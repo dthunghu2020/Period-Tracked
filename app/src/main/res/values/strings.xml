@@ -240,15 +240,19 @@
     <string name="period_length">Period Length:</string>
     <string name="cycle">Cycle</string>
     <string name="period_circle">Period Circle:</string>
-    <string name="edit_period_dates">Edit Period Dates</string>
+    <string name="edit_period_start">Edit Period Start</string>
     <string name="ovulation">Ovulation</string>
     <string name="fertile">Fertile</string>
     <string name="period">Period</string>
     <string name="log_weight_symptoms_and_more">Log Weight, Symptoms And More</string>
     <string name="add_note">Add Note</string>
-    <string name="log_period">Log Period</string>
-    <string name="nomal">normal</string>
+    <string name="edit_period">Edit Period</string>
+    <string name="normal">normal</string>
     <string name="red">red</string>
     <string name="eggDay">eggDay</string>
     <string name="egg">egg</string>
+    <string name="save_period_start_success">Save period start success!</string>
+    <string name="reminder">Reminder</string>
+    <string name="let_s_go_premium">LET\'S GO PREMIUM</string>
+    <string name="premium_version">Premium Version</string>
 </resources>

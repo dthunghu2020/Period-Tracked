@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.hungdt.periodtracked.R;
@@ -39,11 +41,12 @@ public class SettingActivity extends AppCompatActivity {
     EditText edtName;
     TextView txtName, txtCircle, txtLength, txtYear, txtSaveName, txtSaveYear, txtSaveCircle, txtSaveLength;
     NumberPicker npCircle, npLength, npYear;
-    String userName= "";
-    int circle,
-            length,
-            year;
+    SwitchCompat sw8AM, sw12AM, sw8PM;
+    String userName = "";
+    int circle, length, year;
     int pickC, pickL, pickY;
+    boolean openC = false;
+    boolean openL = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,10 +73,10 @@ public class SettingActivity extends AppCompatActivity {
         txtCircle.setText("" + circle);
         txtLength.setText("" + length);
         txtYear.setText("" + year);
-        if(userName.equals("")){
+        if (userName.equals("")) {
             txtName.setText(getString(R.string.enter_your_name_or_nickname));
             txtName.setTextColor(getResources().getColor(R.color.gray));
-        }else {
+        } else {
             edtName.setText(userName);
         }
         txtName.setText(userName);
@@ -230,6 +233,7 @@ public class SettingActivity extends AppCompatActivity {
         imgEditCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                openC = true;
                 clPeriodCircle.setVisibility(View.VISIBLE);
                 llPC_Up.setVisibility(View.VISIBLE);
                 imgEditCircle.setVisibility(View.INVISIBLE);
@@ -238,6 +242,7 @@ public class SettingActivity extends AppCompatActivity {
         imgEditLength.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                openL = true;
                 clPeriodLength.setVisibility(View.VISIBLE);
                 llPC_Up.setVisibility(View.VISIBLE);
                 imgEditLength.setVisibility(View.INVISIBLE);
@@ -251,10 +256,10 @@ public class SettingActivity extends AppCompatActivity {
                 edtName.setVisibility(View.GONE);
                 txtSaveName.setVisibility(View.INVISIBLE);
                 txtName.setVisibility(View.VISIBLE);
-                if(userName.equals("")){
+                if (userName.equals("")) {
                     txtName.setText(getString(R.string.enter_your_name_or_nickname));
                     txtName.setTextColor(getResources().getColor(R.color.gray));
-                }else {
+                } else {
                     txtName.setText(userName);
                     txtName.setTextColor(getResources().getColor(R.color.violet));
                 }
@@ -274,6 +279,9 @@ public class SettingActivity extends AppCompatActivity {
                 Toast.makeText(SettingActivity.this, "Save birth year success!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
                 sendBroadcast(intent);
+                llPU_Up.setVisibility(View.GONE);
+                clPeriodYear.setVisibility(View.GONE);
+                imgEditYear.setVisibility(View.VISIBLE);
             }
         });
         txtSaveCircle.setOnClickListener(new View.OnClickListener() {
@@ -285,6 +293,12 @@ public class SettingActivity extends AppCompatActivity {
                 Toast.makeText(SettingActivity.this, "Save period circle success!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
                 sendBroadcast(intent);
+                clPeriodCircle.setVisibility(View.GONE);
+                openC = false;
+                if (!openL) {
+                    llPC_Up.setVisibility(View.GONE);
+                }
+                imgEditCircle.setVisibility(View.VISIBLE);
             }
         });
         txtSaveLength.setOnClickListener(new View.OnClickListener() {
@@ -296,6 +310,12 @@ public class SettingActivity extends AppCompatActivity {
                 Toast.makeText(SettingActivity.this, "Save period length success!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT);
                 sendBroadcast(intent);
+                clPeriodYear.setVisibility(View.GONE);
+                openL = false;
+                if (!openC) {
+                    llPC_Up.setVisibility(View.GONE);
+                }
+                imgEditLength.setVisibility(View.VISIBLE);
             }
         });
 
@@ -306,7 +326,6 @@ public class SettingActivity extends AppCompatActivity {
                 txtSaveYear.setVisibility(View.INVISIBLE);
                 llPU_Up.setVisibility(View.GONE);
                 clPeriodYear.setVisibility(View.GONE);
-                /*imgEditName.setVisibility(View.VISIBLE);*/
                 imgEditYear.setVisibility(View.VISIBLE);
             }
         });
@@ -323,6 +342,53 @@ public class SettingActivity extends AppCompatActivity {
                 clPeriodLength.setVisibility(View.GONE);
                 imgEditCircle.setVisibility(View.VISIBLE);
                 imgEditLength.setVisibility(View.VISIBLE);
+            }
+        });
+
+        if (MySetting.get8AM(SettingActivity.this)) {
+            sw8AM.setChecked(true);
+        } else {
+            sw8AM.setChecked(false);
+        }
+        if (MySetting.get12AM(SettingActivity.this)) {
+            sw12AM.setChecked(true);
+        } else {
+            sw12AM.setChecked(false);
+        }
+        if (MySetting.get8PM(SettingActivity.this)) {
+            sw8PM.setChecked(true);
+        } else {
+            sw8PM.setChecked(false);
+        }
+
+        sw8AM.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                   MySetting.set8AM(SettingActivity.this,true);
+                } else {
+                    MySetting.set8AM(SettingActivity.this,false);
+                }
+            }
+        });
+        sw12AM.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    MySetting.set12AM(SettingActivity.this,true);
+                } else {
+                    MySetting.set12AM(SettingActivity.this,false);
+                }
+            }
+        });
+        sw8PM.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    MySetting.set8PM(SettingActivity.this,true);
+                } else {
+                    MySetting.set8PM(SettingActivity.this,false);
+                }
             }
         });
 
@@ -368,6 +434,9 @@ public class SettingActivity extends AppCompatActivity {
         txtSaveYear = findViewById(R.id.txtSaveYear);
         txtSaveCircle = findViewById(R.id.txtSaveCircle);
         txtSaveLength = findViewById(R.id.txtSaveLength);
+        sw8AM = findViewById(R.id.sw8AM);
+        sw12AM = findViewById(R.id.sw12AM);
+        sw8PM = findViewById(R.id.sw8PM);
     }
 
 }

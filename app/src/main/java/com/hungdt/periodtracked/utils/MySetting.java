@@ -7,7 +7,7 @@ import com.hungdt.periodtracked.view.SettingActivity;
 
 public class MySetting {
     public static final String FIRST_DAY = "first_day";
-    public static final String FIRST_DAY_OF_CIRCLE = "first_day_circle";
+    public static final String BEGIN_CYCLE = "cycle";
     public static final String P_LENGTH = "period_length";
     public static final String P_CIRCLE = "period_circle";
     public static final String GEMS = "gems";
@@ -20,6 +20,46 @@ public class MySetting {
     public static final String KEY_REMOVE_ADS = "ncvdnrgdcn";
     public static final String KEY_RATE_APP = "yhfghhnrdffndxcx";
     public static final String KEY_SUBSCRIPTION = "nrcvfdbnbre";
+    public static final String AM_8 = "8AM";
+    public static final String AM_12 = "12AM";
+    public static final String PM_8 = "8PM";
+
+
+    public static void set8AM(Context context, boolean am8) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(AM_8, am8);
+        editor.apply();
+    }
+
+    public static boolean get8AM(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        return preferences.getBoolean(AM_8,true);
+    }
+
+    public static void set12AM(Context context, boolean am12) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(AM_12, am12);
+        editor.apply();
+    }
+
+    public static boolean get12AM(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        return preferences.getBoolean(AM_12,false);
+    }
+
+    public static void set8PM(Context context, boolean pm8) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(PM_8, pm8);
+        editor.apply();
+    }
+
+    public static boolean get8PM(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        return preferences.getBoolean(PM_8,false);
+    }
 
 
     public static void setUserBirthYear(Context context, int year) {
@@ -32,6 +72,18 @@ public class MySetting {
     public static int getUserBirthYear(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         return preferences.getInt(USER_BIRTH_YEAR,2000);
+    }
+
+    public static void setBeginCycle(Context context, String cycle) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(BEGIN_CYCLE, cycle);
+        editor.apply();
+    }
+
+    public static String getBeginCycle(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        return preferences.getString(BEGIN_CYCLE, "");
     }
 
     public static void setUserName(Context context, String name) {
@@ -56,18 +108,6 @@ public class MySetting {
     public static String getFirstDay(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         return preferences.getString(FIRST_DAY, "01-01-2020");
-    }
-
-    public static void putFirstDayReport(Context context, String firstDayCircle) {
-        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(FIRST_DAY_OF_CIRCLE, firstDayCircle);
-        editor.apply();
-    }
-
-    public static String getFirstDayReport(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
-        return preferences.getString(FIRST_DAY_OF_CIRCLE, getFirstDay(context));
     }
 
     public static void putPeriodLength(Context context, int length) {

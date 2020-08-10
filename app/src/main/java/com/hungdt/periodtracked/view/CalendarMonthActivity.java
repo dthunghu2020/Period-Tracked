@@ -1,6 +1,9 @@
 package com.hungdt.periodtracked.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CalendarMonthActivity extends AppCompatActivity {
+    public static final String ACTION_REFRESH_CALENDAR = "refresh calendar";
     private Calendar currentCalendar = Calendar.getInstance();
     private Date currentDate;
     private ImageView imgPrevious, imgNext, imgBack;
@@ -58,7 +62,7 @@ public class CalendarMonthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar_month);
         initView();
 
-        beginDay = MySetting.getFirstDay(this);
+        beginDay = MySetting.getBeginCycle(this);
         periodLength = MySetting.getPeriodLength(this);
         periodCircle = MySetting.getPeriodCircle(this);
         Date date = null;
@@ -110,7 +114,29 @@ public class CalendarMonthActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        IntentFilter intentFilter = new IntentFilter(ACTION_REFRESH_CALENDAR);
+        registerReceiver(broadcastRefresh,intentFilter);
     }
+
+    private final BroadcastReceiver broadcastRefresh = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            beginDay = MySetting.getBeginCycle(CalendarMonthActivity.this);
+            periodLength = MySetting.getPeriodLength(CalendarMonthActivity.this);
+            periodCircle = MySetting.getPeriodCircle(CalendarMonthActivity.this);
+            Date date = null;
+            try {
+                date = sdfDate.parse(beginDay);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int beginOfDay = countNumberDay(Integer.parseInt(sdfYear.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)));
+            calendarShowAdapter.setBeginOfDay(beginOfDay);
+            setUpCalendar();
+            calendarShowAdapter.notifyDataSetChanged();
+        }
+    };
 
     private void setUpCalendar() {
         currentDate = currentCalendar.getTime();
@@ -173,5 +199,11 @@ public class CalendarMonthActivity extends AppCompatActivity {
         txtDate = findViewById(R.id.txtDate);
         rcvCalendarShow = findViewById(R.id.rcvCalendarShow);
         btnSettingPeriod = findViewById(R.id.btnSettingPeriod);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadcastRefresh);
+        super.onDestroy();
     }
 }

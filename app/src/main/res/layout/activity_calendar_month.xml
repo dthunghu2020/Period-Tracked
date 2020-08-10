@@ -241,7 +241,7 @@
             android:layout_marginTop="@dimen/_6sdp"
             android:background="@drawable/shape_bg_button"
             android:textAllCaps="false"
-            android:text="@string/edit_period_dates"
+            android:text="@string/edit_period_start"
             android:textColor="@color/white" />
     </LinearLayout>
 

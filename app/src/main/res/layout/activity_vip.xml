@@ -34,7 +34,7 @@
             android:textStyle="bold" />
         <TextView
             android:textColor="@color/violet"
-            android:text="Premium Version"
+            android:text="@string/premium_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -209,7 +209,7 @@
             android:background="@drawable/shape_bg_button"
             android:paddingStart="@dimen/_45sdp"
             android:paddingEnd="@dimen/_45sdp"
-            android:text="UpGrate Premium"
+            android:text="@string/let_s_go_premium"
             android:textColor="@color/white" />
 
         <TextView
@@ -245,7 +245,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="Upgrade VIP"
+            android:text="Let's Go Permium"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"

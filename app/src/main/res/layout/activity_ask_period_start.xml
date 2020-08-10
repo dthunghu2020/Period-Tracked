@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -48,38 +49,38 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/llCheckBox"
+        app:layout_constraintBottom_toTopOf="@+id/btnNext"
         app:layout_constraintTop_toBottomOf="@+id/topBar">
 
 
-
         <LinearLayout
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/llCalendar"
-            android:layout_margin="@dimen/_6sdp"
-            android:elevation="@dimen/_1sdp"
-            android:padding="@dimen/_2sdp"
-            android:background="@drawable/shape_log"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:background="@drawable/shape_log"
+            android:elevation="@dimen/_1sdp"
+            android:orientation="vertical"
+            android:padding="@dimen/_2sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/imgPrevious"
                     android:layout_width="@dimen/_30sdp"
-                    app:layout_constraintEnd_toStartOf="@+id/txtDate"
                     android:layout_height="@dimen/_30sdp"
                     android:padding="@dimen/_8sdp"
-                    android:src="@drawable/ic_back_r" />
+                    android:src="@drawable/ic_back_r"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/txtDate"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/txtDate"
@@ -90,26 +91,26 @@
                     android:textColor="@color/violet"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/imgNext"
-                    app:layout_constraintStart_toEndOf="@+id/txtDate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:padding="@dimen/_8sdp"
-                    android:src="@drawable/ic_next_r" />
+                    android:src="@drawable/ic_next_r"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txtDate"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:layout_marginEnd="@dimen/_2sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_2sdp"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingBottom="@dimen/_2sdp">
@@ -170,38 +171,37 @@
                     android:text="@string/sat"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
                 android:id="@+id/rcvPick"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llSelectedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_6sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llCalendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            app:layout_constraintTop_toBottomOf="@+id/llCalendar">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/selected_date"
-                />
+                android:text="@string/selected_date" />
+
             <TextView
-                android:layout_marginStart="@dimen/_4sdp"
                 android:id="@+id/txtFirstDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:text="01-01-2020" />
         </LinearLayout>
 
 
         <TextView
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/txtNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -209,39 +209,22 @@
             android:layout_marginEnd="@dimen/_24sdp"
             android:gravity="center"
             android:text="@string/begin"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/llCheckBox"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/custom_checkbox" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_6sdp"
-            android:text="@string/not_sure"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
     <Button
+        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/btnNext"
         android:layout_width="@dimen/_280sdp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bg_button"
         android:text="@string/next"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/llCheckBox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,7 @@ import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.hungdt.periodtracked.R;
+import com.hungdt.periodtracked.database.DBHelper;
 import com.hungdt.periodtracked.model.Data;
 import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.utils.MySetting;
@@ -160,7 +161,7 @@ public class TodayFragment extends Fragment implements
 
     @SuppressLint("SetTextI18n")
     private void setupTodayFragment() {
-        beginDay = MySetting.getFirstDay(getActivity());
+        beginDay = MySetting.getBeginCycle(getActivity());
         periodCircle = MySetting.getPeriodCircle(getActivity());
         periodLength = MySetting.getPeriodLength(getActivity());
 
@@ -619,6 +620,17 @@ public class TodayFragment extends Fragment implements
             curDayNumber = countNumberDay(Integer.parseInt(sdfYeah.format(curDate)), Integer.parseInt(sdfMonth.format(curDate)), Integer.parseInt(sdfDay.format(curDate)));
 
             if (curDayNumber >= beginDayNumber) {
+                boolean exist = false;
+                String typeDay = null;
+                int position = 0;
+                String curDayCheck = sdfDay.format(curDate)+"-"+sdfMonth.format(curDate)+"-"+sdfYeah.format(curDate);
+                for(int i = 0; i<dataList.size();i++){
+                   if(curDayCheck.equals(dataList.get(i).getDay())){
+                        exist = true;
+                        position=i;
+                       break;
+                   }
+                }
                 if (!flagIsLate) {
                     if (curDayNumber >= beginRed + periodCircle) {
                         flagPrediction++;
@@ -651,6 +663,8 @@ public class TodayFragment extends Fragment implements
                             txtTitle.setText("Period");
                         }
 
+                        typeDay = getString(R.string.red);
+
                         txtDay.setText("Day " + number);
                         txtDay.setTextColor(getResources().getColor(R.color.red));
                         txtComment.setText("");
@@ -671,6 +685,7 @@ public class TodayFragment extends Fragment implements
                                 txtDay.setText(number + " days");
                                 txtDay.setTextColor(getResources().getColor(R.color.black));
                                 txtComment.setText("Low chance of getting pregnant");
+                                typeDay = getString(R.string.normal);
                             } else {
                                 if (!isVisible) {
                                     isVisible = true;
@@ -685,6 +700,7 @@ public class TodayFragment extends Fragment implements
                                 txtDay.setText(number + " days");
                                 txtDay.setTextColor(getResources().getColor(R.color.violet));
                                 txtComment.setText("Have a chance of getting pregnant");
+                                typeDay = getString(R.string.egg);
                             }
                         } else if (curDayNumber > eggDay) {
                             int number = beginRed + periodCircle - curDayNumber;
@@ -702,6 +718,7 @@ public class TodayFragment extends Fragment implements
                                 txtDay.setText(number + " days");
                                 txtDay.setTextColor(getResources().getColor(R.color.black));
                                 txtComment.setText("Low chance of getting pregnant");
+                                typeDay = getString(R.string.normal);
                             } else {
                                 if (!isVisible) {
                                     isVisible = true;
@@ -716,6 +733,7 @@ public class TodayFragment extends Fragment implements
                                 txtDay.setText(number + " days");
                                 txtDay.setTextColor(getResources().getColor(R.color.violet));
                                 txtComment.setText("Have a chance to get pregnant");
+                                typeDay = getString(R.string.egg);
                             }
                         } else {
                             if (!isVisible) {
@@ -727,6 +745,7 @@ public class TodayFragment extends Fragment implements
                             txtDay.setText("OVULATION");
                             txtDay.setTextColor(getResources().getColor(R.color.bright_green));
                             txtComment.setText("High chance of getting pregnant");
+                            typeDay = getString(R.string.eggDay);
                         }
                     }
                 } else {
@@ -743,6 +762,7 @@ public class TodayFragment extends Fragment implements
                             txtDay.setText("Day " + number);
                             txtDay.setTextColor(getResources().getColor(R.color.red));
                             txtComment.setText("");
+                            typeDay = getString(R.string.red);
                         } else {
                             if (curDayNumber < eggDay) {
                                 int number = eggDay - curDayNumber;
@@ -756,6 +776,7 @@ public class TodayFragment extends Fragment implements
                                     txtDay.setText(number + " days");
                                     txtDay.setTextColor(getResources().getColor(R.color.black));
                                     txtComment.setText("Already a chance to getting pregnant");
+                                    typeDay = getString(R.string.normal);
                                 } else {
                                     if (!isVisible) {
                                         isVisible = true;
@@ -767,6 +788,7 @@ public class TodayFragment extends Fragment implements
                                     txtDay.setText(number + " days");
                                     txtDay.setTextColor(getResources().getColor(R.color.blue));
                                     txtComment.setText("Already a chance to getting pregnant");
+                                    typeDay = getString(R.string.egg);
                                 }
                             } else if (curDayNumber > eggDay) {
                                 int number = beginRed + periodCircle - curDayNumber;
@@ -780,6 +802,7 @@ public class TodayFragment extends Fragment implements
                                     txtDay.setText(number + " days");
                                     txtDay.setTextColor(getResources().getColor(R.color.black));
                                     txtComment.setText("Already a chance to getting pregnant");
+                                    typeDay = getString(R.string.normal);
                                 } else {
                                     if (!isVisible) {
                                         isVisible = true;
@@ -790,6 +813,7 @@ public class TodayFragment extends Fragment implements
                                     txtDay.setText(number + " days");
                                     txtDay.setTextColor(getResources().getColor(R.color.blue));
                                     txtComment.setText("Already a chance to get pregnant");
+                                    typeDay = getString(R.string.egg);
                                 }
                             } else {
                                 if (!isVisible) {
@@ -801,6 +825,7 @@ public class TodayFragment extends Fragment implements
                                 txtDay.setText("OVULATION");
                                 txtDay.setTextColor(getResources().getColor(R.color.bright_green));
                                 txtComment.setText("High chance of getting pregnant");
+                                typeDay = getString(R.string.eggDay);
                             }
                         }
                     } else {
@@ -822,10 +847,23 @@ public class TodayFragment extends Fragment implements
                             txtDay.setText(number + " Days");
                             txtDay.setTextColor(getResources().getColor(R.color.gray));
                             txtComment.setText("");
+                            typeDay = number + " Days";
                         }
 
                     }
 
+                }
+                if(typeDay==null){
+                    typeDay = "";
+                }
+                if(exist){
+
+                    dataList.get(position).setTypeDay(typeDay);
+                    DBHelper.getInstance(getContext()).updatePeriod(dataList.get(position).getDay(),typeDay,dataList.get(position).getIdMotion(),dataList.get(position).getIdSymptom(),dataList.get(position).getIdPhysic(),dataList.get(position).getIdOvulation(),dataList.get(position).getWeight(),dataList.get(position).getHour(),dataList.get(position).getMinutes(),dataList.get(position).getWater());
+                }else {
+
+                    dataList.add(new Data("",curDayCheck,typeDay,"","","","",-1,0,-1,-1));
+                    DBHelper.getInstance(getContext()).addPeriodData(curDayCheck,typeDay,"","","","",-1,0,-1,-1);
                 }
                 //txtCircleText.setText("selectDay: +"+curDayNumber+"\nbeginRed: "+bR+" "+beginRed+"\nendRed"+endRed+"\neggDay"+eggDay);
 

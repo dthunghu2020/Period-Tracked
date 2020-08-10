@@ -2,12 +2,12 @@ package com.hungdt.periodtracked.view.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.model.CalendarPick;
 import com.hungdt.periodtracked.model.Data;
-import com.hungdt.periodtracked.model.DataSetting;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,10 +22,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.hungdt.periodtracked.view.SettingPeriodActivity.beginCycleDayAdapter;
+
 public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBoxAdapter.SettingCheckBoxHolder> {
+    private OnCalendarSettingListener onCalendarSettingListener;
     List<CalendarPick> settingPeriods;
     LayoutInflater layoutInflater;
-    List<Data> datas;
     Calendar calendar = Calendar.getInstance();
     Calendar calendarInstance = Calendar.getInstance();
     String monthOfYear;
@@ -34,9 +35,8 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
     SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
     SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
 
-    public SettingCheckBoxAdapter(Context context, List<CalendarPick> settingPeriods, List<Data> datas, String monthOfYear) {
+    public SettingCheckBoxAdapter(Context context, List<CalendarPick> settingPeriods, String monthOfYear) {
         this.settingPeriods = settingPeriods;
-        this.datas = datas;
         this.monthOfYear = monthOfYear;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -48,7 +48,7 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SettingCheckBoxHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SettingCheckBoxHolder holder, final int position) {
         CalendarPick settingPeriod = settingPeriods.get(position);
         calendar.setTime(settingPeriod.getDate());
 
@@ -71,19 +71,26 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
         final int displayYear = calendar.get(Calendar.YEAR);
 
         holder.txtDay.setText("" + displayDay);
-        String curDay = displayDay+"-"+displayMonth+"-"+displayYear;
-        if(datas!=null){
-            for(int i = 0;i<datas.size();i++){
-                if(datas.get(i).getDay().equals(curDay)){
-                    if(datas.get(i).getTypeDay().equals(layoutInflater.getContext().getString(R.string.red))){
-                        holder.checkBox.setChecked(true);
-                    }
-                }
-            }
+        final String curDay;
+        String day;
+        String month;
+        if (displayDay < 10) {
+            day = "0" + displayDay;
+        } else {
+            day = "" + displayDay;
+        }
+        if (displayMonth < 10) {
+            month = "0" + displayMonth;
+        } else {
+            month = "" + displayMonth;
+        }
+        curDay = day + "-" + month + "-" + displayYear;
+        if (beginCycleDayAdapter.equals(curDay)) {
+            holder.checkBox.setChecked(true);
         }
 
 
-        if(countNumberDay(displayYear,displayMonth,displayDay)>countNumberDay(instanceYear,instanceMonth,instanceDay)){
+        if (countNumberDay(displayYear, displayMonth, displayDay) > countNumberDay(instanceYear, instanceMonth, instanceDay)) {
             holder.txtDay.setTextColor(layoutInflater.getContext().getResources().getColor(R.color.gray));
             holder.checkBox.setVisibility(View.INVISIBLE);
         }
@@ -100,6 +107,7 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onCalendarSettingListener.OnItemClicked(position, curDay);
                 //Toast.makeText(layoutInflater.getContext(), displayDay + "-" + displayMonth + "-" + displayYear, Toast.LENGTH_SHORT).show();
             }
         });
@@ -119,6 +127,14 @@ public class SettingCheckBoxAdapter extends RecyclerView.Adapter<SettingCheckBox
             txtDay = itemView.findViewById(R.id.txtDay);
             checkBox = itemView.findViewById(R.id.checkBox);
         }
+    }
+
+    public void setOnCalendarSettingListener(OnCalendarSettingListener onCalendarSettingListener) {
+        this.onCalendarSettingListener = onCalendarSettingListener;
+    }
+
+    public interface OnCalendarSettingListener {
+        void OnItemClicked(int position, String day);
     }
 
     private int countNumberDay(int year, int month, int day) {

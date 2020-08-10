@@ -1,10 +1,12 @@
 package com.hungdt.periodtracked.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,22 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungdt.periodtracked.R;
 import com.hungdt.periodtracked.model.Data;
-import com.hungdt.periodtracked.model.DataSetting;
 import com.hungdt.periodtracked.model.SettingCalendar;
+import com.hungdt.periodtracked.utils.KEY;
+import com.hungdt.periodtracked.view.SettingPeriodActivity;
+import com.hungdt.periodtracked.view.fragment.TodayFragment;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class SettingCalendarAdapter extends RecyclerView.Adapter<SettingCalendarAdapter.SettingCalendarHolder> {
 
     List<SettingCalendar> settingCalendars;
-    List<DataSetting> dataSettings;
     LayoutInflater layoutInflater;
     SettingCheckBoxAdapter settingCheckBoxAdapter;
     List<String> monthOfYears;
 
-    public SettingCalendarAdapter(Context context, List<SettingCalendar> settingCalendars, List<DataSetting> dataSettings, List<String> monthOfYears) {
+    public SettingCalendarAdapter(Context context, List<SettingCalendar> settingCalendars,  List<String> monthOfYears) {
         this.settingCalendars = settingCalendars;
-        this.dataSettings = dataSettings;
         this.monthOfYears = monthOfYears;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -41,17 +44,18 @@ public class SettingCalendarAdapter extends RecyclerView.Adapter<SettingCalendar
     @Override
     public void onBindViewHolder(@NonNull SettingCalendarHolder holder, int position) {
         holder.txtDate.setText(monthOfYears.get(position));
-        List<Data> datas = null;
-        for(int i = 0; i< dataSettings.size();i++){
-            if(dataSettings.get(i).getMonth().equals(monthOfYears.get(position))){
-                datas = dataSettings.get(i).getData();
-                break;
-            }
-        }
         holder.rcvSettingCalendar.setLayoutManager(new GridLayoutManager(layoutInflater.getContext(), 7));
-        settingCheckBoxAdapter = new SettingCheckBoxAdapter(layoutInflater.getContext(), settingCalendars.get(position).getCalendarPicks(),datas,monthOfYears.get(position));
+        settingCheckBoxAdapter = new SettingCheckBoxAdapter(layoutInflater.getContext(), settingCalendars.get(position).getCalendarPicks(), monthOfYears.get(position));
         holder.rcvSettingCalendar.setAdapter(settingCheckBoxAdapter);
 
+        settingCheckBoxAdapter.setOnCalendarSettingListener(new SettingCheckBoxAdapter.OnCalendarSettingListener() {
+            @Override
+            public void OnItemClicked(int position,String day) {
+                Intent intent = new Intent(SettingPeriodActivity.ACTION_UPDATE_BEGIN_CIRCLE);
+                intent.putExtra(KEY.BEGIN_CYCLE, day);
+                layoutInflater.getContext().sendBroadcast(intent);
+            }
+        });
     }
 
     @Override
@@ -62,10 +66,11 @@ public class SettingCalendarAdapter extends RecyclerView.Adapter<SettingCalendar
     static class SettingCalendarHolder extends RecyclerView.ViewHolder {
         TextView txtDate;
         RecyclerView rcvSettingCalendar;
+
         public SettingCalendarHolder(@NonNull View itemView) {
             super(itemView);
-            txtDate=itemView.findViewById(R.id.txtDate);
-            rcvSettingCalendar=itemView.findViewById(R.id.rcvSettingCalendar);
+            txtDate = itemView.findViewById(R.id.txtDate);
+            rcvSettingCalendar = itemView.findViewById(R.id.rcvSettingCalendar);
         }
     }
 }

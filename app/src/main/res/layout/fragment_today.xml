@@ -167,7 +167,7 @@
             </LinearLayout>
             <Button
                 android:id="@+id/btnLogPeriod"
-                android:text="@string/log_period"
+                android:text="@string/edit_period"
                 android:layout_marginBottom="@dimen/_56sdp"
                 android:textColor="@color/white"
                 android:background="@drawable/shape_bg_button"

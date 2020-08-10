@@ -68,7 +68,7 @@ public class LogActivity extends AppCompatActivity {
     boolean haveData = false;
     String curDay;
 
-    boolean haveSleep=false;
+    boolean haveSleep = false;
     private float kilogram = -1;
     private int hour = 0;
     private int minute = -1;
@@ -194,7 +194,7 @@ public class LogActivity extends AppCompatActivity {
         if (data != null) {
             haveData = true;
             kilogram = data.getWeight();
-            android.util.Log.e("123123", "onCreate: "+kilogram );
+            android.util.Log.e("123123", "onCreate: " + kilogram);
             hour = data.getHour();
             minute = data.getMinutes();
             lit = data.getWater();
@@ -298,12 +298,12 @@ public class LogActivity extends AppCompatActivity {
                 }
 
                 if (position == -1) {
-                    android.util.Log.e("123123", "onClick: -1 " );
-                    dataList.add(new Data("id", curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit));
-                    DBHelper.getInstance(LogActivity.this).addPeriodData(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
+                    android.util.Log.e("123123", "onClick: -1 ");
+                    dataList.add(new Data("id", curDay, "normal", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit));
+                    DBHelper.getInstance(LogActivity.this).addPeriodData(curDay, "normal", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
                     position = dataList.size() - 1;
                 } else {
-                    android.util.Log.e("123123", "onClick: >0" +dataList.get(position).getDay());
+                    android.util.Log.e("123123", "onClick: >0" + dataList.get(position).getDay());
                     dataList.get(position).setIdMotion(mId.trim());
                     dataList.get(position).setIdSymptom(sId.trim());
                     dataList.get(position).setIdPhysic(pId.trim());
@@ -312,7 +312,8 @@ public class LogActivity extends AppCompatActivity {
                     dataList.get(position).setHour(hour);
                     dataList.get(position).setMinutes(minute);
                     dataList.get(position).setWater(lit);
-                    DBHelper.getInstance(LogActivity.this).updatePeriod(curDay, "type", mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
+
+                    DBHelper.getInstance(LogActivity.this).updatePeriod(curDay, dataList.get(position).getTypeDay(), mId.trim(), sId.trim(), pId.trim(), oId.trim(), kilogram, hour, minute, lit);
                 }
 
 
@@ -343,8 +344,8 @@ public class LogActivity extends AppCompatActivity {
                     edtWeight.setFocusableInTouchMode(true);
                     edtWeight.requestFocus();
                     InputMethodManager inputMethodManager =
-                            (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 }
                 if (inputSleepVisible) {
                     inputSleepVisible = false;
@@ -377,8 +378,8 @@ public class LogActivity extends AppCompatActivity {
                     edtHour.setFocusableInTouchMode(true);
                     edtHour.requestFocus();
                     InputMethodManager inputMethodManager =
-                            (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 }
                 if (inputWeightVisible) {
                     inputWeightVisible = false;
@@ -408,8 +409,8 @@ public class LogActivity extends AppCompatActivity {
                     edtLit.setFocusableInTouchMode(true);
                     edtLit.requestFocus();
                     InputMethodManager inputMethodManager =
-                            (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 }
                 if (inputWeightVisible) {
                     inputWeightVisible = false;
@@ -459,15 +460,15 @@ public class LogActivity extends AppCompatActivity {
                 } else {
                     kilogram = -1;
                 }
-                if(kilogram ==-1){
+                if (kilogram == -1) {
                     txtWeight.setText("-- kg");
-                }else {
+                } else {
                     txtWeight.setText(kilogram + " kg");
                 }
             }
         });
 
-        edtHour.setFilters(new InputFilter[]{ new MinMaxFilter("0", "20")});
+        edtHour.setFilters(new InputFilter[]{new MinMaxFilter("0", "20")});
         edtHour.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -485,14 +486,14 @@ public class LogActivity extends AppCompatActivity {
                 } else {
                     hour = 0;
                 }
-                if(minute==-1){
-                    if(hour==0){
-                        txtSleep.setText(  "--h--m");
-                    }else {
+                if (minute == -1) {
+                    if (hour == 0) {
+                        txtSleep.setText("--h--m");
+                    } else {
                         minute = 0;
                         txtSleep.setText(hour + "h" + minute + "m");
                     }
-                }else {
+                } else {
                     txtSleep.setText(hour + "h" + minute + "m");
                 }
 
@@ -500,7 +501,7 @@ public class LogActivity extends AppCompatActivity {
             }
         });
 
-        edtMinutes.setFilters(new InputFilter[]{ new MinMaxFilter("0", "59")});
+        edtMinutes.setFilters(new InputFilter[]{new MinMaxFilter("0", "59")});
         edtMinutes.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -514,20 +515,20 @@ public class LogActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
-                    haveSleep=true;
+                    haveSleep = true;
                     minute = Integer.parseInt(String.valueOf(s));
                 } else {
                     minute = -1;
                 }
 
-                if(minute==-1){
-                    if(hour==0){
-                        txtSleep.setText(  "--h--m");
-                    }else {
-                        minute=0;
+                if (minute == -1) {
+                    if (hour == 0) {
+                        txtSleep.setText("--h--m");
+                    } else {
+                        minute = 0;
                         txtSleep.setText(hour + "h" + minute + "m");
                     }
-                }else {
+                } else {
                     txtSleep.setText(hour + "h" + minute + "m");
                 }
 
@@ -551,9 +552,9 @@ public class LogActivity extends AppCompatActivity {
                 } else {
                     lit = -1;
                 }
-                if(lit==-1){
+                if (lit == -1) {
                     txtWater.setText("-- L");
-                }else {
+                } else {
                     txtWater.setText(lit + " L");
                 }
 

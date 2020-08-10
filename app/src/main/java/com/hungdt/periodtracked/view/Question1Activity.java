@@ -38,9 +38,8 @@ import java.util.List;
 public class Question1Activity extends AppCompatActivity {
     private TextView txtFirstDay, txtNotification, txtDate;
     private Button btnNext;
-    private CheckBox checkbox;
     ImageView imgNext, imgPrevious;
-    LinearLayout llCheckBox, llCalendar, llSelectedDate;
+    LinearLayout  llCalendar, llSelectedDate;
     RecyclerView rcvPick;
     Calendar calendar = Calendar.getInstance();
     private boolean haveData = false;
@@ -55,15 +54,14 @@ public class Question1Activity extends AppCompatActivity {
     List<CalendarPick> calendarPicks = new ArrayList<>();
     CalendarPickAdapter calendarPickAdapter;
     private String firstDate = "";
-    public static final String ACTION_FINISH_Q1= "F_Q1";
+    public static final String ACTION_FINISH_Q1 = "F_Q1";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_period_start);
-
-        initView();
-        if(MySetting.firstTime(this)){
+        if (MySetting.firstTime(this)) {
+            initView();
             btnNext.setVisibility(View.GONE);
             txtNotification.setVisibility(View.GONE);
             //imgNext.setVisibility(View.INVISIBLE);
@@ -128,92 +126,34 @@ public class Question1Activity extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if (checkbox.isChecked()) {
-                        MySetting.putFirstDay(getApplicationContext(), getString(R.string.not_sure));
-                        MySetting.putFirstDayReport(getApplicationContext(), getString(R.string.not_sure));
+
+                    if (countNumberDay(Integer.parseInt(sdfYear.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)))
+                            > countNumberDay(Integer.parseInt(sdfYear.format(date1)), Integer.parseInt(sdfMonth.format(date1)), Integer.parseInt(sdfDay.format(date1)))) {
+                        Toast.makeText(Question1Activity.this, "Please select a date no greater than today", Toast.LENGTH_SHORT).show();
+                    } else {
+                        MySetting.putFirstDay(getApplicationContext(), text);
+                        MySetting.setBeginCycle(getApplicationContext(), text);
                         startActivity(new Intent(Question1Activity.this, Question2Activity.class));
-                    } else {
-                        if (countNumberDay(Integer.parseInt(sdfYear.format(date)), Integer.parseInt(sdfMonth.format(date)), Integer.parseInt(sdfDay.format(date)))
-                                > countNumberDay(Integer.parseInt(sdfYear.format(date1)), Integer.parseInt(sdfMonth.format(date1)), Integer.parseInt(sdfDay.format(date1)))) {
-                            Toast.makeText(Question1Activity.this, "Please select a date no greater than today", Toast.LENGTH_SHORT).show();
-                        } else {
-                            MySetting.putFirstDay(getApplicationContext(), text);
-                            MySetting.putFirstDayReport(getApplicationContext(), text);
-                            startActivity(new Intent(Question1Activity.this, Question2Activity.class));
-                        }
-
                     }
+
+
                 }
             });
 
-            llCheckBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (checkbox.isChecked()) {
-                        checkbox.setChecked(false);
-                        llSelectedDate.setVisibility(View.VISIBLE);
-                        llCalendar.setVisibility(View.VISIBLE);
-                        txtNotification.setVisibility(View.GONE);
-                    } else {
-                        checkbox.setChecked(true);
-                        llSelectedDate.setVisibility(View.GONE);
-                        llCalendar.setVisibility(View.GONE);
-                        txtNotification.setVisibility(View.VISIBLE);
-                    }
-                    if (!haveData) {
-                        btnNext.setVisibility(View.VISIBLE);
-                        haveData = true;
-                    } else {
-                        if (firstDate.equals("")) {
-                            btnNext.setVisibility(View.INVISIBLE);
-                            haveData = false;
-                            llSelectedDate.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                }
-            });
-            checkbox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (checkbox.isChecked()) {
-                        checkbox.setChecked(true);
-                        llSelectedDate.setVisibility(View.GONE);
-                        llCalendar.setVisibility(View.GONE);
-                        txtNotification.setVisibility(View.VISIBLE);
-                    } else {
-                        checkbox.setChecked(false);
-                        llSelectedDate.setVisibility(View.VISIBLE);
-                        llCalendar.setVisibility(View.VISIBLE);
-                        txtNotification.setVisibility(View.GONE);
-                    }
-                    if (!haveData) {
-                        btnNext.setVisibility(View.VISIBLE);
-                        haveData = true;
-                    } else {
-                        if (firstDate.equals("")) {
-                            btnNext.setVisibility(View.INVISIBLE);
-                            haveData = false;
-                            llSelectedDate.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                }
-            });
-
-            IntentFilter intentFilter = new IntentFilter(ACTION_FINISH_Q1);
-            registerReceiver(broadcast, intentFilter);
+        } else {
+            startActivity(new Intent(Question1Activity.this, MainActivity.class));
         }
-       else {
-           startActivity(new Intent(Question1Activity.this,MainActivity.class));
-        }
+        IntentFilter intentFilter = new IntentFilter(ACTION_FINISH_Q1);
+        registerReceiver(broadcast, intentFilter);
     }
+
     private BroadcastReceiver broadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             finish();
         }
     };
+
     private void setUpCalendar() {
         currentDate = currentCalendar.getTime();
         String instanceDate = dateFormat.format(currentCalendar.getTime());
@@ -235,10 +175,8 @@ public class Question1Activity extends AppCompatActivity {
 
     private void initView() {
         txtFirstDay = findViewById(R.id.txtFirstDay);
-        llCheckBox = findViewById(R.id.llCheckBox);
         llCalendar = findViewById(R.id.llCalendar);
         btnNext = findViewById(R.id.btnNext);
-        checkbox = findViewById(R.id.checkbox);
         txtNotification = findViewById(R.id.txtNotification);
         imgNext = findViewById(R.id.imgNext);
         imgPrevious = findViewById(R.id.imgPrevious);
@@ -258,5 +196,11 @@ public class Question1Activity extends AppCompatActivity {
             month += 12;
         }
         return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 306;
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadcast);
+        super.onDestroy();
     }
 }

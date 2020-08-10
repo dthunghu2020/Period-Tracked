@@ -134,4 +134,10 @@ public class Question2Activity extends AppCompatActivity {
             finish();
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadcast);
+        super.onDestroy();
+    }
 }

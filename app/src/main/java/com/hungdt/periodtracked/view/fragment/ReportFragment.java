@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +36,7 @@ import static com.hungdt.periodtracked.view.MainActivity.dataList;
 @SuppressLint("SimpleDateFormat")
 public class ReportFragment extends Fragment {
 
+    public static final String ACTION_UPDATE_REPORT_FRAGMENT = "update report";
     private String beginCircleDay;
     private int periodCircle;
     private String motionIds = "";
@@ -76,7 +81,30 @@ public class ReportFragment extends Fragment {
         txtWeight = view.findViewById(R.id.txtWeight);
         txtSleep = view.findViewById(R.id.txtSleep);
         txtWater = view.findViewById(R.id.txtWater);
-        beginCircleDay = MySetting.getFirstDayReport(getActivity());
+        setupData();
+
+        rcvMotion.setLayoutManager(new LinearLayoutManager(getActivity()));
+        motionAdapter = new ReportAdapter(getActivity(), motions);
+        rcvMotion.setAdapter(motionAdapter);
+
+        rcvSymptom.setLayoutManager(new LinearLayoutManager(getActivity()));
+        symptomAdapter = new ReportAdapter(getActivity(), symptoms);
+        rcvSymptom.setAdapter(symptomAdapter);
+
+        rcvPhysic.setLayoutManager(new LinearLayoutManager(getActivity()));
+        physicAdapter = new ReportAdapter(getActivity(), physics);
+        rcvPhysic.setAdapter(physicAdapter);
+
+        rcvOvulation.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ovulationAdapter = new ReportAdapter(getActivity(), ovulations);
+        rcvOvulation.setAdapter(ovulationAdapter);
+
+        IntentFilter intentFilter = new IntentFilter(ACTION_UPDATE_REPORT_FRAGMENT);
+        getContext().registerReceiver(broadcastUpdateReport, intentFilter);
+    }
+
+    private void setupData() {
+        beginCircleDay = MySetting.getBeginCycle(getActivity());
         periodCircle = MySetting.getPeriodCircle(getActivity());
         if (!beginCircleDay.equals(getString(R.string.not_sure))) {
             Arrays.fill(cM, 0);
@@ -461,23 +489,16 @@ public class ReportFragment extends Fragment {
             physics.add(new Report(R.drawable.ic_no_record_exercise, getString(R.string.no_physic_yet), 0));
         if (ovulations.size() == 0)
             ovulations.add(new Report(R.drawable.ic_no_record_ovulation, getString(R.string.no_ovulation_yet), 0));
-
-        rcvMotion.setLayoutManager(new LinearLayoutManager(getActivity()));
-        motionAdapter = new ReportAdapter(getActivity(), motions);
-        rcvMotion.setAdapter(motionAdapter);
-
-        rcvSymptom.setLayoutManager(new LinearLayoutManager(getActivity()));
-        symptomAdapter = new ReportAdapter(getActivity(), symptoms);
-        rcvSymptom.setAdapter(symptomAdapter);
-
-        rcvPhysic.setLayoutManager(new LinearLayoutManager(getActivity()));
-        physicAdapter = new ReportAdapter(getActivity(), physics);
-        rcvPhysic.setAdapter(physicAdapter);
-
-        rcvOvulation.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ovulationAdapter = new ReportAdapter(getActivity(), ovulations);
-        rcvOvulation.setAdapter(ovulationAdapter);
-
-
     }
+
+    private final BroadcastReceiver broadcastUpdateReport = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setupData();
+            motionAdapter.notifyDataSetChanged();
+            symptomAdapter.notifyDataSetChanged();
+            physicAdapter.notifyDataSetChanged();
+            ovulationAdapter.notifyDataSetChanged();
+        }
+    };
 }

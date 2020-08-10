@@ -1,7 +1,10 @@
 package com.hungdt.periodtracked.view;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -17,6 +20,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.work.Constraints;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
@@ -26,7 +32,9 @@ import com.hungdt.periodtracked.database.DBHelper;
 import com.hungdt.periodtracked.model.Data;
 import com.hungdt.periodtracked.model.Log;
 import com.hungdt.periodtracked.utils.Helper;
+import com.hungdt.periodtracked.utils.KEY;
 import com.hungdt.periodtracked.utils.MySetting;
+//import com.hungdt.periodtracked.utils.PeriodWorker;
 import com.hungdt.periodtracked.view.fragment.PaperFragment;
 import com.hungdt.periodtracked.view.fragment.TodayFragment;
 import com.hungdt.periodtracked.view.fragment.ReportFragment;
@@ -35,8 +43,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
+    public static final String ACTION_UPDATE_DATA = "update data";
     private ImageView imgMenu;
     private DrawerLayout drawerLayout;
     private ConstraintLayout clToday, clReport, clInSight;
@@ -49,9 +59,16 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
     public static List<Log> symptoms = new ArrayList<>();
     public static List<Log> physics = new ArrayList<>();
     public static List<Log> ovulations = new ArrayList<>();
+    public static String beginCircleDay;
     int periodCircle, periodLength;
     String beginDay;
     Fragment selectedFragment = null;
+    SimpleDateFormat sdfMyDate = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat sdfLibraryDate = new SimpleDateFormat("yyyyMMdd");
+    SimpleDateFormat sdfMY = new SimpleDateFormat("MM-yyyy");
+    SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
+    SimpleDateFormat sdfYeah = new SimpleDateFormat("yyyy");
+    SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
         }
 
         initView();
+
+        beginCircleDay = MySetting.getBeginCycle(this);
+
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(0);
@@ -130,10 +150,25 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
         });
 
 
-        //todo 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000\
+        if (MySetting.firstTime(this)) {
+            MySetting.setFirstTime(this, false);
+            /*androidx.work.Data data = new  androidx.work.Data.Builder()
+                    .putString(KEY.KEY_TASK_DESC, "Send name plant so show") //có thể put nhiều .putString!!!
+                    //có thể put nhiều .putString!!!
+                    .build();
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiresBatteryNotLow(true)
+                    .build();
 
-        if(MySetting.firstTime(this)){
-            MySetting.setFirstTime(this,false);
+            final PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder
+                    //(PeriodWorker.class,12 , TimeUnit.HOURS)
+                    (PeriodWorker.class,15 , TimeUnit.MINUTES)
+                    .setConstraints(constraints)
+                    .setInputData(data)
+                    .build();
+
+            WorkManager.getInstance(MainActivity.this).enqueue(periodicWorkRequest);*/
+
             Calendar calendarFirstDayLogin = Calendar.getInstance();
             Calendar calendarInstance = Calendar.getInstance();
 
@@ -156,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
             int endEgg = eggDay + 4;
 
             for (int i = 0; i < numberInstanceDay - numberFirstDayLogin + 1; i++) {
-                String text = getString(R.string.nomal);
+                String text = getString(R.string.normal);
                 if (red > 0) {
                     text = getString(R.string.red);
                 }
@@ -169,11 +204,23 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
 
                 }
                 if (checkLate > 0) {
-                    text = "late" + checkLate;
+                    text = checkLate + " Days";
                 }
-                String day = calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH)+"-"+calendarFirstDayLogin.get(Calendar.MONTH)+"-"+calendarFirstDayLogin.get(Calendar.YEAR);
-                DBHelper.getInstance(this).addPeriodData(day,text,"","","","",-1,0,-1,-1);
-                android.util.Log.e("12345", "check1: " + day);
+                String day;
+                String month;
+                if (calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH) < 10) {
+                    day = "0" + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH);
+                } else {
+                    day = "" + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH);
+                }
+                if (calendarFirstDayLogin.get(Calendar.MONTH) < 10) {
+                    month = "0" + calendarFirstDayLogin.get(Calendar.MONTH);
+                } else {
+                    month = "" + calendarFirstDayLogin.get(Calendar.MONTH);
+                }
+                String date = day + "-" + month + "-" + calendarFirstDayLogin.get(Calendar.YEAR);
+                DBHelper.getInstance(this).addPeriodData(date, text, "", "", "", "", -1, 0, -1, -1);
+                android.util.Log.e("12345", "check1: " + date);
                 android.util.Log.e("12345", "check2: " + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH) + "-" + text);
                 calendarFirstDayLogin.add(Calendar.DAY_OF_MONTH, 1);
                 red--;
@@ -183,13 +230,10 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
                 checkLate++;
 
             }
-
-            android.util.Log.e("12345", "end: " + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH));
         }
 
-
-
         dataList = DBHelper.getInstance(this).getAllData();
+
 
         motions.add(new Log(R.drawable.calm, R.string.motion01, false));
         motions.add(new Log(R.drawable.happy, R.string.motion02, false));
@@ -237,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
 
         imgTodayOff.setVisibility(View.INVISIBLE);
         txtToday.setTextColor(getResources().getColor(R.color.violet));
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TodayFragment()).commit();
 
         clToday.setOnClickListener(new View.OnClickListener() {
@@ -288,8 +333,98 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
             }
         });
 
-        startActivity(new Intent(MainActivity.this,VipActivity.class));
+        IntentFilter intentFilter = new IntentFilter(ACTION_UPDATE_DATA);
+        registerReceiver(broadcastUpdateData, intentFilter);
+
+        startActivity(new Intent(MainActivity.this, VipActivity.class));
+
     }
+
+    private final BroadcastReceiver broadcastUpdateData = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Calendar calendarFirstDayLogin = Calendar.getInstance();
+            Calendar calendarInstance = Calendar.getInstance();
+
+            beginDay = MySetting.getBeginCycle(MainActivity.this);
+            periodCircle = MySetting.getPeriodCircle(MainActivity.this);
+            periodLength = MySetting.getPeriodLength(MainActivity.this);
+
+            String[] arrOfStr = beginDay.split("-");
+            calendarFirstDayLogin.set(Calendar.DAY_OF_MONTH, Integer.parseInt(arrOfStr[0]));
+            calendarFirstDayLogin.set(Calendar.MONTH, Integer.parseInt(arrOfStr[1]));
+            calendarFirstDayLogin.set(Calendar.YEAR, Integer.parseInt(arrOfStr[2]));
+
+            int numberFirstDayLogin = countNumberDay(calendarFirstDayLogin.get(Calendar.YEAR), calendarFirstDayLogin.get(Calendar.MONTH), calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH));
+            int numberInstanceDay = countNumberDay(calendarInstance.get(Calendar.YEAR), calendarInstance.get(Calendar.MONTH) + 1, calendarInstance.get(Calendar.DAY_OF_MONTH));
+
+            int checkLate = -periodCircle + 1;
+            int red = periodLength;
+            int eggDay = periodCircle - 15;
+            int beginEgg = eggDay - 6;
+            int endEgg = eggDay + 4;
+
+            for (int i = 0; i < numberInstanceDay - numberFirstDayLogin + 1; i++) {
+                android.util.Log.e("11122", "(0) in FOR "+i );
+                String day;
+                String month;
+                int position=-1;
+                if (calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH) < 10) {
+                    day = "0" + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH);
+                } else {
+                    day = "" + calendarFirstDayLogin.get(Calendar.DAY_OF_MONTH);
+                }
+                if (calendarFirstDayLogin.get(Calendar.MONTH) < 10) {
+                    month = "0" + calendarFirstDayLogin.get(Calendar.MONTH);
+                } else {
+                    month = "" + calendarFirstDayLogin.get(Calendar.MONTH);
+                }
+                String date = day + "-" + month + "-" + calendarFirstDayLogin.get(Calendar.YEAR);
+                for(int j = 0;j<dataList.size();j++){
+                    if(dataList.get(j).getDay().equals(date)){
+                        position =j;
+                        break;
+                    }
+                }
+                android.util.Log.e("11122", "(2) in FOR dataList: position "+position );
+                String text = getString(R.string.normal);
+                if (red > 0) {
+                    text = getString(R.string.red);
+                }
+                if (beginEgg <= 0 && endEgg >= 0) {
+                    if (eggDay == 0) {
+                        text = getString(R.string.eggDay);
+                    } else {
+                        text = getString(R.string.egg);
+                    }
+
+                }
+                if (checkLate > 0) {
+                    text = checkLate + " Days";
+                }
+                android.util.Log.e("11122", "(0) tyle: "+text );
+
+                if(position==-1){
+                    //tạo mới
+                    dataList.add(new Data("",date, text, "", "", "", "", -1, 0, -1, -1));
+                    DBHelper.getInstance(MainActivity.this).addPeriodData(date, text, "", "", "", "", -1, 0, -1, -1);
+                }else {
+                    dataList.get(position).setTypeDay(text);
+                    DBHelper.getInstance(MainActivity.this).updatePeriod(date, text, dataList.get(position).getIdMotion(), dataList.get(position).getIdSymptom(), dataList.get(position).getIdPhysic(), dataList.get(position).getIdOvulation(), dataList.get(position).getWeight(), dataList.get(position).getHour(), dataList.get(position).getMinutes(),dataList.get(position).getWater());
+                }
+
+                calendarFirstDayLogin.add(Calendar.DAY_OF_MONTH, 1);
+                red--;
+                eggDay--;
+                beginEgg--;
+                endEgg--;
+                checkLate++;
+
+            }
+            sendBroadcast(new Intent(TodayFragment.ACTION_UPDATE_TODAY_FRAGMENT));
+            sendBroadcast(new Intent(ReportFragment.ACTION_UPDATE_REPORT_FRAGMENT));
+        }
+    };
 
     private void initView() {
         imgMenu = findViewById(R.id.imgMenu);

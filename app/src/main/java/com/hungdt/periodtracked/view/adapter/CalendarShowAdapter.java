@@ -214,4 +214,8 @@ public class CalendarShowAdapter extends RecyclerView.Adapter<CalendarShowAdapte
         firstDate = dateAdapter;
         setData = false;
     }
+
+    public void setBeginOfDay(int number){
+        numberBeginOfDay = number;
+    }
 }
